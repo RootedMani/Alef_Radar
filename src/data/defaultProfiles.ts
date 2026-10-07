@@ -1,0 +1,72 @@
+import { ProductProfile } from '../types';
+
+export const defaultProductProfiles: ProductProfile[] = [
+  {
+    id: 'prof-python-bootcamp',
+    name: 'DevCraft: Python & AI Career Accelerator',
+    category: 'Programming & Tech Education',
+    tagline: 'Cohort-based, structured mentorship turning tutorial-trapped learners into job-ready Python developers.',
+    description: 'An intensive 12-week hands-on program featuring 1-on-1 code reviews by senior engineers, 4 production portfolio projects (FastAPI, PostgreSQL, AI integrations), live pair programming, and dedicated career placement support.',
+    targetAudience: [
+      'Self-taught learners stuck in tutorial hell',
+      'Career switchers moving from non-tech to software engineering',
+      'Professionals needing real backend automation & API skills',
+      'Learners seeking structured accountability and live senior mentor feedback'
+    ],
+    painPointsSolved: [
+      'Overwhelmed by scattered YouTube tutorials with no clear roadmap',
+      'Freezing when opening a blank IDE / lack of hands-on project confidence',
+      'Zero code reviews or senior feedback on syntax & architecture',
+      'Lack of real portfolio projects to demonstrate to employers'
+    ],
+    keyFeatures: [
+      'Weekly 1-on-1 asynchronous & live senior code reviews',
+      '4 full-stack portfolio systems (FastAPI, Redis, Docker, Gemini AI API)',
+      'Guaranteed small cohort size (max 25 learners)',
+      'Flexible pacing with lifetime access to community & alumni network'
+    ],
+    toneOfVoice: 'empathic_expert',
+    toneDescription: 'Empathetic, authentic, non-salesy senior engineer. Acknowledges the difficulty of tutorial hell first, gives a genuine actionable tip, and offers further resources or details only when truly relevant.',
+    exclusionRules: [
+      'Do not pitch to advanced software architects discussing compiler theory',
+      'Do not reply to trivial single-line syntax questions (answer simply or skip)',
+      'Do not reply to spam or unrelated tech banter (e.g., CSS framework wars, crypto)'
+    ],
+    exampleHook: "Breaking out of tutorial hell usually requires building tiny micro-tools instead of huge apps. If you need structured guidance with senior code reviews, our cohort might be worth a look.",
+    pricePoint: '$490 / cohort or monthly installments'
+  },
+  {
+    id: 'prof-eyewear',
+    name: 'LuminaShield: Precision Blue-Light & Ergonomic Eyewear',
+    category: 'Health, Wellness & Ergonomics',
+    tagline: 'Laboratory-grade blue-light filtering lenses designed specifically for engineers, traders, and screen-bound knowledge workers.',
+    description: 'LuminaShield glasses filter 99.4% of high-energy 415-455nm blue light and eliminate screen glare with military-grade multi-layer anti-reflective coatings without distorting true color spectrum. Ultra-lightweight titanium frames weighing only 14g for zero temple pressure during 12+ hour sessions.',
+    targetAudience: [
+      'Software engineers and developers working long hours in dark/light mode',
+      'Financial traders and data analysts using multi-monitor setups',
+      'Remote workers and researchers experiencing dry eyes, blurred vision, and evening migraines',
+      'Knowledge workers having trouble falling asleep due to melatonin suppression'
+    ],
+    painPointsSolved: [
+      'Burning eyes and sand-in-eyes sensation after 6+ hours of screen exposure',
+      'Evening tension headaches and temple throbbing from monitor glare',
+      'Color distortion caused by cheap yellow-tinted glasses',
+      'Heavy frames causing ear pain and nose bridge fatigue'
+    ],
+    keyFeatures: [
+      'True-Hue™ clear lens technology with 99.4% HEV blue light filtration',
+      '7-layer bilateral hydrophobic and anti-reflective glare coating',
+      '14-gram aerospace-grade memory titanium frames',
+      '30-day money-back satisfaction guarantee with optometry certification'
+    ],
+    toneOfVoice: 'friendly_peer',
+    toneDescription: 'Knowledgeable, peer-to-peer, health-conscious worker. Empathizes with long screen strain, explains why normal cheap lenses cause color yellowing, and recommends trying proper high-spec filtering.',
+    exclusionRules: [
+      'Do not reply to people looking for sunglasses or outdoor eyewear',
+      'Do not reply to general desk/chair ergonomics without eye strain context',
+      'Do not reply to unrelated memes, coffee posts, or deals spam'
+    ],
+    exampleHook: "The 'sand in eyes' feeling usually comes from high-energy screen glare causing micro-flicker fatigue. High-clarity anti-reflective lenses made an immense difference for my evening migraines.",
+    pricePoint: '$68 per pair (includes hard case & micro-cloth)'
+  }
+];

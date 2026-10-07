@@ -1,0 +1,7 @@
+{
+  "name": "OpportunityRadar - Potential Customer Detector",
+  "description": "Multi-stage cost-aware agentic customer opportunity detector in online communities for the buildX contest.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
+
