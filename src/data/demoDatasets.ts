@@ -25,12 +25,12 @@ export const programmingCourseDataset: CommunityMessage[] = [
   },
   {
     id: 'prog-03',
-    author: 'mehdi_dev_tehran',
+    author: 'marcus_backend_dev',
     platform: 'Telegram',
-    sourceCommunity: 'گروه برنامه‌نویسان پایتون ایران',
+    sourceCommunity: 'Python Global Learners Group',
     timestamp: '5 hours ago',
-    text: 'سلام دوستان. من ۲ ماهه دارم پایتون کار می‌کنم ولی حس می‌کنم بدون مربی و پروژه تیمی پیشرفتم خیلی کنده. کسی دوره یا منتورینگی می‌شناسه که پشتیبانی کد ریویو زنده داشته باشه و پروژه‌های واقعی مارکت رو یاد بده؟ ممنون میشم راهنمایی کنید.',
-    threadContext: 'پیام ریپلای به بحث ورود به بازار کار برنامه‌نویسی',
+    text: "Hey everyone! I've been studying Python for 2 months on my own, but without a dedicated mentor and team code reviews my progress feels painfully slow. Does anyone know of a high-touch bootcamp or cohort that offers live senior code review sessions and real market production projects? Any advice appreciated!",
+    threadContext: 'Reply to career switch discussion thread',
     likesOrUpvotes: 22,
     repliesCount: 15
   },
@@ -105,12 +105,12 @@ export const eyeStrainGlassesDataset: CommunityMessage[] = [
   },
   {
     id: 'eye-02',
-    author: 'ali_remote_designer',
+    author: 'liam_remote_designer',
     platform: 'Twitter/X',
-    sourceCommunity: 'طراحان و توسعه‌دهندگان',
+    sourceCommunity: 'Remote Designers & UI Developers',
     timestamp: '3 hours ago',
-    text: 'از صبح تا شب پای لپ‌تاپم و چشمام به شدت قرمز و خسته میشه. آخر شب‌ها تاری دید خفیف دارم. کسی تجربه استفاده از عینک‌های آنتی‌بلو لایت یا بلوکات برای کار مداوم داره؟ واقعا سردرد و خستگی چشم رو کم می‌کنه یا تبلیغاته؟',
-    threadContext: 'توییت در مورد خستگی چشم دورکاری',
+    text: "From 9am to 8pm staring at Figma and VS Code on my laptop. My eyes get severely bloodshot and exhausted every evening with mild blurred vision. Does anyone have real experience using high-quality anti-blue light or blue-cut computer glasses for continuous screen work? Do they actually cure eye strain and headaches or is it pure marketing?",
+    threadContext: "Tweet about remote work eye fatigue",
     likesOrUpvotes: 34,
     repliesCount: 18
   },

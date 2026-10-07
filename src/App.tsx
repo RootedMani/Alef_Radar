@@ -1,5 +1,6 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { Navbar } from './components/Navbar';
+import { LandingPage } from './components/LandingPage';
 import { AuthModal } from './components/AuthModal';
 import { ProductProfileSelector } from './components/ProductProfileSelector';
 import { MessageInputSection } from './components/MessageInputSection';
@@ -10,11 +11,10 @@ import { CommunityMessage, MessageAnalysis, ProductProfile, RunSummary, User } f
 import { defaultProductProfiles } from './data/defaultProfiles';
 import { programmingCourseDataset, eyeStrainGlassesDataset } from './data/demoDatasets';
 import { runAgentPipeline, saveProfile } from './services/agentApi';
-import { Award, CheckCircle2, ArrowRight } from 'lucide-react';
+import { ArrowLeft, Radar, Sparkles } from 'lucide-react';
 
 export default function App() {
-  const [theme, setTheme] = useState<'dark' | 'light'>('dark');
-  const [isPersian, setIsPersian] = useState<boolean>(true);
+  const [currentView, setCurrentView] = useState<'landing' | 'app' | 'docs'>('landing');
   const [user, setUser] = useState<User | null>({
     id: 'user-demo-01',
     email: 'contest@buildx.ir',
@@ -23,7 +23,6 @@ export default function App() {
     createdAt: new Date().toISOString()
   });
   const [showAuthModal, setShowAuthModal] = useState<boolean>(false);
-  const [activeTab, setActiveTab] = useState<'radar' | 'profiles' | 'tech_docs' | 'business_plan' | 'pitch' | 'video'>('radar');
 
   const [profiles, setProfiles] = useState<ProductProfile[]>(defaultProductProfiles);
   const [activeProfile, setActiveProfile] = useState<ProductProfile>(defaultProductProfiles[0]);
@@ -41,20 +40,6 @@ export default function App() {
   const [runningCost, setRunningCost] = useState<number>(0);
   const [discardedCount, setDiscardedCount] = useState<number>(0);
   const [actNowCount, setActNowCount] = useState<number>(0);
-
-  // Sync theme with document element
-  useEffect(() => {
-    const root = document.documentElement;
-    if (theme === 'dark') {
-      root.classList.add('dark');
-    } else {
-      root.classList.remove('dark');
-    }
-  }, [theme]);
-
-  const toggleTheme = () => {
-    setTheme((prev) => (prev === 'dark' ? 'light' : 'dark'));
-  };
 
   const handleSetMessages = (newMsgs: CommunityMessage[]) => {
     setMessages(newMsgs);
@@ -151,8 +136,6 @@ export default function App() {
         msgText.includes('mentorship') ||
         msgText.includes('blue light') ||
         msgText.includes('glasses') ||
-        msgText.includes('عینک') ||
-        msgText.includes('دوره یا منتورینگ') ||
         msgText.includes('tutorial hell') ||
         msgText.includes('fastapi')
       ) {
@@ -176,163 +159,153 @@ export default function App() {
   };
 
   return (
-    <div
-      dir={isPersian ? 'rtl' : 'ltr'}
-      className="min-h-screen bg-neutral-100/60 dark:bg-black text-neutral-900 dark:text-neutral-100 flex flex-col selection:bg-neutral-950 selection:text-white dark:selection:bg-white dark:selection:text-black font-sans transition-colors"
-    >
-      {/* Minimalist Top Contest Status Banner */}
-      <div className="border-b border-neutral-200 dark:border-neutral-800 bg-white dark:bg-neutral-950 py-2 px-4 text-center text-xs transition-colors">
+    <div className="min-h-screen bg-neutral-100/60 text-neutral-900 flex flex-col font-sans antialiased selection:bg-neutral-900 selection:text-white">
+      
+      {/* Contest Status Header */}
+      <div className="border-b border-neutral-200 bg-white py-2 px-4 text-center text-xs">
         <div className="max-w-7xl mx-auto flex flex-wrap items-center justify-center gap-x-3 gap-y-1 font-mono">
-          <span className="flex items-center space-x-1.5 rtl:space-x-reverse font-bold text-neutral-900 dark:text-white">
-            <Award className="w-3.5 h-3.5" />
-            <span>buildX 2026:</span>
+          <span className="font-bold text-neutral-950">
+            buildX 2026 Submission //
           </span>
-          <span className="text-neutral-600 dark:text-neutral-300">
-            {isPersian
-              ? 'کاشف مشتری بالقوه در یک جامعهٔ آنلاین (Potential Customer Detector in Online Communities)'
-              : 'Potential Customer Detector in Online Communities'}
+          <span className="text-neutral-600">
+            Potential Customer Detector in Online Communities (OpportunityRadar)
           </span>
-          <span className="text-[11px] px-2 py-0.5 rounded border border-neutral-300 dark:border-neutral-700 bg-neutral-100 dark:bg-neutral-900 text-neutral-800 dark:text-neutral-200">
-            {isPersian ? '۴ مرحله ارکستراسیون ایجنت • ۸۸٪ صرفه‌جویی توکن' : '4-Stage Agent Cascade • 88% Token Savings'}
+          <span className="text-[11px] px-2 py-0.5 rounded border border-neutral-200 bg-neutral-50 text-neutral-700">
+            4-Stage Cascade • 88.7% Inference Savings
           </span>
         </div>
       </div>
 
-      {/* Main Navbar */}
+      {/* Main SaaS Navbar */}
       <Navbar
         user={user}
         onOpenAuth={() => setShowAuthModal(true)}
         onLogout={() => setUser(null)}
-        activeTab={activeTab}
-        setActiveTab={setActiveTab}
-        isPersian={isPersian}
-        setIsPersian={setIsPersian}
-        theme={theme}
-        onToggleTheme={toggleTheme}
+        currentView={currentView}
+        setCurrentView={setCurrentView}
       />
 
-      {/* Main Container */}
-      <main className="flex-1 max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-8 space-y-8">
-        {activeTab === 'radar' && (
-          <>
-            {/* Minimalist Hero Section */}
-            <div className="rounded-2xl p-6 sm:p-10 bg-white dark:bg-neutral-950 border border-neutral-200 dark:border-neutral-800 shadow-sm transition-colors">
-              <div className="max-w-3xl">
-                <div className="inline-flex items-center space-x-2 rtl:space-x-reverse px-2.5 py-1 rounded border border-neutral-300 dark:border-neutral-700 text-[11px] font-mono font-bold text-neutral-700 dark:text-neutral-300 mb-3 bg-neutral-50 dark:bg-neutral-900">
-                  <span>AGENTIC CORE // COST-AWARE CASCADE</span>
-                </div>
+      {/* View Router */}
+      <main className="flex-1 max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-8">
+        
+        {/* VIEW 1: LANDING PAGE */}
+        {currentView === 'landing' && (
+          <LandingPage
+            onGetStarted={() => setCurrentView('app')}
+            onExploreDatasets={(type) => {
+              if (type === 'eyewear') {
+                handleSetMessages(eyeStrainGlassesDataset);
+              } else {
+                handleSetMessages(programmingCourseDataset);
+              }
+              setCurrentView('app');
+            }}
+            onViewDocs={() => setCurrentView('docs')}
+          />
+        )}
 
-                <h1 className="text-2xl sm:text-4xl font-black text-neutral-900 dark:text-white tracking-tight leading-tight">
-                  {isPersian
-                    ? 'کشف خودکار خریداران و فرصت‌های فروش در جوامع آنلاین'
-                    : 'Autonomous Potential Customer Detector for Online Communities'}
+        {/* VIEW 2: RADAR APPLICATION WORKSPACE */}
+        {currentView === 'app' && (
+          <div className="space-y-8 animate-fade-in">
+            {/* Workspace Header Bar */}
+            <div className="flex flex-col sm:flex-row sm:items-center justify-between pb-4 border-b border-neutral-200 gap-3">
+              <div>
+                <button
+                  onClick={() => setCurrentView('landing')}
+                  className="inline-flex items-center space-x-1.5 text-xs text-neutral-500 hover:text-neutral-950 mb-1 transition-colors cursor-pointer"
+                >
+                  <ArrowLeft className="w-3.5 h-3.5" />
+                  <span>Back to Overview</span>
+                </button>
+                <h1 className="text-2xl font-black text-neutral-950">
+                  Radar Detection Workspace
                 </h1>
-
-                <p className="text-sm sm:text-base text-neutral-600 dark:text-neutral-300 mt-3 leading-relaxed">
-                  {isPersian
-                    ? 'سیستم هوشمند OpportunityRadar پیام‌های گفتگو در ردیت، تلگرام و توییتر را پایش کرده، نویزها را بدون صرف هزینه توکن حذف می‌کند، قصد خرید و فوریت مخاطب را ارزیابی می‌نماید و برای فرصت‌های واقعی پاسخی اصیل و بدون اسپم آماده می‌سازد.'
-                    : 'OpportunityRadar continuously listens to community messages, cheaply prunes chatter at Stage 1, extracts true buyer intent and constraints at Stage 2, scores bilateral fit at Stage 3, and generates value-first personalized replies only for high-conviction opportunities.'}
+                <p className="text-xs text-neutral-500 mt-0.5">
+                  Configure your product criteria, load stream messages, and let the multi-stage agent find high-intent buyer leads.
                 </p>
+              </div>
 
-                {/* Minimalist 4-Stage Summary Badges */}
-                <div className="mt-6 flex flex-wrap items-center gap-2 text-xs font-mono">
-                  <div className="px-3 py-1.5 rounded-lg border border-neutral-200 dark:border-neutral-800 bg-neutral-50 dark:bg-neutral-900 text-neutral-800 dark:text-neutral-200">
-                    01 // Cheap Filter (~80 tok)
-                  </div>
-                  <div className="px-3 py-1.5 rounded-lg border border-neutral-200 dark:border-neutral-800 bg-neutral-50 dark:bg-neutral-900 text-neutral-800 dark:text-neutral-200">
-                    02 // Context & Intent
-                  </div>
-                  <div className="px-3 py-1.5 rounded-lg border border-neutral-200 dark:border-neutral-800 bg-neutral-50 dark:bg-neutral-900 text-neutral-800 dark:text-neutral-200">
-                    03 // Fit Evaluation (0–100)
-                  </div>
-                  <div className="px-3 py-1.5 rounded-lg border border-neutral-950 dark:border-white bg-neutral-950 text-white dark:bg-white dark:text-black font-bold">
-                    04 // Value-First Reply
-                  </div>
-                </div>
+              <div className="flex items-center space-x-2">
+                <button
+                  onClick={() => setCurrentView('docs')}
+                  className="px-3.5 py-1.5 rounded-lg border border-neutral-300 bg-white hover:bg-neutral-50 text-xs font-semibold text-neutral-700 transition-colors cursor-pointer"
+                >
+                  View Architecture Docs
+                </button>
               </div>
             </div>
 
-            {/* Product Profile Selector */}
+            {/* Step 1: Product Profile Selector */}
             <ProductProfileSelector
               profiles={profiles}
               activeProfile={activeProfile}
               onSelectProfile={handleSelectProfile}
               onAddProfile={handleAddProfile}
-              isPersian={isPersian}
             />
 
-            {/* Community Messages Feed & Trigger */}
+            {/* Step 2: Message Stream Feed & Run Trigger */}
             <MessageInputSection
               messages={messages}
               onSetMessages={handleSetMessages}
               onRunAgent={handleRunAgent}
               isLoading={isLoading}
               activeProfile={activeProfile}
-              isPersian={isPersian}
             />
 
-            {/* Results Section */}
+            {/* Step 3: Results Dashboard (Displayed when processed) */}
             {runSummary && (
               <ResultsDashboard
                 summary={runSummary}
                 results={analyzedResults}
                 activeProfile={activeProfile}
                 onToggleReplyUsed={handleToggleReplyUsed}
-                isPersian={isPersian}
               />
             )}
-          </>
+          </div>
         )}
 
-        {/* Tab: Product Profiles management */}
-        {activeTab === 'profiles' && (
-          <ProductProfileSelector
-            profiles={profiles}
-            activeProfile={activeProfile}
-            onSelectProfile={handleSelectProfile}
-            onAddProfile={handleAddProfile}
-            isPersian={isPersian}
-          />
-        )}
-
-        {/* Tab: Tech Specs / Business Plan / Pitch / Video */}
-        {(activeTab === 'tech_docs' ||
-          activeTab === 'business_plan' ||
-          activeTab === 'pitch' ||
-          activeTab === 'video') && (
-          <DocsModal
-            viewMode={activeTab}
-            onClose={() => setActiveTab('radar')}
-            isPersian={isPersian}
-          />
+        {/* VIEW 3: DOCUMENTATION, SPECS & PITCH */}
+        {currentView === 'docs' && (
+          <div className="space-y-6 animate-fade-in">
+            <div className="flex items-center justify-between pb-2">
+              <button
+                onClick={() => setCurrentView('app')}
+                className="inline-flex items-center space-x-1.5 text-xs font-bold text-neutral-600 hover:text-neutral-950 transition-colors cursor-pointer"
+              >
+                <ArrowLeft className="w-3.5 h-3.5" />
+                <span>Return to Radar Workspace</span>
+              </button>
+            </div>
+            <DocsModal onBackToApp={() => setCurrentView('app')} />
+          </div>
         )}
       </main>
 
-      {/* Minimalist Footer */}
-      <footer className="border-t border-neutral-200 dark:border-neutral-800 bg-white dark:bg-neutral-950 py-6 px-4 text-xs text-neutral-500 transition-colors">
-        <div className="max-w-7xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-3">
-          <div className="flex items-center space-x-2 rtl:space-x-reverse font-mono">
-            <span className="font-bold text-neutral-900 dark:text-white">OpportunityRadar</span>
-            <span>/</span>
-            <span>buildX Contest Submission</span>
+      {/* Minimal Footer */}
+      <footer className="border-t border-neutral-200 bg-white py-6 px-4 text-xs text-neutral-500">
+        <div className="max-w-7xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-3 font-mono text-[11px]">
+          <div className="flex items-center space-x-2">
+            <span className="font-bold text-neutral-900">OpportunityRadar</span>
+            <span>//</span>
+            <span>buildX 2026 Contest MVP</span>
           </div>
 
-          <div className="flex items-center space-x-4 rtl:space-x-reverse font-mono text-[11px]">
+          <div className="flex items-center space-x-4">
             <span>Model: Google Gemini 3.8 Flash</span>
             <span>•</span>
-            <span className="font-semibold text-neutral-800 dark:text-neutral-200">10-Day Availability Active</span>
+            <span className="font-semibold text-neutral-800">10-Day Live Hosting Active</span>
           </div>
         </div>
       </footer>
 
-      {/* Modals */}
+      {/* Free Registration / Login Modal */}
       <AuthModal
         isOpen={showAuthModal}
         onClose={() => setShowAuthModal(false)}
         onAuthSuccess={(u) => setUser(u)}
-        isPersian={isPersian}
       />
 
+      {/* Live Agent Progress Visualizer */}
       <AgentProgressModal
         isOpen={showProgressModal}
         totalMessages={messages.length}
@@ -342,7 +315,6 @@ export default function App() {
         runningCost={runningCost}
         discardedCount={discardedCount}
         actNowCount={actNowCount}
-        isPersian={isPersian}
       />
     </div>
   );

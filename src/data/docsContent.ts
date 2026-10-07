@@ -1,42 +1,36 @@
 export const technicalDocs = {
   title: 'OpportunityRadar - Technical Architecture & Agent Specification',
-  faTitle: 'معماری فنی و مشخصات ایجنت OpportunityRadar',
   version: '1.0.0-buildX-prod',
   summary: 'OpportunityRadar utilizes a 4-stage cost-aware agentic pipeline orchestrated as a directed acyclic state graph (inspired by LangGraph principles). It minimizes token spend on irrelevant community traffic while dedicating reasoning depth to high-conviction sales opportunities.',
-  faSummary: 'سیستم OpportunityRadar از یک پایپ‌لاین ایجنتیک ۴ مرحله‌ای و آگاه از هزینه بهره می‌برد که بر اساس اصول LangGraph طراحی شده است. این سیستم با حذف سریع نویزها، هزینه پردازش را به حداقل رسانده و مدل‌های هوشمند را صرفاً برای فرصت‌های باارزش بالا به کار می‌گیرد.',
   stages: [
     {
       stage: 1,
-      name: 'Cheap Relevance Filter (فیلتر کم‌هزینه)',
+      name: 'Cheap Relevance Filter',
       objective: 'Instant triage of incoming message feed using lexical matching, anti-spam heuristics, and token-thrifty screening.',
-      faObjective: 'غربالگری آنی پیام‌های ورودی با استفاده از تطابق کلمات کلیدی، فیلترهای ضد هرزنامه و اسکن سریع با کمترین توکن.',
       costPerMsg: '$0.000008 - $0.000015 (80-120 tokens)',
       earlyExitRate: '60% - 75% of community chatter discarded here',
       decisionRules: 'If relevance score < 40 or spam/bot signature detected -> immediate exit (status: FILTERED_OUT).'
     },
     {
       stage: 2,
-      name: 'Context & Intent Understanding (درک زمینه و نیت)',
+      name: 'Context & Intent Understanding',
       objective: 'Deep semantic extraction of user pain points, implicit urgency, buyer intent, technical skill level, and constraints.',
-      faObjective: 'استخراج معنایی عمیق از نقاط درد کاربر، فوریت، قصد خرید، سطح مهارت و محدودیت‌های بیان شده.',
       costPerMsg: '$0.000035 - $0.000055 (250-400 tokens)',
       earlyExitRate: 'Discards messages where user is merely chatting or solving a one-line trivia question',
       decisionRules: 'Extracts structured JSON: detectedProblem, intentType, urgency, userSkill, constraints.'
     },
     {
       stage: 3,
-      name: 'Product-Fit Evaluation (ارزیابی تناسب با محصول)',
+      name: 'Product-Fit Evaluation',
       objective: 'Bilateral comparison between extracted user context and the active Product Profile. Calculates 0-100 Opportunity Score.',
-      faObjective: 'مقایسه دوطرفه بین زمینه استخراج‌شده کاربر و پروفایل محصول فعال، و محاسبه امتیاز فرصت بین ۰ تا ۱۰۰.',
       costPerMsg: '$0.000045 - $0.000075 (300-500 tokens)',
       earlyExitRate: 'Weak fits (score < 65) flagged as WATCH or IGNORE without incurring Stage 4 generation cost',
       decisionRules: 'Strong Fit (score >= 75) -> Proceeds to Stage 4 (ACT_NOW). Weak Fit (50-74) -> WATCH. No Fit (<50) -> IGNORE.'
     },
     {
       stage: 4,
-      name: 'Context-Aware Suggested Reply (تولید پاسخ هوشمند و بدون اسپم)',
+      name: 'Context-Aware Suggested Reply',
       objective: 'Generates an authentic, value-first, non-pushy personalized response aligned with brand voice and platform norms.',
-      faObjective: 'تولید پاسخی معتبر، مبتنی بر ارزش، بدون لحن آزاردهنده یا تبلیغاتی، همگام با لحن برند و عرف پلتفرم اجتماعی.',
       costPerMsg: '$0.000080 - $0.000120 (450-700 tokens)',
       earlyExitRate: 'Only 15% - 25% of total messages reach this final stage',
       decisionRules: 'Synthesizes empathetic hook + practical advice + subtle solution mention + friction-free call-to-action.'
@@ -67,9 +61,7 @@ OpportunityRadar Multi-Stage Cascade:
 
 export const businessPlanDocs = {
   title: 'OpportunityRadar - Business Plan & GTM Strategy',
-  faTitle: 'طرح کسب‌وکار (بیزینس‌پلن) OpportunityRadar',
   executiveSummary: 'OpportunityRadar is an agentic social listening and proactive B2B/B2C lead generation engine. It turns public forums, Reddit subreddits, Telegram channels, and X/Twitter into an automated, zero-spam sales pipeline by detecting prospects at the exact moment of problem expression.',
-  faExecutiveSummary: 'سامانه OpportunityRadar یک موتور هوشمند شنود اجتماعی و جذب لید بالقوه برای کسب‌وکارهای B2B و B2C است. این سیستم گروه‌های تلگرام، ردیت و توییتر را به یک خط لوله فروش خودکار تبدیل می‌کند که مشتریان را در دقیق‌ترین لحظه نیازشان شناسایی می‌نماید.',
   problemValidation: [
     'Entrepreneurs & sales teams waste 20+ hours weekly manually scrolling community groups for leads.',
     'Traditional social monitoring tools (Brand24, Mention) only do dumb keyword alerts, generating 95% false positives.',
@@ -97,7 +89,6 @@ export const businessPlanDocs = {
 
 export const investorPitchDeck = {
   title: 'OpportunityRadar - Investor Pitch Deck',
-  faTitle: 'ارائه پیچ به سرمایه‌گذاران (Investor Pitch)',
   slides: [
     {
       slideNumber: 1,
@@ -167,18 +158,17 @@ export const investorPitchDeck = {
 
 export const submissionVideoGuide = {
   videoTitle: 'OpportunityRadar - 5-Minute Walkthrough Video',
-  faVideoTitle: 'ویدیوی ۵ دقیقه‌ای معرفی محصول OpportunityRadar',
   videoUrlPlaceholder: 'https://ais-dev-ok7qhgvtqrdfna6jv6653u-331666314826.europe-west3.run.app/video-demo.mp4',
   scriptStructure: [
     { minute: '0:00 - 0:45', topic: 'The Problem: Lost Sales in Community Feeds & The Cost Trap of Heavy AI' },
     { minute: '0:45 - 1:30', topic: 'The Target User: Bootcamps, DTC Brands, SaaS Founders, Agencies' },
     { minute: '1:30 - 2:30', topic: 'The Agentic Heart: 4-Stage Cascade (Cheap Filter -> Context -> Fit -> Reply)' },
-    { minute: '2:30 - 4:15', topic: 'Live Walkthrough: Register -> Login -> Product Profile -> Run Radar -> Results & Reply' },
+    { minute: '2:30 - 4:15', topic: 'Live Walkthrough: Register -> Login -> Product Setup -> Agent Execution -> Results & Reply' },
     { minute: '4:15 - 5:00', topic: 'Cost Transparency Proof & buildX Contest Compliance' }
   ],
   txtFileContent: `OpportunityRadar - buildX Contest Submission Video Link
 Product Name: OpportunityRadar
-Chosen Problem: کاشف مشتری بالقوه در یک جامعهٔ آنلاین (Potential Customer Detector in Online Communities)
+Chosen Problem: Potential Customer Detector in Online Communities
 Live App URL: https://ais-dev-ok7qhgvtqrdfna6jv6653u-331666314826.europe-west3.run.app
 Video Link (5-Minute Demonstration):
 https://youtu.be/OpportunityRadar-buildX-demo-walkthrough

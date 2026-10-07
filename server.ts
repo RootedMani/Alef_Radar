@@ -327,41 +327,20 @@ function runStage4ReplyGeneration(message: any, context: any, fit: any, profile:
   cta: string;
   tokens: number;
 } {
-  const textLower = message.text.toLowerCase();
-  const isPersian = /[\u0600-\u06FF]/.test(message.text);
-
   if (profile.id.includes('eyewear')) {
-    if (isPersian) {
-      return {
-        suggestedReply: `سلام! دقیقا حس خشکی و سنگینی چشم رو بعد از ۸-۱۰ ساعت کار مدام پای مانیتور درک می‌کنم. عینک‌های معمولی متفرقه معمولا رنگ‌ها رو بیش از حد زرد و تصویر رو کدر می‌کنن، اما لنزهای استاندارد با پوشش بلوکنترل واقعی (HEV 415-455nm) و آنتی‌رفلکس چندلایه مثل LuminaShield، بدون تغییر رنگ، خستگی مردمک رو خیلی کم می‌کنن. یک قاعده ساده هم اینه که دمای رنگ مانیتور رو بعد از غروب روی Warm بذارید. در صورت تمایل اطلاعات مدل‌های سبک تیتانیومی LuminaShield رو می‌تونم براتون ارسال کنم.`,
-        strategy: 'همدلی حرفه‌ای با شرایط کاری، توضیح علمی دلیل خستگی، بدون فشار فروش مستقیم.',
-        cta: 'پیشنهاد بررسی مشخصات لنزهای شفاف بدون تغییر رنگ',
-        tokens: 420
-      };
-    } else {
-      return {
-        suggestedReply: `That "sand in the eyes" burning is classic high-energy screen micro-flicker and tear film evaporation after 8+ hours. Eye drops usually only provide 15 minutes of relief because they don't block the 415–455nm HEV spectrum causing the ocular tension. Cheap blue blockers yellow out your monitor, but precision multi-coated anti-reflective lenses (like our LuminaShield frames) maintain true color fidelity while cutting glare entirely. Also try bumping your display font scaling up 10%—it stops the subconscious squinting!`,
-        strategy: 'Empathic peer sharing actionable ergonomic tip first, explaining optical science, then introducing LuminaShield naturally.',
-        cta: 'Soft recommendation of True-Hue™ non-distorting laboratory lenses',
-        tokens: 460
-      };
-    }
+    return {
+      suggestedReply: `That "sand in the eyes" burning is classic high-energy screen micro-flicker and tear film evaporation after 8+ hours. Eye drops usually only provide 15 minutes of relief because they don't block the 415–455nm HEV spectrum causing ocular tension. Cheap blue blockers yellow out your monitor, but precision multi-coated anti-reflective lenses (like our LuminaShield frames) maintain true color fidelity while cutting glare entirely. Also try bumping your display font scaling up 10%—it stops subconscious squinting!`,
+      strategy: 'Empathic peer sharing actionable ergonomic tip first, explaining optical science, then introducing LuminaShield naturally.',
+      cta: 'Soft recommendation of True-Hue™ non-distorting laboratory lenses',
+      tokens: 460
+    };
   } else {
-    if (isPersian) {
-      return {
-        suggestedReply: `سلام مهدی عزیز. به دام "Tutorial Hell" افتادن بعد از یادگیری سینتکس کاملا طبیعیه چون ذهن هنوز الگوی معماری پروژه واقعی رو نداره. برای شکستن این بن‌بست، ساختن ابزارهای کوچیک خط فرمان (CLI) یا اسکریپت‌های اتوماسیون با FastAPI خیلی موثرتر از تماشای ویدیوهای جدید است. ما در دوره DevCraft دقیقاً روی همین نقطه تمرکز داریم: کد ریویو زنده هفتگی با مهندسان سنیور و ۴ پروژه عملی تا اعتمادبه‌نفس طراحی رو پیدا کنید. خوشحال میشم سرفصل و نمونه پروژه‌ها رو باهات به اشتراک بذارم.`,
-        strategy: 'اعتبارسنجی چالش یادگیری، ارائه یک راهکار عملی، معرفی دوره به عنوان راه‌حل ساختاریافته.',
-        cta: 'پیشنهاد ارسال سرفصل و بررسی نمونه کد پروژه‌ها',
-        tokens: 480
-      };
-    } else {
-      return {
-        suggestedReply: `Breaking out of tutorial hell is the hardest phase of learning Python because following a video gives a false sense of mastery, but facing a blank editor requires problem decomposition. The best bridge is building tiny single-purpose micro-APIs or CLI utilities with live code reviews. At DevCraft, we specifically designed our cohort around weekly 1-on-1 senior engineer code reviews and production portfolio systems (FastAPI + databases) rather than passive quizzes. Happy to share our project curriculum if you'd like to see the roadmap!`,
-        strategy: 'Validates psychological barrier of tutorial paralysis, prescribes micro-project strategy, introduces DevCraft mentor model seamlessly.',
-        cta: 'Offers transparent view into syllabus and code review workflow',
-        tokens: 510
-      };
-    }
+    return {
+      suggestedReply: `Breaking out of tutorial hell is the hardest phase of learning Python because following a video gives a false sense of mastery, but facing a blank editor requires problem decomposition. The best bridge is building tiny single-purpose micro-APIs or CLI utilities with live code reviews. At DevCraft, we specifically designed our cohort around weekly 1-on-1 senior engineer code reviews and production portfolio systems (FastAPI + databases) rather than passive quizzes. Happy to share our project curriculum if you'd like to see the roadmap!`,
+      strategy: 'Validates psychological barrier of tutorial paralysis, prescribes micro-project strategy, introduces DevCraft mentor model seamlessly.',
+      cta: 'Offers transparent view into syllabus and code review workflow',
+      tokens: 510
+    };
   }
 }
 

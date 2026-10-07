@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { X, Lock, Mail, User as UserIcon, Check, ArrowRight } from 'lucide-react';
+import { X, Lock, Mail, User as UserIcon, ArrowRight, CheckCircle2 } from 'lucide-react';
 import { loginUser, registerUser } from '../services/agentApi';
 import { User } from '../types';
 
@@ -7,14 +7,12 @@ interface AuthModalProps {
   isOpen: boolean;
   onClose: () => void;
   onAuthSuccess: (user: User) => void;
-  isPersian: boolean;
 }
 
 export const AuthModal: React.FC<AuthModalProps> = ({
   isOpen,
   onClose,
   onAuthSuccess,
-  isPersian,
 }) => {
   const [isRegister, setIsRegister] = useState(false);
   const [email, setEmail] = useState('');
@@ -65,78 +63,71 @@ export const AuthModal: React.FC<AuthModalProps> = ({
   };
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/70 backdrop-blur-sm animate-fade-in">
-      <div className="relative w-full max-w-md bg-white dark:bg-neutral-950 border border-neutral-300 dark:border-neutral-800 rounded-2xl p-6 sm:p-8 shadow-2xl transition-colors">
+    <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/60 backdrop-blur-xs animate-fade-in">
+      <div className="relative w-full max-w-md bg-white border border-neutral-200 rounded-3xl p-6 sm:p-8 shadow-2xl">
         
         {/* Close Button */}
         <button
           onClick={onClose}
-          className="absolute top-4 right-4 rtl:right-auto rtl:left-4 p-1 rounded-lg text-neutral-400 hover:text-black dark:hover:text-white transition-colors"
+          className="absolute top-5 right-5 p-1 rounded-lg text-neutral-400 hover:text-neutral-900 transition-colors cursor-pointer"
         >
           <X className="w-5 h-5" />
         </button>
 
         {/* Header */}
         <div className="text-center mb-6">
-          <div className="inline-flex items-center justify-center w-10 h-10 rounded-xl bg-black text-white dark:bg-white dark:text-black mb-3 font-bold shadow-sm">
+          <div className="inline-flex items-center justify-center w-10 h-10 rounded-xl bg-black text-white mb-3 shadow-xs">
             <Lock className="w-5 h-5" />
           </div>
-          <h2 className="text-xl font-extrabold text-neutral-900 dark:text-white">
-            {isRegister
-              ? isPersian
-                ? 'ثبت‌نام در OpportunityRadar'
-                : 'Create Radar Account'
-              : isPersian
-              ? 'ورود به حساب کاربری'
-              : 'Sign in to OpportunityRadar'}
+          <h2 className="text-xl font-black text-neutral-950">
+            {isRegister ? 'Create Your Free Account' : 'Sign In to OpportunityRadar'}
           </h2>
-          <p className="text-xs text-neutral-500 dark:text-neutral-400 mt-1">
-            {isPersian
-              ? 'دسترسی کامل به ایجنت شناسایی مشتریان بالقوه'
-              : 'Autonomous agent customer lead hunter for online communities'}
+          <p className="text-xs text-neutral-500 mt-1">
+            {isRegister
+              ? 'Start hunting genuine customer leads in community conversations.'
+              : 'Welcome back. Access your product profiles and agent scanner.'}
           </p>
         </div>
 
-        {/* Quick 1-Click Demo Accounts for Judges */}
-        <div className="mb-6 p-3.5 bg-neutral-50 dark:bg-neutral-900/60 border border-neutral-200 dark:border-neutral-800 rounded-xl">
-          <p className="text-[11px] font-bold text-neutral-800 dark:text-neutral-200 mb-2">
-            {isPersian
-              ? 'ورود سریع داوران مسابقه buildX (بدون تایپ):'
-              : '1-Click Quick Access (buildX Evaluators):'}
+        {/* 1-Click Quick Demo Accounts for Contest Evaluators */}
+        <div className="mb-6 p-3.5 bg-neutral-50 border border-neutral-200 rounded-2xl">
+          <p className="text-[11px] font-bold text-neutral-700 mb-2 flex items-center space-x-1">
+            <CheckCircle2 className="w-3.5 h-3.5 text-neutral-900" />
+            <span>1-Click Evaluator Access (No typing needed):</span>
           </p>
           <div className="grid grid-cols-2 gap-2">
             <button
               type="button"
-              onClick={() => handleQuickDemoLogin('contest@buildx.ir', 'buildx2026', 'buildX Judge')}
-              className="py-1.5 px-2 bg-white dark:bg-neutral-950 hover:bg-neutral-100 dark:hover:bg-neutral-900 border border-neutral-300 dark:border-neutral-700 text-neutral-900 dark:text-white text-xs font-bold rounded-lg text-center transition-colors cursor-pointer"
+              onClick={() => handleQuickDemoLogin('contest@buildx.ir', 'buildx2026', 'buildX Evaluator')}
+              className="py-2 px-2.5 bg-white hover:bg-neutral-100 border border-neutral-300 text-neutral-900 text-xs font-bold rounded-xl text-center transition-colors cursor-pointer shadow-2xs"
             >
-              {isPersian ? 'حساب داور مسابقه' : 'buildX Judge'}
+              🎓 buildX Judge
             </button>
             <button
               type="button"
-              onClick={() => handleQuickDemoLogin('founder@opportunityradar.ai', 'radar123', 'Founder Account')}
-              className="py-1.5 px-2 bg-white dark:bg-neutral-950 hover:bg-neutral-100 dark:hover:bg-neutral-900 border border-neutral-300 dark:border-neutral-700 text-neutral-900 dark:text-white text-xs font-bold rounded-lg text-center transition-colors cursor-pointer"
+              onClick={() => handleQuickDemoLogin('founder@opportunityradar.ai', 'radar123', 'Growth Founder')}
+              className="py-2 px-2.5 bg-white hover:bg-neutral-100 border border-neutral-300 text-neutral-900 text-xs font-bold rounded-xl text-center transition-colors cursor-pointer shadow-2xs"
             >
-              {isPersian ? 'حساب بنیان‌گذار' : 'Founder Account'}
+              🚀 Founder Demo
             </button>
           </div>
         </div>
 
         {error && (
-          <div className="mb-4 p-3 bg-neutral-100 dark:bg-neutral-900 border border-neutral-300 dark:border-neutral-700 rounded-xl text-neutral-900 dark:text-white text-xs">
+          <div className="mb-4 p-3 bg-red-50 border border-red-200 rounded-xl text-red-600 text-xs">
             {error}
           </div>
         )}
 
         {/* Auth Form */}
-        <form onSubmit={handleSubmit} className="space-y-4">
+        <form onSubmit={handleSubmit} className="space-y-3.5">
           {isRegister && (
             <div>
-              <label className="block text-xs font-semibold text-neutral-700 dark:text-neutral-300 mb-1">
-                {isPersian ? 'نام یا عنوان کسب‌وکار' : 'Full Name / Business Title'}
+              <label className="block text-xs font-bold text-neutral-700 mb-1">
+                Full Name or Company
               </label>
               <div className="relative">
-                <div className="absolute inset-y-0 left-0 rtl:left-auto rtl:right-0 pl-3 rtl:pr-3 flex items-center pointer-events-none text-neutral-400">
+                <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none text-neutral-400">
                   <UserIcon className="w-4 h-4" />
                 </div>
                 <input
@@ -144,19 +135,19 @@ export const AuthModal: React.FC<AuthModalProps> = ({
                   required
                   value={name}
                   onChange={(e) => setName(e.target.value)}
-                  placeholder={isPersian ? 'مثلاً: علی رضایی' : 'e.g. Alex Morgan'}
-                  className="w-full bg-neutral-50 dark:bg-neutral-900 border border-neutral-300 dark:border-neutral-700 rounded-xl py-2 pl-9 pr-3 rtl:pr-9 rtl:pl-3 text-xs text-neutral-900 dark:text-white placeholder-neutral-400 focus:outline-none focus:border-black dark:focus:border-white transition-colors"
+                  placeholder="e.g. Alex Rivera"
+                  className="w-full bg-neutral-50 border border-neutral-200 rounded-xl py-2 pl-9 pr-3 text-xs text-neutral-900 placeholder-neutral-400 focus:outline-none focus:border-black transition-colors"
                 />
               </div>
             </div>
           )}
 
           <div>
-            <label className="block text-xs font-semibold text-neutral-700 dark:text-neutral-300 mb-1">
-              {isPersian ? 'آدرس ایمیل' : 'Email Address'}
+            <label className="block text-xs font-bold text-neutral-700 mb-1">
+              Email Address
             </label>
             <div className="relative">
-              <div className="absolute inset-y-0 left-0 rtl:left-auto rtl:right-0 pl-3 rtl:pr-3 flex items-center pointer-events-none text-neutral-400">
+              <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none text-neutral-400">
                 <Mail className="w-4 h-4" />
               </div>
               <input
@@ -164,18 +155,18 @@ export const AuthModal: React.FC<AuthModalProps> = ({
                 required
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
-                placeholder="name@company.com"
-                className="w-full bg-neutral-50 dark:bg-neutral-900 border border-neutral-300 dark:border-neutral-700 rounded-xl py-2 pl-9 pr-3 rtl:pr-9 rtl:pl-3 text-xs text-neutral-900 dark:text-white placeholder-neutral-400 focus:outline-none focus:border-black dark:focus:border-white transition-colors"
+                placeholder="alex@company.com"
+                className="w-full bg-neutral-50 border border-neutral-200 rounded-xl py-2 pl-9 pr-3 text-xs text-neutral-900 placeholder-neutral-400 focus:outline-none focus:border-black transition-colors"
               />
             </div>
           </div>
 
           <div>
-            <label className="block text-xs font-semibold text-neutral-700 dark:text-neutral-300 mb-1">
-              {isPersian ? 'رمز عبور' : 'Password'}
+            <label className="block text-xs font-bold text-neutral-700 mb-1">
+              Password
             </label>
             <div className="relative">
-              <div className="absolute inset-y-0 left-0 rtl:left-auto rtl:right-0 pl-3 rtl:pr-3 flex items-center pointer-events-none text-neutral-400">
+              <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none text-neutral-400">
                 <Lock className="w-4 h-4" />
               </div>
               <input
@@ -184,7 +175,7 @@ export const AuthModal: React.FC<AuthModalProps> = ({
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
                 placeholder="••••••••"
-                className="w-full bg-neutral-50 dark:bg-neutral-900 border border-neutral-300 dark:border-neutral-700 rounded-xl py-2 pl-9 pr-3 rtl:pr-9 rtl:pl-3 text-xs text-neutral-900 dark:text-white placeholder-neutral-400 focus:outline-none focus:border-black dark:focus:border-white transition-colors"
+                className="w-full bg-neutral-50 border border-neutral-200 rounded-xl py-2 pl-9 pr-3 text-xs text-neutral-900 placeholder-neutral-400 focus:outline-none focus:border-black transition-colors"
               />
             </div>
           </div>
@@ -192,26 +183,20 @@ export const AuthModal: React.FC<AuthModalProps> = ({
           <button
             type="submit"
             disabled={loading}
-            className="w-full py-2.5 px-4 bg-black text-white dark:bg-white dark:text-black font-extrabold text-xs rounded-xl shadow-sm hover:opacity-90 flex items-center justify-center space-x-2 rtl:space-x-reverse transition-all disabled:opacity-50 cursor-pointer"
+            className="w-full py-3 px-4 bg-black text-white font-extrabold text-xs rounded-xl hover:bg-neutral-800 flex items-center justify-center space-x-2 transition-all disabled:opacity-50 cursor-pointer shadow-xs"
           >
             <span>
               {loading
-                ? isPersian
-                  ? 'در حال پردازش...'
-                  : 'Processing...'
+                ? 'Processing...'
                 : isRegister
-                ? isPersian
-                  ? 'ثبت‌نام و ورود'
-                  : 'Create Account'
-                : isPersian
-                ? 'ورود به حساب'
-                : 'Sign In'}
+                ? 'Create Free Account'
+                : 'Sign In to Account'}
             </span>
             <ArrowRight className="w-3.5 h-3.5" />
           </button>
         </form>
 
-        {/* Toggle Register / Login */}
+        {/* Switch Between Register and Login */}
         <div className="mt-5 text-center">
           <button
             type="button"
@@ -219,15 +204,11 @@ export const AuthModal: React.FC<AuthModalProps> = ({
               setIsRegister(!isRegister);
               setError(null);
             }}
-            className="text-xs font-medium text-neutral-500 hover:text-black dark:hover:text-white transition-colors cursor-pointer"
+            className="text-xs font-semibold text-neutral-500 hover:text-neutral-900 transition-colors cursor-pointer"
           >
             {isRegister
-              ? isPersian
-                ? 'قبلاً حساب ساخته‌اید؟ وارد شوید'
-                : 'Already have an account? Sign in'
-              : isPersian
-              ? 'حساب ندارید؟ ثبت‌نام کنید'
-              : "Don't have an account? Register"}
+              ? 'Already registered? Sign in here'
+              : "Don't have an account yet? Create one for free"}
           </button>
         </div>
       </div>
