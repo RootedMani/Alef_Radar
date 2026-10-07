@@ -5,6 +5,15 @@ import { fileURLToPath } from 'url';
 import { GoogleGenAI } from '@google/genai';
 import { defaultProductProfiles } from './src/data/defaultProfiles';
 import { programmingCourseDataset, eyeStrainGlassesDataset } from './src/data/demoDatasets';
+import {
+  findUserByEmail,
+  createUser,
+  updateUserPassword,
+  setPasswordResetCode,
+  verifyPasswordResetCode,
+  getAllProfiles,
+  saveNewProfile,
+} from './src/db/storage';
 
 dotenv.config();
 
@@ -16,26 +25,6 @@ const PORT = process.env.PORT || 3000;
 const isProduction = process.env.NODE_ENV === 'production';
 
 app.use(express.json());
-
-// In-memory persistent database for MVP
-const usersDB: Array<{ id: string; email: string; name: string; passwordHash: string; createdAt: string }> = [
-  {
-    id: 'user-demo-01',
-    email: 'contest@buildx.ir',
-    name: 'buildX Evaluator',
-    passwordHash: 'buildx2026',
-    createdAt: new Date().toISOString()
-  },
-  {
-    id: 'user-demo-02',
-    email: 'founder@opportunityradar.ai',
-    name: 'Growth Lead',
-    passwordHash: 'radar123',
-    createdAt: new Date().toISOString()
-  }
-];
-
-let profilesDB = [...defaultProductProfiles];
 
 // Initialize Google Gemini Client if key is available
 const apiKey = process.env.GEMINI_API_KEY;
@@ -54,7 +43,7 @@ const ai = apiKey
 const COST_PER_TOKEN = 0.00000025;
 
 /* =========================================================
-   AUTH ROUTES
+   AUTH ROUTES (PERSISTENT DATABASE BACKED)
    ========================================================= */
 app.post('/api/auth/register', (req, res) => {
   const { email, password, name } = req.body;
@@ -62,19 +51,12 @@ app.post('/api/auth/register', (req, res) => {
     return res.status(400).json({ error: 'Email and password are required' });
   }
 
-  const existing = usersDB.find((u) => u.email.toLowerCase() === email.toLowerCase());
+  const existing = findUserByEmail(email);
   if (existing) {
-    return res.status(409).json({ error: 'User with this email already exists' });
+    return res.status(409).json({ error: 'An account with this email already exists' });
   }
 
-  const newUser = {
-    id: `user-${Date.now()}`,
-    email,
-    name: name || email.split('@')[0],
-    passwordHash: password, // Simple auth for contest MVP
-    createdAt: new Date().toISOString()
-  };
-  usersDB.push(newUser);
+  const newUser = createUser(email, password, name);
 
   res.json({
     user: { id: newUser.id, email: newUser.email, name: newUser.name, createdAt: newUser.createdAt },
@@ -88,11 +70,9 @@ app.post('/api/auth/login', (req, res) => {
     return res.status(400).json({ error: 'Email and password are required' });
   }
 
-  const user = usersDB.find(
-    (u) => u.email.toLowerCase() === email.toLowerCase() && u.passwordHash === password
-  );
+  const user = findUserByEmail(email);
 
-  if (!user) {
+  if (!user || user.passwordHash !== password) {
     return res.status(401).json({ error: 'Invalid email or password' });
   }
 
@@ -102,12 +82,64 @@ app.post('/api/auth/login', (req, res) => {
   });
 });
 
-app.get('/api/auth/me', (req, res) => {
-  // Return the first demo user if requested
-  const user = usersDB[0];
+app.post('/api/auth/forgot-password', (req, res) => {
+  const { email } = req.body;
+  if (!email) {
+    return res.status(400).json({ error: 'Email is required' });
+  }
+
+  const user = findUserByEmail(email);
+  if (!user) {
+    return res.status(404).json({ error: 'No account found with this email address' });
+  }
+
+  // Generate a random 6-digit verification code
+  const resetCode = Math.floor(100000 + Math.random() * 900000).toString();
+  setPasswordResetCode(email, resetCode);
+
   res.json({
-    user: { id: user.id, email: user.email, name: user.name, createdAt: user.createdAt }
+    message: 'Password reset code generated successfully',
+    resetCode,
+    email: user.email
   });
+});
+
+app.post('/api/auth/reset-password', (req, res) => {
+  const { email, resetCode, newPassword } = req.body;
+  if (!email || !resetCode || !newPassword) {
+    return res.status(400).json({ error: 'Email, verification code, and new password are required' });
+  }
+
+  const isValid = verifyPasswordResetCode(email, resetCode);
+  if (!isValid) {
+    return res.status(400).json({ error: 'Invalid or expired verification reset code' });
+  }
+
+  updateUserPassword(email, newPassword);
+
+  res.json({
+    message: 'Password successfully updated. You can now log in.'
+  });
+});
+
+app.get('/api/auth/me', (req, res) => {
+  const authHeader = req.headers.authorization;
+  if (authHeader && authHeader.startsWith('Bearer token-user-')) {
+    const userId = authHeader.replace('Bearer token-', '');
+    const user = findUserByEmail('founder@opportunityradar.ai');
+    if (user) {
+      return res.json({
+        user: { id: user.id, email: user.email, name: user.name, createdAt: user.createdAt }
+      });
+    }
+  }
+  const defaultUser = findUserByEmail('founder@opportunityradar.ai');
+  if (defaultUser) {
+    return res.json({
+      user: { id: defaultUser.id, email: defaultUser.email, name: defaultUser.name, createdAt: defaultUser.createdAt }
+    });
+  }
+  res.status(404).json({ error: 'Not authenticated' });
 });
 
 /* =========================================================
@@ -121,7 +153,7 @@ app.get('/api/datasets', (req, res) => {
 });
 
 app.get('/api/profiles', (req, res) => {
-  res.json({ profiles: profilesDB });
+  res.json({ profiles: getAllProfiles() });
 });
 
 app.post('/api/profiles', (req, res) => {
@@ -129,8 +161,8 @@ app.post('/api/profiles', (req, res) => {
     ...req.body,
     id: req.body.id || `prof-${Date.now()}`
   };
-  profilesDB.unshift(newProfile);
-  res.json({ profile: newProfile });
+  const saved = saveNewProfile(newProfile);
+  res.json({ profile: saved });
 });
 
 /* =========================================================

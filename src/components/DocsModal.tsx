@@ -45,7 +45,7 @@ export const DocsModal: React.FC<DocsModalProps> = ({ initialTab = 'tech', onBac
       <div className="flex flex-col md:flex-row md:items-center justify-between pb-6 border-b border-neutral-200 gap-4">
         <div>
           <div className="text-xs font-mono font-bold uppercase tracking-wider text-neutral-400">
-            CONTEST SUBMISSION ARTIFACTS
+            SYSTEM ARCHITECTURE & PRODUCT SPECS
           </div>
           <h2 className="text-2xl font-black text-neutral-950 mt-1">
             Documentation & Investor Pitch

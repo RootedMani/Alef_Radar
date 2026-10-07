@@ -1,5 +1,5 @@
 import React from 'react';
-import { Radar, User as UserIcon, LogOut, ArrowRight } from 'lucide-react';
+import { Radar, User as UserIcon, LogOut, ArrowRight, ShieldCheck, Zap } from 'lucide-react';
 import { User } from '../types';
 
 interface NavbarProps {
@@ -32,12 +32,12 @@ export const Navbar: React.FC<NavbarProps> = ({
                 <Radar className="w-4 h-4 stroke-[2.5]" />
               </div>
               <div>
-                <div className="flex items-center space-x-1.5">
+                <div className="flex items-center space-x-2">
                   <span className="font-extrabold text-base tracking-tight text-neutral-950">
                     OpportunityRadar
                   </span>
-                  <span className="text-[10px] font-mono font-semibold px-1.5 py-0.2 rounded border border-neutral-300 text-neutral-600">
-                    buildX
+                  <span className="text-[10px] font-mono font-bold px-2 py-0.5 rounded-full bg-neutral-100 text-neutral-800 border border-neutral-200">
+                    AI AGENT
                   </span>
                 </div>
               </div>
@@ -54,7 +54,7 @@ export const Navbar: React.FC<NavbarProps> = ({
                   : 'text-neutral-600 hover:text-neutral-950 hover:bg-neutral-50'
               }`}
             >
-              Home
+              Overview
             </button>
 
             <button
@@ -76,7 +76,7 @@ export const Navbar: React.FC<NavbarProps> = ({
                   : 'text-neutral-600 hover:text-neutral-950 hover:bg-neutral-50'
               }`}
             >
-              Documentation & Pitch
+              Architecture & Specs
             </button>
           </nav>
 
@@ -86,10 +86,10 @@ export const Navbar: React.FC<NavbarProps> = ({
               <div className="flex items-center space-x-2">
                 <div className="flex items-center space-x-2 px-2.5 py-1.5 rounded-lg border border-neutral-200 bg-neutral-50">
                   <div className="w-5 h-5 rounded-full bg-black text-white flex items-center justify-center text-[10px] font-bold">
-                    {user.name.charAt(0).toUpperCase()}
+                    {user.name ? user.name.charAt(0).toUpperCase() : 'U'}
                   </div>
                   <span className="text-xs font-semibold text-neutral-900 leading-none">
-                    {user.name}
+                    {user.name || user.email.split('@')[0]}
                   </span>
                 </div>
 
