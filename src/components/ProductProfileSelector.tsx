@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Layers, Plus, Check, Volume2, ShieldAlert, Sparkles, Target, Zap, Edit3 } from 'lucide-react';
+import { Layers, Plus, Check, Volume2, ShieldAlert, Target, X } from 'lucide-react';
 import { ProductProfile } from '../types';
 
 interface ProductProfileSelectorProps {
@@ -47,8 +47,8 @@ export const ProductProfileSelector: React.FC<ProductProfileSelectorProps> = ({
       tagline: newProfile.tagline || 'Custom Product Profile',
       description: newProfile.description,
       targetAudience: newProfile.targetAudience?.length ? newProfile.targetAudience : ['Target users seeking solution'],
-      painPointsSolved: newProfile.painPointsSolved?.length ? newProfile.painPointsSolved : ['Inefficient workflows'],
-      keyFeatures: newProfile.keyFeatures || ['Core automated feature'],
+      painPointsSolved: newProfile.painPointsSolved?.length ? newProfile.painPointsSolved : ['Manual workflow bottleneck'],
+      keyFeatures: newProfile.keyFeatures || ['Core autonomous feature'],
       toneOfVoice: newProfile.toneOfVoice || 'empathic_expert',
       toneDescription: newProfile.toneDescription || 'Helpful, consultative expert',
       exclusionRules: newProfile.exclusionRules || ['Ignore unrelated spam'],
@@ -61,37 +61,40 @@ export const ProductProfileSelector: React.FC<ProductProfileSelectorProps> = ({
   };
 
   return (
-    <div className="bg-slate-900/90 border border-slate-800 rounded-2xl p-5 sm:p-6 shadow-xl">
-      <div className="flex flex-col sm:flex-row sm:items-center justify-between pb-4 mb-4 border-b border-slate-800 gap-3">
-        <div className="flex items-center space-x-2.5 rtl:space-x-reverse">
-          <div className="p-2 rounded-xl bg-cyan-500/10 text-cyan-400 border border-cyan-500/20">
-            <Layers className="w-5 h-5" />
+    <div className="bg-white dark:bg-neutral-950 border border-neutral-200 dark:border-neutral-800 rounded-2xl p-6 shadow-sm transition-colors">
+      
+      {/* Top Header */}
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between pb-4 mb-5 border-b border-neutral-200 dark:border-neutral-800 gap-3">
+        <div>
+          <div className="flex items-center space-x-2 rtl:space-x-reverse">
+            <span className="text-xs font-mono font-bold uppercase tracking-wider text-neutral-500 dark:text-neutral-400">
+              01 // Configuration
+            </span>
+            <span className="w-1 h-1 rounded-full bg-neutral-400" />
+            <span className="text-xs font-medium text-neutral-600 dark:text-neutral-300">
+              {activeProfile.category}
+            </span>
           </div>
-          <div>
-            <h2 className="text-base font-bold text-white flex items-center space-x-2 rtl:space-x-reverse">
-              <span>{isPersian ? 'پروفایل محصول فعال (Target Product Profile)' : 'Active Product Profile'}</span>
-              <span className="text-[11px] font-medium px-2 py-0.5 rounded-full bg-cyan-500/15 text-cyan-300 border border-cyan-500/30">
-                {activeProfile.category}
-              </span>
-            </h2>
-            <p className="text-xs text-slate-400 mt-0.5">
-              {isPersian
-                ? 'ایجنت بر اساس این پروفایل تصمیم می‌گیرد کدام پیام‌ها مرتبط، واجد شرایط و لایق پیشنهاد پاسخ هستند.'
-                : 'The agent uses this profile to evaluate contextual fit and generate tailor-made responses.'}
-            </p>
-          </div>
+          <h2 className="text-lg font-extrabold text-neutral-900 dark:text-white mt-1">
+            {isPersian ? 'پروفایل محصول هدف' : 'Active Product Profile'}
+          </h2>
+          <p className="text-xs text-neutral-500 dark:text-neutral-400 mt-0.5">
+            {isPersian
+              ? 'معیار تصمیم‌گیری ایجنت در تشخیص تناسب نیاز مخاطب با ارزش محصول'
+              : 'Used by the agent to calculate fit scores and tailor high-intent responses.'}
+          </p>
         </div>
 
         <button
           onClick={() => setShowCreateModal(true)}
-          className="inline-flex items-center space-x-1.5 rtl:space-x-reverse self-start sm:self-auto px-3 py-1.5 rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-200 border border-slate-700 text-xs font-semibold transition-colors"
+          className="inline-flex items-center space-x-1.5 rtl:space-x-reverse px-3 py-1.5 rounded-lg border border-neutral-300 dark:border-neutral-700 bg-neutral-100 dark:bg-neutral-900 hover:bg-neutral-200 dark:hover:bg-neutral-800 text-neutral-900 dark:text-white text-xs font-bold transition-all self-start sm:self-auto cursor-pointer"
         >
-          <Plus className="w-3.5 h-3.5 text-emerald-400" />
-          <span>{isPersian ? 'ساخت پروفایل جدید' : 'New Product Profile'}</span>
+          <Plus className="w-3.5 h-3.5" />
+          <span>{isPersian ? 'افزودن پروفایل جدید' : 'New Profile'}</span>
         </button>
       </div>
 
-      {/* Profiles Switcher Grid */}
+      {/* Profiles Cards Grid */}
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3 mb-5">
         {profiles.map((p) => {
           const isSelected = p.id === activeProfile.id;
@@ -99,42 +102,48 @@ export const ProductProfileSelector: React.FC<ProductProfileSelectorProps> = ({
             <div
               key={p.id}
               onClick={() => onSelectProfile(p)}
-              className={`cursor-pointer rounded-xl p-3.5 border transition-all text-left rtl:text-right relative ${
+              className={`cursor-pointer rounded-xl p-4 border transition-all text-left rtl:text-right relative ${
                 isSelected
-                  ? 'bg-slate-850 border-emerald-500 shadow-md shadow-emerald-500/10 ring-1 ring-emerald-500/40'
-                  : 'bg-slate-950/50 border-slate-800/80 hover:border-slate-700 hover:bg-slate-900/60'
+                  ? 'bg-neutral-50 dark:bg-neutral-900 border-neutral-950 dark:border-white shadow-sm ring-1 ring-neutral-950 dark:ring-white'
+                  : 'bg-white dark:bg-neutral-950 border-neutral-200 dark:border-neutral-800 hover:border-neutral-400 dark:hover:border-neutral-600'
               }`}
             >
-              {isSelected && (
-                <div className="absolute top-3 right-3 rtl:right-auto rtl:left-3 w-5 h-5 rounded-full bg-emerald-500 text-slate-950 flex items-center justify-center">
-                  <Check className="w-3 h-3 stroke-[3]" />
+              <div className="flex items-start justify-between">
+                <div className="text-xs font-extrabold text-neutral-900 dark:text-white pr-4 rtl:pr-0 rtl:pl-4">
+                  {p.name}
                 </div>
-              )}
-              <div className="text-xs font-bold text-slate-100 pr-6 rtl:pr-0 rtl:pl-6">{p.name}</div>
-              <div className="text-[11px] text-slate-400 mt-1 line-clamp-2 leading-relaxed">
-                {p.tagline}
+                {isSelected && (
+                  <div className="w-4 h-4 rounded-full bg-neutral-950 text-white dark:bg-white dark:text-neutral-950 flex items-center justify-center shrink-0">
+                    <Check className="w-2.5 h-2.5 stroke-[3]" />
+                  </div>
+                )}
               </div>
-              <div className="mt-2.5 flex items-center justify-between text-[10px] text-slate-500 border-t border-slate-800/60 pt-2">
-                <span>{p.pricePoint || 'Standard Tier'}</span>
-                <span className="capitalize text-emerald-400/80">{p.toneOfVoice.replace('_', ' ')}</span>
+
+              <p className="text-[11px] text-neutral-500 dark:text-neutral-400 mt-1.5 line-clamp-2 leading-relaxed">
+                {p.tagline}
+              </p>
+
+              <div className="mt-3 pt-2.5 border-t border-neutral-200 dark:border-neutral-800 flex items-center justify-between text-[10px] font-mono text-neutral-500 dark:text-neutral-400">
+                <span>{p.pricePoint || 'Standard'}</span>
+                <span className="capitalize">{p.toneOfVoice.replace('_', ' ')}</span>
               </div>
             </div>
           );
         })}
       </div>
 
-      {/* Active Profile Expanded Specifications */}
-      <div className="bg-slate-950/70 border border-slate-800 rounded-xl p-4">
+      {/* Detailed Specs of Selected Profile */}
+      <div className="p-4 rounded-xl border border-neutral-200 dark:border-neutral-800 bg-neutral-50/50 dark:bg-neutral-900/50 text-xs">
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
           <div>
-            <div className="flex items-center space-x-1.5 rtl:space-x-reverse text-xs font-bold text-emerald-400 mb-2">
+            <div className="flex items-center space-x-1.5 rtl:space-x-reverse font-bold text-neutral-900 dark:text-white mb-2">
               <Target className="w-3.5 h-3.5" />
-              <span>{isPersian ? 'مخاطبان هدف و نقاط درد حل‌شده:' : 'Target Audience & Pain Points Solved:'}</span>
+              <span>{isPersian ? 'نقاط درد حل‌شده توسط محصول:' : 'Pain Points Solved:'}</span>
             </div>
-            <ul className="space-y-1.5 text-xs text-slate-300">
+            <ul className="space-y-1.5 text-neutral-600 dark:text-neutral-300">
               {activeProfile.painPointsSolved.map((pp, i) => (
                 <li key={i} className="flex items-start space-x-1.5 rtl:space-x-reverse">
-                  <span className="text-emerald-500 mt-0.5">•</span>
+                  <span className="font-bold text-neutral-400">•</span>
                   <span>{pp}</span>
                 </li>
               ))}
@@ -142,39 +151,48 @@ export const ProductProfileSelector: React.FC<ProductProfileSelectorProps> = ({
           </div>
 
           <div>
-            <div className="flex items-center space-x-1.5 rtl:space-x-reverse text-xs font-bold text-amber-400 mb-2">
+            <div className="flex items-center space-x-1.5 rtl:space-x-reverse font-bold text-neutral-900 dark:text-white mb-2">
               <ShieldAlert className="w-3.5 h-3.5" />
-              <span>{isPersian ? 'قوانین منع و حذف (Exclusion Rules):' : 'Exclusion Rules (Spam Prevention):'}</span>
+              <span>{isPersian ? 'قوانین رد و عدم پیشنهاد (Exclusion Rules):' : 'Exclusion Rules (Anti-Spam):'}</span>
             </div>
-            <ul className="space-y-1.5 text-xs text-slate-400">
+            <ul className="space-y-1.5 text-neutral-500 dark:text-neutral-400">
               {activeProfile.exclusionRules.map((ex, i) => (
                 <li key={i} className="flex items-start space-x-1.5 rtl:space-x-reverse">
-                  <span className="text-amber-500 mt-0.5">✕</span>
+                  <span>✕</span>
                   <span>{ex}</span>
                 </li>
               ))}
             </ul>
 
-            <div className="mt-3 pt-3 border-t border-slate-800/80 flex items-center space-x-2 rtl:space-x-reverse text-xs text-slate-400">
-              <Volume2 className="w-3.5 h-3.5 text-cyan-400" />
-              <span className="font-semibold text-slate-300">{isPersian ? 'لحن پاسخ:' : 'Tone of Voice:'}</span>
-              <span className="text-cyan-300 capitalize">{activeProfile.toneOfVoice.replace('_', ' ')}</span>
+            <div className="mt-3 pt-3 border-t border-neutral-200 dark:border-neutral-800 flex items-center space-x-2 rtl:space-x-reverse text-neutral-500 dark:text-neutral-400">
+              <Volume2 className="w-3.5 h-3.5" />
+              <span>{isPersian ? 'لحن پاسخ ایجنت: ' : 'Tone: '}</span>
+              <span className="font-semibold text-neutral-800 dark:text-neutral-200 capitalize">
+                {activeProfile.toneOfVoice.replace('_', ' ')}
+              </span>
             </div>
           </div>
         </div>
       </div>
 
-      {/* Create Profile Modal */}
+      {/* Modal for Creating New Profile */}
       {showCreateModal && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-950/80 backdrop-blur-sm animate-fade-in">
-          <div className="relative w-full max-w-xl bg-slate-900 border border-slate-800 rounded-2xl p-6 shadow-2xl max-h-[90vh] overflow-y-auto">
-            <h3 className="text-base font-bold text-white mb-4">
-              {isPersian ? 'تعریف پروفایل محصول جدید' : 'Create Custom Product Profile'}
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/60 backdrop-blur-sm animate-fade-in">
+          <div className="relative w-full max-w-lg bg-white dark:bg-neutral-950 border border-neutral-200 dark:border-neutral-800 rounded-2xl p-6 shadow-2xl max-h-[90vh] overflow-y-auto">
+            <button
+              onClick={() => setShowCreateModal(false)}
+              className="absolute top-4 right-4 rtl:right-auto rtl:left-4 p-1 rounded-lg text-neutral-500 hover:text-black dark:hover:text-white"
+            >
+              <X className="w-5 h-5" />
+            </button>
+
+            <h3 className="text-base font-extrabold text-neutral-900 dark:text-white mb-4">
+              {isPersian ? 'تعریف پروفایل محصول جدید' : 'Create Product Profile'}
             </h3>
 
             <form onSubmit={handleCreateSubmit} className="space-y-4">
               <div>
-                <label className="block text-xs font-medium text-slate-300 mb-1">
+                <label className="block text-xs font-semibold text-neutral-700 dark:text-neutral-300 mb-1">
                   {isPersian ? 'نام محصول' : 'Product Name'}
                 </label>
                 <input
@@ -182,56 +200,40 @@ export const ProductProfileSelector: React.FC<ProductProfileSelectorProps> = ({
                   required
                   value={newProfile.name || ''}
                   onChange={(e) => setNewProfile({ ...newProfile, name: e.target.value })}
-                  placeholder="e.g. CodeForge AI Mentor"
-                  className="w-full bg-slate-950 border border-slate-800 rounded-xl px-3 py-2 text-xs text-slate-100"
+                  placeholder="e.g. NextPrompt SaaS"
+                  className="w-full bg-neutral-50 dark:bg-neutral-900 border border-neutral-300 dark:border-neutral-700 rounded-xl px-3 py-2 text-xs text-neutral-900 dark:text-white focus:outline-none focus:border-black dark:focus:border-white"
                 />
               </div>
 
               <div>
-                <label className="block text-xs font-medium text-slate-300 mb-1">
-                  {isPersian ? 'شعار / توضیح کوتاه' : 'Tagline'}
+                <label className="block text-xs font-semibold text-neutral-700 dark:text-neutral-300 mb-1">
+                  {isPersian ? 'شعار / معرفی کوتاه' : 'Tagline'}
                 </label>
                 <input
                   type="text"
                   value={newProfile.tagline || ''}
                   onChange={(e) => setNewProfile({ ...newProfile, tagline: e.target.value })}
-                  placeholder="e.g. AI-driven test generator for Go developers"
-                  className="w-full bg-slate-950 border border-slate-800 rounded-xl px-3 py-2 text-xs text-slate-100"
+                  placeholder="e.g. Autonomous AI test generator for developers"
+                  className="w-full bg-neutral-50 dark:bg-neutral-900 border border-neutral-300 dark:border-neutral-700 rounded-xl px-3 py-2 text-xs text-neutral-900 dark:text-white focus:outline-none focus:border-black dark:focus:border-white"
                 />
               </div>
 
               <div>
-                <label className="block text-xs font-medium text-slate-300 mb-1">
-                  {isPersian ? 'توضیحات جامع محصول' : 'Full Description & Value Proposition'}
+                <label className="block text-xs font-semibold text-neutral-700 dark:text-neutral-300 mb-1">
+                  {isPersian ? 'توضیحات جامع ارزش محصول' : 'Value Proposition Description'}
                 </label>
                 <textarea
                   rows={3}
                   required
                   value={newProfile.description || ''}
                   onChange={(e) => setNewProfile({ ...newProfile, description: e.target.value })}
-                  placeholder="Explain exactly how your product solves user problems..."
-                  className="w-full bg-slate-950 border border-slate-800 rounded-xl px-3 py-2 text-xs text-slate-100"
+                  placeholder="Explain exactly how your product solves user pain points..."
+                  className="w-full bg-neutral-50 dark:bg-neutral-900 border border-neutral-300 dark:border-neutral-700 rounded-xl px-3 py-2 text-xs text-neutral-900 dark:text-white focus:outline-none focus:border-black dark:focus:border-white"
                 />
               </div>
 
               <div>
-                <label className="block text-xs font-medium text-slate-300 mb-1">
-                  {isPersian ? 'مخاطبان هدف (با کاما جدا کنید)' : 'Target Audience (comma-separated)'}
-                </label>
-                <input
-                  type="text"
-                  value={audienceInput}
-                  onChange={(e) => {
-                    setAudienceInput(e.target.value);
-                    setNewProfile({ ...newProfile, targetAudience: e.target.value.split(',').map((s) => s.trim()) });
-                  }}
-                  placeholder="e.g. Junior devs, career changers, bootcamp grads"
-                  className="w-full bg-slate-950 border border-slate-800 rounded-xl px-3 py-2 text-xs text-slate-100"
-                />
-              </div>
-
-              <div>
-                <label className="block text-xs font-medium text-slate-300 mb-1">
+                <label className="block text-xs font-semibold text-neutral-700 dark:text-neutral-300 mb-1">
                   {isPersian ? 'نقاط درد حل‌شده (با کاما جدا کنید)' : 'Pain Points Solved (comma-separated)'}
                 </label>
                 <input
@@ -241,14 +243,14 @@ export const ProductProfileSelector: React.FC<ProductProfileSelectorProps> = ({
                     setPainPointInput(e.target.value);
                     setNewProfile({ ...newProfile, painPointsSolved: e.target.value.split(',').map((s) => s.trim()) });
                   }}
-                  placeholder="e.g. Tutorial hell, no code reviews, fear of blank screen"
-                  className="w-full bg-slate-950 border border-slate-800 rounded-xl px-3 py-2 text-xs text-slate-100"
+                  placeholder="e.g. Stuck in tutorial hell, no code reviews"
+                  className="w-full bg-neutral-50 dark:bg-neutral-900 border border-neutral-300 dark:border-neutral-700 rounded-xl px-3 py-2 text-xs text-neutral-900 dark:text-white focus:outline-none focus:border-black dark:focus:border-white"
                 />
               </div>
 
               <div>
-                <label className="block text-xs font-medium text-slate-300 mb-1">
-                  {isPersian ? 'قوانین عدم پاسخ و نادیده گرفتن (Exclusion Rules)' : 'Exclusion Rules'}
+                <label className="block text-xs font-semibold text-neutral-700 dark:text-neutral-300 mb-1">
+                  {isPersian ? 'قوانین رد و منع پاسخ (Exclusion Rules)' : 'Exclusion Rules'}
                 </label>
                 <input
                   type="text"
@@ -257,55 +259,55 @@ export const ProductProfileSelector: React.FC<ProductProfileSelectorProps> = ({
                     setExclusionInput(e.target.value);
                     setNewProfile({ ...newProfile, exclusionRules: e.target.value.split(',').map((s) => s.trim()) });
                   }}
-                  placeholder="e.g. Do not pitch to senior architects, skip spam bots"
-                  className="w-full bg-slate-950 border border-slate-800 rounded-xl px-3 py-2 text-xs text-slate-100"
+                  placeholder="e.g. Skip spam bots, ignore unrelated topics"
+                  className="w-full bg-neutral-50 dark:bg-neutral-900 border border-neutral-300 dark:border-neutral-700 rounded-xl px-3 py-2 text-xs text-neutral-900 dark:text-white focus:outline-none focus:border-black dark:focus:border-white"
                 />
               </div>
 
               <div className="grid grid-cols-2 gap-3">
                 <div>
-                  <label className="block text-xs font-medium text-slate-300 mb-1">
-                    {isPersian ? 'لحن پاسخ ایجنت' : 'Tone of Voice'}
+                  <label className="block text-xs font-semibold text-neutral-700 dark:text-neutral-300 mb-1">
+                    {isPersian ? 'لحن پاسخ' : 'Tone'}
                   </label>
                   <select
                     value={newProfile.toneOfVoice || 'empathic_expert'}
                     onChange={(e: any) => setNewProfile({ ...newProfile, toneOfVoice: e.target.value })}
-                    className="w-full bg-slate-950 border border-slate-800 rounded-xl px-3 py-2 text-xs text-slate-100"
+                    className="w-full bg-neutral-50 dark:bg-neutral-900 border border-neutral-300 dark:border-neutral-700 rounded-xl px-3 py-2 text-xs text-neutral-900 dark:text-white focus:outline-none"
                   >
-                    <option value="empathic_expert">Empathic Expert (همدل و متخصص)</option>
-                    <option value="friendly_peer">Friendly Peer (دوستانه و هم‌سطح)</option>
-                    <option value="consultative">Consultative (مشاوره‌ای)</option>
-                    <option value="direct_builder">Direct Builder (عملیاتی و سریع)</option>
+                    <option value="empathic_expert">Empathic Expert</option>
+                    <option value="friendly_peer">Friendly Peer</option>
+                    <option value="consultative">Consultative</option>
+                    <option value="direct_builder">Direct Builder</option>
                   </select>
                 </div>
 
                 <div>
-                  <label className="block text-xs font-medium text-slate-300 mb-1">
-                    {isPersian ? 'قیمت یا مدل فروش' : 'Pricing Tier / Hook'}
+                  <label className="block text-xs font-semibold text-neutral-700 dark:text-neutral-300 mb-1">
+                    {isPersian ? 'تعرفه / قیمت' : 'Pricing Tier'}
                   </label>
                   <input
                     type="text"
                     value={newProfile.pricePoint || ''}
                     onChange={(e) => setNewProfile({ ...newProfile, pricePoint: e.target.value })}
-                    placeholder="e.g. $49/mo or Free Trial"
-                    className="w-full bg-slate-950 border border-slate-800 rounded-xl px-3 py-2 text-xs text-slate-100"
+                    placeholder="e.g. $49/mo"
+                    className="w-full bg-neutral-50 dark:bg-neutral-900 border border-neutral-300 dark:border-neutral-700 rounded-xl px-3 py-2 text-xs text-neutral-900 dark:text-white focus:outline-none"
                   />
                 </div>
               </div>
 
-              <div className="flex justify-end space-x-2 rtl:space-x-reverse pt-4 border-t border-slate-800">
+              <div className="flex justify-end space-x-2 rtl:space-x-reverse pt-4 border-t border-neutral-200 dark:border-neutral-800">
                 <button
                   type="button"
                   onClick={() => setShowCreateModal(false)}
-                  className="px-4 py-2 bg-slate-800 hover:bg-slate-700 text-slate-300 text-xs font-semibold rounded-xl"
+                  className="px-4 py-2 border border-neutral-300 dark:border-neutral-700 rounded-xl text-xs font-semibold text-neutral-600 dark:text-neutral-300 hover:bg-neutral-100 dark:hover:bg-neutral-900"
                 >
                   {isPersian ? 'انصراف' : 'Cancel'}
                 </button>
                 <button
                   type="submit"
-                  className="px-4 py-2 bg-emerald-500 hover:bg-emerald-400 text-slate-950 text-xs font-bold rounded-xl shadow-lg shadow-emerald-500/20"
+                  className="px-4 py-2 bg-black text-white dark:bg-white dark:text-black rounded-xl text-xs font-bold shadow-sm hover:opacity-90"
                 >
-                  {isPersian ? 'ذخیره و فعال‌سازی' : 'Save & Activate'}
+                  {isPersian ? 'ذخیره و فعال‌سازی' : 'Save Profile'}
                 </button>
               </div>
             </form>

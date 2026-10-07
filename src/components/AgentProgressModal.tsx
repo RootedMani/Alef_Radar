@@ -1,5 +1,5 @@
-import React, { useEffect, useState } from 'react';
-import { Radar, Filter, Brain, Target, MessageSquare, DollarSign, CheckCircle2, AlertTriangle, XCircle, ArrowRight } from 'lucide-react';
+import React from 'react';
+import { Radar, Filter, Brain, Target, MessageSquare, Check } from 'lucide-react';
 
 interface AgentProgressModalProps {
   isOpen: boolean;
@@ -31,57 +31,45 @@ export const AgentProgressModal: React.FC<AgentProgressModalProps> = ({
   const stages = [
     {
       step: 1,
-      title: isPersian ? 'مرحله ۱: فیلتر ارزان' : 'Stage 1: Cheap Filter',
-      desc: isPersian ? 'حذف نویز، هرزنامه‌ها و پیام‌های نامرتبط با حداقل توکن' : 'Lexical & anti-spam triage (~80 tokens)',
+      title: isPersian ? 'مرحله ۱: غربالگری ارزان' : 'Stage 1: Cheap Filter',
+      desc: isPersian ? 'حذف نویز و هرزنامه‌ها با کمترین توکن' : 'Lexical & anti-spam triage (~80 tokens)',
       icon: Filter,
-      color: 'from-blue-500 to-cyan-500',
-      activeColor: 'border-cyan-400 bg-cyan-500/10 text-cyan-400',
     },
     {
       step: 2,
-      title: isPersian ? 'مرحله ۲: درک زمینه' : 'Stage 2: Context Analysis',
-      desc: isPersian ? 'استخراج قصد خرید، سطح مهارت و فوریت کاربر' : 'Deep problem, intent & constraint extraction',
+      title: isPersian ? 'مرحله ۲: درک زمینه و نیت' : 'Stage 2: Context Analysis',
+      desc: isPersian ? 'استخراج قصد خرید، مهارت و فوریت کاربر' : 'Pain points, intent & constraint extraction',
       icon: Brain,
-      color: 'from-purple-500 to-indigo-500',
-      activeColor: 'border-purple-400 bg-purple-500/10 text-purple-400',
     },
     {
       step: 3,
       title: isPersian ? 'مرحله ۳: ارزیابی تناسب' : 'Stage 3: Fit Evaluation',
-      desc: isPersian ? 'مقایسه با پروفایل محصول و امتیازدهی ۰ تا ۱۰۰' : 'Product profile matching & decision scoring',
+      desc: isPersian ? 'مقایسه با پروفایل و امتیازدهی ۰ تا ۱۰۰' : 'Product profile matching & decision scoring',
       icon: Target,
-      color: 'from-amber-500 to-orange-500',
-      activeColor: 'border-amber-400 bg-amber-500/10 text-amber-400',
     },
     {
       step: 4,
       title: isPersian ? 'مرحله ۴: تولید پاسخ' : 'Stage 4: Reply Generation',
-      desc: isPersian ? 'تولید پاسخ هوشمند و بدون اسپم برای فرصت‌های قوی' : 'Personalized authentic value-first response',
+      desc: isPersian ? 'تولید پاسخ هوشمند برای فرصت‌های قوی' : 'Authentic value-first tailored response',
       icon: MessageSquare,
-      color: 'from-emerald-500 to-teal-500',
-      activeColor: 'border-emerald-400 bg-emerald-500/10 text-emerald-400',
     },
   ];
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-950/85 backdrop-blur-md animate-fade-in">
-      <div className="relative w-full max-w-2xl bg-slate-900 border border-slate-800 rounded-3xl p-6 sm:p-8 shadow-2xl overflow-hidden">
+    <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/70 backdrop-blur-sm animate-fade-in">
+      <div className="relative w-full max-w-xl bg-white dark:bg-neutral-950 border border-neutral-300 dark:border-neutral-800 rounded-2xl p-6 sm:p-8 shadow-2xl transition-colors">
         
-        {/* Glow ambient circle */}
-        <div className="absolute -top-24 -right-24 w-60 h-60 bg-emerald-500/10 rounded-full blur-3xl pointer-events-none" />
-        <div className="absolute -bottom-24 -left-24 w-60 h-60 bg-cyan-500/10 rounded-full blur-3xl pointer-events-none" />
-
         {/* Top Header */}
-        <div className="flex items-center justify-between mb-6">
+        <div className="flex items-center justify-between mb-5">
           <div className="flex items-center space-x-3 rtl:space-x-reverse">
-            <div className="w-10 h-10 rounded-2xl bg-emerald-500/20 text-emerald-400 flex items-center justify-center border border-emerald-500/30">
-              <Radar className="w-5 h-5 animate-spin-slow" />
+            <div className="w-8 h-8 rounded-lg bg-black text-white dark:bg-white dark:text-black flex items-center justify-center">
+              <Radar className="w-4 h-4" />
             </div>
             <div>
-              <h3 className="text-lg font-extrabold text-white">
-                {isPersian ? 'اجرای پایپ‌لاین ایجنتیک OpportunityRadar' : 'OpportunityRadar Agent in Action'}
+              <h3 className="text-base font-extrabold text-neutral-900 dark:text-white">
+                {isPersian ? 'پایپ‌لاین ایجنت در حال اجرا' : 'OpportunityRadar Agent Pipeline'}
               </h3>
-              <p className="text-xs text-slate-400">
+              <p className="text-xs text-neutral-500 dark:text-neutral-400">
                 {isPersian
                   ? `در حال پردازش پیام ${currentMessageIndex + 1} از ${totalMessages}`
                   : `Processing message ${currentMessageIndex + 1} of ${totalMessages}...`}
@@ -89,23 +77,21 @@ export const AgentProgressModal: React.FC<AgentProgressModalProps> = ({
             </div>
           </div>
 
-          <div className="text-right rtl:text-left font-mono">
-            <span className="text-xs text-emerald-400 font-bold px-2 py-1 rounded bg-emerald-500/10 border border-emerald-500/20">
-              {progressPercent}% Complete
-            </span>
+          <div className="font-mono text-xs font-bold px-2 py-0.5 rounded border border-neutral-300 dark:border-neutral-700 bg-neutral-100 dark:bg-neutral-900 text-neutral-800 dark:text-neutral-200">
+            {progressPercent}%
           </div>
         </div>
 
-        {/* Global Progress Bar */}
-        <div className="w-full bg-slate-800/80 rounded-full h-2 mb-8 overflow-hidden">
+        {/* Minimalist Progress Track */}
+        <div className="w-full bg-neutral-200 dark:bg-neutral-800 rounded-full h-1.5 mb-6 overflow-hidden">
           <div
-            className="bg-gradient-to-r from-emerald-500 via-teal-400 to-cyan-400 h-2 rounded-full transition-all duration-300"
+            className="bg-black dark:bg-white h-1.5 rounded-full transition-all duration-300"
             style={{ width: `${progressPercent}%` }}
           />
         </div>
 
-        {/* 4 Multi-Stage Cascade Cards */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 mb-6">
+        {/* 4 Stages Grid */}
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-2.5 mb-6">
           {stages.map((st) => {
             const isCurrent = currentStageNumber === st.step;
             const isCompleted = currentStageNumber > st.step;
@@ -114,66 +100,60 @@ export const AgentProgressModal: React.FC<AgentProgressModalProps> = ({
             return (
               <div
                 key={st.step}
-                className={`p-3.5 rounded-2xl border transition-all relative ${
+                className={`p-3 rounded-xl border transition-all text-left rtl:text-right ${
                   isCurrent
-                    ? `${st.activeColor} ring-1 ring-current shadow-lg`
+                    ? 'border-neutral-950 dark:border-white bg-neutral-100 dark:bg-neutral-900 shadow-sm'
                     : isCompleted
-                    ? 'bg-slate-950/60 border-slate-800 text-slate-300'
-                    : 'bg-slate-950/30 border-slate-900 text-slate-600'
+                    ? 'border-neutral-200 dark:border-neutral-800 bg-neutral-50 dark:bg-neutral-950 text-neutral-500 dark:text-neutral-400'
+                    : 'border-neutral-200/60 dark:border-neutral-900 bg-transparent opacity-40'
                 }`}
               >
                 <div className="flex items-center justify-between mb-1">
-                  <div className="flex items-center space-x-2 rtl:space-x-reverse">
-                    <Icon className="w-4 h-4" />
-                    <span className="text-xs font-bold">{st.title}</span>
+                  <div className="flex items-center space-x-2 rtl:space-x-reverse font-bold text-xs text-neutral-900 dark:text-white">
+                    <Icon className="w-3.5 h-3.5" />
+                    <span>{st.title}</span>
                   </div>
                   {isCurrent && (
-                    <span className="w-2 h-2 rounded-full bg-emerald-400 animate-ping" />
+                    <span className="w-2 h-2 rounded-full bg-black dark:bg-white animate-pulse" />
                   )}
                   {isCompleted && (
-                    <CheckCircle2 className="w-3.5 h-3.5 text-emerald-400" />
+                    <Check className="w-3.5 h-3.5 text-neutral-900 dark:text-white stroke-[2.5]" />
                   )}
                 </div>
-                <p className="text-[11px] text-slate-400 leading-tight">{st.desc}</p>
+                <p className="text-[11px] text-neutral-500 dark:text-neutral-400 leading-tight">{st.desc}</p>
               </div>
             );
           })}
         </div>
 
-        {/* Cost Awareness & Telemetry Metrics Panel */}
-        <div className="bg-slate-950/80 border border-slate-800/80 rounded-2xl p-4 grid grid-cols-3 gap-3 text-center">
+        {/* Cost Awareness Minimal Telemetry */}
+        <div className="grid grid-cols-3 gap-2 p-3 rounded-xl border border-neutral-200 dark:border-neutral-800 bg-neutral-50 dark:bg-neutral-900/50 text-center font-mono">
           <div>
-            <div className="text-[10px] text-slate-500 uppercase font-semibold">
-              {isPersian ? 'توکن‌های مصرف‌شده' : 'Tokens Used'}
-            </div>
-            <div className="text-sm font-mono font-bold text-slate-200 mt-0.5">
+            <div className="text-[10px] uppercase text-neutral-400 font-semibold">Tokens</div>
+            <div className="text-xs font-bold text-neutral-900 dark:text-white mt-0.5">
               {runningTokens.toLocaleString()}
             </div>
           </div>
 
           <div>
-            <div className="text-[10px] text-slate-500 uppercase font-semibold">
-              {isPersian ? 'هزینه فعلی اجرای ایجنت' : 'Accumulated Cost'}
-            </div>
-            <div className="text-sm font-mono font-bold text-emerald-400 mt-0.5">
+            <div className="text-[10px] uppercase text-neutral-400 font-semibold">Cost (USD)</div>
+            <div className="text-xs font-bold text-neutral-900 dark:text-white mt-0.5">
               ${runningCost.toFixed(5)}
             </div>
           </div>
 
           <div>
-            <div className="text-[10px] text-slate-500 uppercase font-semibold">
-              {isPersian ? 'نویز حذف‌شده زودهنگام' : 'Early Discarded'}
-            </div>
-            <div className="text-sm font-mono font-bold text-cyan-400 mt-0.5">
-              {discardedCount} {isPersian ? 'پیام' : 'msgs'}
+            <div className="text-[10px] uppercase text-neutral-400 font-semibold">Early Discarded</div>
+            <div className="text-xs font-bold text-neutral-900 dark:text-white mt-0.5">
+              {discardedCount}
             </div>
           </div>
         </div>
 
-        <p className="text-center text-[11px] text-slate-500 mt-4">
+        <p className="text-center text-[11px] text-neutral-500 dark:text-neutral-400 mt-4 font-mono">
           {isPersian
-            ? '💡 سیستم آگاه از هزینه: پیام‌های فاقد ارزش در مرحله اول متوقف می‌شوند تا هزینه بیهوده LLM پرداخت نشود.'
-            : '💡 Cost-aware design: Non-relevant messages are halted at Stage 1, eliminating 80%+ of unnecessary LLM inference.'}
+            ? '// سیستم آگاه از هزینه: حذف زودهنگام نویزها مانع از هدررفت توکن‌های LLM می‌شود.'
+            : '// Cost-Aware Architecture: Halting noise early saves downstream LLM tokens.'}
         </p>
       </div>
     </div>
