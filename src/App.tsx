@@ -16,15 +16,8 @@ import { ArrowLeft, Radar, Sparkles, CheckCircle2, ShieldCheck } from 'lucide-re
 export default function App() {
   const [currentView, setCurrentView] = useState<'landing' | 'app' | 'docs'>('landing');
   
-  // Persisted user state from localStorage
-  const [user, setUser] = useState<User | null>(() => {
-    try {
-      const stored = localStorage.getItem('opportunityradar_user');
-      return stored ? JSON.parse(stored) : null;
-    } catch {
-      return null;
-    }
-  });
+  // User is not signed in by default
+  const [user, setUser] = useState<User | null>(null);
   
   const [showAuthModal, setShowAuthModal] = useState<boolean>(false);
 

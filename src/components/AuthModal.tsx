@@ -179,10 +179,28 @@ export const AuthModal: React.FC<AuthModalProps> = ({
               </button>
               <button
                 type="button"
-                onClick={() => handleQuickDemoLogin('alex@growthscale.io', 'scale2026', 'Alex Rivera')}
+                onClick={() => handleQuickDemoLogin('alex@growthscale.io', 'brandnewpassword123', 'Alex Rivera')}
                 className="py-1.5 px-2 bg-white hover:bg-neutral-100 border border-neutral-200 text-neutral-900 text-xs font-bold rounded-lg text-center transition-colors cursor-pointer shadow-2xs"
               >
                 Alex (Growth)
+              </button>
+            </div>
+            <div className="mt-2 pt-2 border-t border-neutral-200/70 text-center">
+              <button
+                type="button"
+                onClick={() => {
+                  onAuthSuccess({
+                    id: `guest-${Date.now()}`,
+                    email: 'guest@opportunityradar.ai',
+                    name: 'Guest Explorer',
+                    role: 'Visitor',
+                    createdAt: new Date().toISOString()
+                  });
+                  onClose();
+                }}
+                className="text-[11px] font-semibold text-neutral-500 hover:text-black transition-colors cursor-pointer"
+              >
+                Or continue as <span className="underline font-bold text-neutral-800">Guest Explorer</span> (No sign-in required) →
               </button>
             </div>
           </div>
