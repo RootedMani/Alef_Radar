@@ -1,0 +1,17 @@
+services:
+  - type: web
+    name: opportunityradar
+    runtime: node
+    plan: free
+    region: frankfurt
+    buildCommand: npm install && npm run build
+    startCommand: npm run start
+    envVars:
+      - key: NODE_ENV
+        value: production
+      - key: NODE_VERSION
+        value: 20.18.0
+      - key: PORT
+        value: 10000
+      - key: GEMINI_API_KEY
+        sync: false
