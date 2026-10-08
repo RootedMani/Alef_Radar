@@ -40,6 +40,15 @@ export const ProductProfileSelector: React.FC<ProductProfileSelectorProps> = ({
   const isRtl = language === 'fa';
   const t = translations[language];
 
+  const getToneLabel = (tone: string) => {
+    if (language !== 'fa') return tone;
+    if (tone === 'empathic_expert') return 'متخصص همدل';
+    if (tone === 'friendly_peer') return 'همتای صمیمی';
+    if (tone === 'consultative') return 'مشاوره‌ای';
+    if (tone === 'direct_builder') return 'سازنده مستقیم';
+    return tone;
+  };
+
   const handleCreateSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     if (!newProfile.name || !newProfile.description) return;
@@ -142,7 +151,7 @@ export const ProductProfileSelector: React.FC<ProductProfileSelectorProps> = ({
           <div className="flex items-center space-x-2 rtl:space-x-reverse text-xs">
             <span className="font-bold text-neutral-900 dark:text-zinc-100">{activeProfile.name}</span>
             <span className="text-neutral-400">•</span>
-            <span className="text-neutral-500 dark:text-zinc-400 font-mono text-[11px]">{activeProfile.toneOfVoice}</span>
+            <span className="text-neutral-500 dark:text-zinc-400 font-mono text-[11px]">{getToneLabel(activeProfile.toneOfVoice)}</span>
           </div>
 
           <div className="text-[11px] text-neutral-500 dark:text-zinc-400 font-mono">
@@ -274,10 +283,18 @@ export const ProductProfileSelector: React.FC<ProductProfileSelectorProps> = ({
                     onChange={(e: any) => setNewProfile({ ...newProfile, toneOfVoice: e.target.value })}
                     className="w-full bg-neutral-50 dark:bg-zinc-950 border border-neutral-300 dark:border-zinc-700 rounded-xl px-3 py-2 text-xs text-neutral-900 dark:text-zinc-100 focus:outline-none cursor-pointer"
                   >
-                    <option value="empathic_expert">Empathic Expert</option>
-                    <option value="friendly_peer">Friendly Peer</option>
-                    <option value="consultative">Consultative</option>
-                    <option value="direct_builder">Direct Builder</option>
+                    <option value="empathic_expert">
+                      {language === 'fa' ? 'متخصص همدل (Empathic Expert)' : 'Empathic Expert'}
+                    </option>
+                    <option value="friendly_peer">
+                      {language === 'fa' ? 'همتای صمیمی (Friendly Peer)' : 'Friendly Peer'}
+                    </option>
+                    <option value="consultative">
+                      {language === 'fa' ? 'مشاوره‌ای (Consultative)' : 'Consultative'}
+                    </option>
+                    <option value="direct_builder">
+                      {language === 'fa' ? 'سازنده مستقیم (Direct Builder)' : 'Direct Builder'}
+                    </option>
                   </select>
                 </div>
 

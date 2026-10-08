@@ -6,7 +6,16 @@ import {
   Code,
   DollarSign
 } from 'lucide-react';
-import { technicalDocs, businessPlanDocs, investorPitchDeck, submissionVideoGuide } from '../data/docsContent';
+import {
+  technicalDocs,
+  businessPlanDocs,
+  investorPitchDeck,
+  submissionVideoGuide,
+  technicalDocsFa,
+  businessPlanDocsFa,
+  investorPitchDeckFa,
+  submissionVideoGuideFa,
+} from '../data/docsContent';
 import { Language } from '../utils/i18n';
 
 interface DocsModalProps {
@@ -22,9 +31,14 @@ export const DocsModal: React.FC<DocsModalProps> = ({ initialTab = 'tech', onBac
 
   const isRtl = language === 'fa';
 
+  const currentTechDocs = language === 'fa' ? technicalDocsFa : technicalDocs;
+  const currentBusinessDocs = language === 'fa' ? businessPlanDocsFa : businessPlanDocs;
+  const currentPitchDeck = language === 'fa' ? investorPitchDeckFa : investorPitchDeck;
+  const currentVideoGuide = language === 'fa' ? submissionVideoGuideFa : submissionVideoGuide;
+
   const downloadVideoTxt = () => {
     const element = document.createElement('a');
-    const file = new Blob([submissionVideoGuide.txtFileContent], { type: 'text/plain' });
+    const file = new Blob([currentVideoGuide.txtFileContent], { type: 'text/plain' });
     element.href = URL.createObjectURL(file);
     element.download = 'opportunityradar_video_link.txt';
     document.body.appendChild(element);
@@ -33,7 +47,7 @@ export const DocsModal: React.FC<DocsModalProps> = ({ initialTab = 'tech', onBac
   };
 
   const copyVideoTxt = () => {
-    navigator.clipboard.writeText(submissionVideoGuide.txtFileContent);
+    navigator.clipboard.writeText(currentVideoGuide.txtFileContent);
     setCopiedTxt(true);
     setTimeout(() => setCopiedTxt(false), 2000);
   };
@@ -97,10 +111,10 @@ export const DocsModal: React.FC<DocsModalProps> = ({ initialTab = 'tech', onBac
         <div className="space-y-6">
           <div>
             <h3 className="text-xl font-black text-neutral-950 dark:text-white">
-              {technicalDocs.title}
+              {currentTechDocs.title}
             </h3>
             <p className="text-xs sm:text-sm text-neutral-600 dark:text-zinc-400 mt-2 leading-relaxed">
-              {technicalDocs.summary}
+              {currentTechDocs.summary}
             </p>
           </div>
 
@@ -108,7 +122,7 @@ export const DocsModal: React.FC<DocsModalProps> = ({ initialTab = 'tech', onBac
           <div className="p-5 rounded-2xl bg-neutral-50 dark:bg-zinc-950/60 border border-neutral-200 dark:border-zinc-800">
             <h4 className="text-xs font-bold text-neutral-950 dark:text-white uppercase tracking-wider mb-3 flex items-center space-x-2 rtl:space-x-reverse">
               <Code className="w-4 h-4" />
-              <span>Agentic State Graph (LangGraph Paradigm)</span>
+              <span>{language === 'fa' ? 'گراف حالت ایجنتی (الگوی استدلالی LangGraph)' : 'Agentic State Graph (LangGraph Paradigm)'}</span>
             </h4>
 
             <div className="font-mono text-xs text-neutral-800 dark:text-zinc-200 bg-white dark:bg-zinc-900 p-4 rounded-xl border border-neutral-200 dark:border-zinc-800 overflow-x-auto leading-relaxed" dir="ltr">
@@ -135,10 +149,12 @@ INPUT: CommunityMessageFeed (Reddit / Telegram / X / Discord)
 
           {/* Stages Grid */}
           <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
-            {technicalDocs.stages.map((st) => (
+            {currentTechDocs.stages.map((st) => (
               <div key={st.stage} className="p-4 rounded-xl border border-neutral-200 dark:border-zinc-800 bg-neutral-50/60 dark:bg-zinc-950/40 space-y-1.5">
                 <div className="flex items-center justify-between">
-                  <span className="font-bold text-xs font-mono text-neutral-950 dark:text-white">STAGE 0{st.stage}</span>
+                  <span className="font-bold text-xs font-mono text-neutral-950 dark:text-white">
+                    {language === 'fa' ? `مرحله ۰${st.stage}` : `STAGE 0${st.stage}`}
+                  </span>
                   <span className="text-[10px] font-mono text-neutral-600 dark:text-zinc-400 bg-white dark:bg-zinc-800 px-2 py-0.5 rounded border border-neutral-200 dark:border-zinc-700">
                     {st.costPerMsg}
                   </span>
@@ -148,7 +164,7 @@ INPUT: CommunityMessageFeed (Reddit / Telegram / X / Discord)
                   {st.objective}
                 </p>
                 <div className="text-[11px] text-neutral-500 dark:text-zinc-400 font-mono pt-1.5 border-t border-neutral-200 dark:border-zinc-800">
-                  Exit rule: {st.decisionRules}
+                  {language === 'fa' ? 'شرط تصمیم: ' : 'Exit rule: '} {st.decisionRules}
                 </div>
               </div>
             ))}
@@ -158,10 +174,10 @@ INPUT: CommunityMessageFeed (Reddit / Telegram / X / Discord)
           <div className="p-5 rounded-2xl border border-neutral-300 dark:border-zinc-700 bg-neutral-50 dark:bg-zinc-950/60">
             <h4 className="text-xs font-bold text-neutral-950 dark:text-white mb-2 uppercase tracking-wider flex items-center space-x-2 rtl:space-x-reverse">
               <DollarSign className="w-4 h-4" />
-              <span>Cost Awareness Mathematical Proof</span>
+              <span>{language === 'fa' ? 'اثبات ریاضی بهینگی هزینه و مصرف توکن' : 'Cost Awareness Mathematical Proof'}</span>
             </h4>
-            <pre className="text-xs font-mono text-neutral-800 dark:text-zinc-200 whitespace-pre-wrap leading-relaxed" dir="ltr">
-              {technicalDocs.costEfficiencyModel.trim()}
+            <pre className="text-xs font-mono text-neutral-800 dark:text-zinc-200 whitespace-pre-wrap leading-relaxed" dir={language === 'fa' ? 'rtl' : 'ltr'}>
+              {currentTechDocs.costEfficiencyModel.trim()}
             </pre>
           </div>
         </div>
@@ -172,10 +188,10 @@ INPUT: CommunityMessageFeed (Reddit / Telegram / X / Discord)
         <div className="space-y-6">
           <div>
             <h3 className="text-xl font-black text-neutral-950 dark:text-white">
-              {businessPlanDocs.title}
+              {currentBusinessDocs.title}
             </h3>
             <p className="text-xs sm:text-sm text-neutral-600 dark:text-zinc-400 mt-2 leading-relaxed">
-              {businessPlanDocs.executiveSummary}
+              {currentBusinessDocs.executiveSummary}
             </p>
           </div>
 
@@ -183,29 +199,43 @@ INPUT: CommunityMessageFeed (Reddit / Telegram / X / Discord)
           <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
             <div className="p-4 bg-neutral-50 dark:bg-zinc-950/60 border border-neutral-200 dark:border-zinc-800 rounded-xl text-center">
               <div className="text-[10px] text-neutral-500 dark:text-zinc-400 uppercase font-mono font-bold">TAM</div>
-              <div className="text-lg font-black text-neutral-950 dark:text-white font-mono mt-1">$18.4 Billion</div>
-              <div className="text-[10px] text-neutral-500 dark:text-zinc-400 mt-0.5">Global Social Listening</div>
+              <div className="text-lg font-black text-neutral-950 dark:text-white font-mono mt-1">
+                {language === 'fa' ? '۱۸.۴ میلیارد دلار' : '$18.4 Billion'}
+              </div>
+              <div className="text-[10px] text-neutral-500 dark:text-zinc-400 mt-0.5">
+                {language === 'fa' ? 'شنود جهانی رسانه‌های اجتماعی' : 'Global Social Listening'}
+              </div>
             </div>
 
             <div className="p-4 bg-neutral-50 dark:bg-zinc-950/60 border border-neutral-200 dark:border-zinc-800 rounded-xl text-center">
               <div className="text-[10px] text-neutral-500 dark:text-zinc-400 uppercase font-mono font-bold">SAM</div>
-              <div className="text-lg font-black text-neutral-950 dark:text-white font-mono mt-1">$3.2 Billion</div>
-              <div className="text-[10px] text-neutral-500 dark:text-zinc-400 mt-0.5">Bootcamps, SaaS, DTC</div>
+              <div className="text-lg font-black text-neutral-950 dark:text-white font-mono mt-1">
+                {language === 'fa' ? '۳.۲ میلیارد دلار' : '$3.2 Billion'}
+              </div>
+              <div className="text-[10px] text-neutral-500 dark:text-zinc-400 mt-0.5">
+                {language === 'fa' ? 'بوت‌کمپ‌ها، ساس و برندهای DTC' : 'Bootcamps, SaaS, DTC'}
+              </div>
             </div>
 
             <div className="p-4 bg-neutral-50 dark:bg-zinc-950/60 border border-neutral-200 dark:border-zinc-800 rounded-xl text-center">
               <div className="text-[10px] text-neutral-500 dark:text-zinc-400 uppercase font-mono font-bold">SOM</div>
-              <div className="text-lg font-black text-neutral-950 dark:text-white font-mono mt-1">$48 Million</div>
-              <div className="text-[10px] text-neutral-500 dark:text-zinc-400 mt-0.5">Initial 3-Year Focus</div>
+              <div className="text-lg font-black text-neutral-950 dark:text-white font-mono mt-1">
+                {language === 'fa' ? '۴۸ میلیون دلار' : '$48 Million'}
+              </div>
+              <div className="text-[10px] text-neutral-500 dark:text-zinc-400 mt-0.5">
+                {language === 'fa' ? 'تمرکز اولیه ۳ سال نخست' : 'Initial 3-Year Focus'}
+              </div>
             </div>
           </div>
 
           {/* Problem vs Value Proposition */}
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             <div className="p-4 rounded-xl border border-neutral-200 dark:border-zinc-800 bg-neutral-50 dark:bg-zinc-950/60 space-y-2">
-              <h5 className="font-bold text-neutral-950 dark:text-white text-xs uppercase tracking-wider">Problem Validation</h5>
+              <h5 className="font-bold text-neutral-950 dark:text-white text-xs uppercase tracking-wider">
+                {language === 'fa' ? 'اعتبارسنجی مسئله' : 'Problem Validation'}
+              </h5>
               <ul className="space-y-2 text-xs text-neutral-600 dark:text-zinc-400">
-                {businessPlanDocs.problemValidation.map((p, i) => (
+                {currentBusinessDocs.problemValidation.map((p, i) => (
                   <li key={i} className="flex items-start space-x-2 rtl:space-x-reverse">
                     <span>—</span>
                     <span>{p}</span>
@@ -219,7 +249,7 @@ INPUT: CommunityMessageFeed (Reddit / Telegram / X / Discord)
                 {language === 'fa' ? 'مزیت رقابتی الف رادار' : 'Alef Radar Advantage'}
               </h5>
               <ul className="space-y-2 text-xs text-neutral-600 dark:text-zinc-400">
-                {businessPlanDocs.valueProposition.map((v, i) => (
+                {currentBusinessDocs.valueProposition.map((v, i) => (
                   <li key={i} className="flex items-start space-x-2 rtl:space-x-reverse">
                     <span>✓</span>
                     <span>{v}</span>
@@ -231,9 +261,11 @@ INPUT: CommunityMessageFeed (Reddit / Telegram / X / Discord)
 
           {/* Pricing Tiers */}
           <div className="p-5 rounded-2xl border border-neutral-200 dark:border-zinc-800 bg-neutral-50 dark:bg-zinc-950/60 space-y-3">
-            <h5 className="font-bold text-neutral-950 dark:text-white text-xs uppercase tracking-wider">Monetization & SaaS Pricing Tiers</h5>
+            <h5 className="font-bold text-neutral-950 dark:text-white text-xs uppercase tracking-wider">
+              {language === 'fa' ? 'مدل درآمدی و پلن‌های قیمت‌گذاری SaaS' : 'Monetization & SaaS Pricing Tiers'}
+            </h5>
             <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
-              {businessPlanDocs.revenueModel.map((tier, idx) => (
+              {currentBusinessDocs.revenueModel.map((tier, idx) => (
                 <div key={idx} className="p-3.5 bg-white dark:bg-zinc-900 border border-neutral-200 dark:border-zinc-800 rounded-xl">
                   <div className="font-bold text-xs text-neutral-950 dark:text-white">{tier.tier}</div>
                   <p className="text-[11px] text-neutral-600 dark:text-zinc-400 mt-2 leading-relaxed">{tier.features}</p>
@@ -250,12 +282,12 @@ INPUT: CommunityMessageFeed (Reddit / Telegram / X / Discord)
           <div className="border-b border-neutral-200 dark:border-zinc-800 pb-4 flex flex-col sm:flex-row sm:items-center justify-between gap-2">
             <div>
               <h3 className="text-xl font-black text-neutral-950 dark:text-white">
-                {investorPitchDeck.title}
+                {currentPitchDeck.title}
               </h3>
             </div>
 
             <div className="flex items-center space-x-1 rtl:space-x-reverse">
-              {investorPitchDeck.slides.map((_, idx) => (
+              {currentPitchDeck.slides.map((_, idx) => (
                 <button
                   key={idx}
                   onClick={() => setActiveSlide(idx)}
@@ -275,17 +307,19 @@ INPUT: CommunityMessageFeed (Reddit / Telegram / X / Discord)
           <div className="min-h-[260px] p-6 sm:p-8 rounded-2xl border border-neutral-200 dark:border-zinc-800 bg-neutral-50 dark:bg-zinc-950/60 flex flex-col justify-between">
             <div>
               <div className="text-[10px] font-mono text-neutral-400 dark:text-zinc-500 uppercase tracking-widest mb-1">
-                SLIDE {investorPitchDeck.slides[activeSlide].slideNumber} / {investorPitchDeck.slides.length}
+                {language === 'fa' 
+                  ? `اسلاید ${currentPitchDeck.slides[activeSlide].slideNumber} از ${currentPitchDeck.slides.length}`
+                  : `SLIDE ${currentPitchDeck.slides[activeSlide].slideNumber} / ${currentPitchDeck.slides.length}`}
               </div>
               <h4 className="text-xl sm:text-2xl font-black text-neutral-950 dark:text-white">
-                {investorPitchDeck.slides[activeSlide].title}
+                {currentPitchDeck.slides[activeSlide].title}
               </h4>
               <p className="text-xs sm:text-sm font-medium text-neutral-600 dark:text-zinc-400 mt-1 mb-5">
-                {investorPitchDeck.slides[activeSlide].subtitle}
+                {currentPitchDeck.slides[activeSlide].subtitle}
               </p>
 
               <ul className="space-y-3">
-                {investorPitchDeck.slides[activeSlide].bulletPoints.map((bp, i) => (
+                {currentPitchDeck.slides[activeSlide].bulletPoints.map((bp, i) => (
                   <li key={i} className="flex items-start space-x-2.5 rtl:space-x-reverse text-xs sm:text-sm text-neutral-700 dark:text-zinc-300">
                     <span className="w-1.5 h-1.5 rounded-full bg-neutral-950 dark:bg-white mt-2 shrink-0" />
                     <span>{bp}</span>
@@ -304,7 +338,7 @@ INPUT: CommunityMessageFeed (Reddit / Telegram / X / Discord)
               </button>
 
               <button
-                disabled={activeSlide === investorPitchDeck.slides.length - 1}
+                disabled={activeSlide === currentPitchDeck.slides.length - 1}
                 onClick={() => setActiveSlide(activeSlide + 1)}
                 className="px-4 py-1.5 rounded-lg bg-black dark:bg-white text-white dark:text-black text-xs font-bold disabled:opacity-30 cursor-pointer"
               >
@@ -320,10 +354,12 @@ INPUT: CommunityMessageFeed (Reddit / Telegram / X / Discord)
         <div className="space-y-6">
           <div>
             <h3 className="text-xl font-black text-neutral-950 dark:text-white">
-              {submissionVideoGuide.videoTitle}
+              {currentVideoGuide.videoTitle}
             </h3>
             <p className="text-xs sm:text-sm text-neutral-600 dark:text-zinc-400 mt-1">
-              Downloadable .txt file containing the 5-minute video demonstration link required for buildX contest submission.
+              {language === 'fa' 
+                ? 'فایل متنی قابل دانلود شامل مشخصات سناریو و لینک ویدیوی معرفی ۵ دقیقه‌ای برای مسابقه buildX.'
+                : 'Downloadable .txt file containing the 5-minute video demonstration link required for buildX contest submission.'}
             </p>
           </div>
 
@@ -355,21 +391,21 @@ INPUT: CommunityMessageFeed (Reddit / Telegram / X / Discord)
           </div>
 
           {/* Text Preview */}
-          <div className="p-4 rounded-2xl border border-neutral-200 dark:border-zinc-800 bg-neutral-50 dark:bg-zinc-950/60 font-mono text-xs text-neutral-800 dark:text-zinc-200" dir="ltr">
+          <div className="p-4 rounded-2xl border border-neutral-200 dark:border-zinc-800 bg-neutral-50 dark:bg-zinc-950/60 font-mono text-xs text-neutral-800 dark:text-zinc-200" dir={language === 'fa' ? 'rtl' : 'ltr'}>
             <div className="text-[10px] text-neutral-400 dark:text-zinc-500 uppercase font-bold mb-2 pb-2 border-b border-neutral-200 dark:border-zinc-800 flex items-center justify-between">
-              <span>File Content: opportunityradar_video_link.txt</span>
-              <span>Ready for Submission ZIP</span>
+              <span>{language === 'fa' ? 'محتوای فایل: opportunityradar_video_link.txt' : 'File Content: opportunityradar_video_link.txt'}</span>
+              <span>{language === 'fa' ? 'آماده برای ارسال در ZIP' : 'Ready for Submission ZIP'}</span>
             </div>
-            <pre className="whitespace-pre-wrap leading-relaxed">{submissionVideoGuide.txtFileContent}</pre>
+            <pre className="whitespace-pre-wrap leading-relaxed">{currentVideoGuide.txtFileContent}</pre>
           </div>
 
           {/* Script Breakdown */}
           <div className="p-5 rounded-2xl border border-neutral-200 dark:border-zinc-800 bg-neutral-50/60 dark:bg-zinc-950/40 space-y-3">
             <h4 className="font-bold text-neutral-950 dark:text-white text-xs uppercase tracking-wider">
-              5-Minute Video Walkthrough Roadmap
+              {language === 'fa' ? 'برنامه زمان‌بندی ویدیوی دموی ۵ دقیقه‌ای' : '5-Minute Video Walkthrough Roadmap'}
             </h4>
             <div className="space-y-2">
-              {submissionVideoGuide.scriptStructure.map((item, i) => (
+              {currentVideoGuide.scriptStructure.map((item, i) => (
                 <div key={i} className="flex items-center space-x-3 rtl:space-x-reverse p-2.5 rounded-xl bg-white dark:bg-zinc-900 border border-neutral-200 dark:border-zinc-800 text-xs">
                   <span className="font-mono font-bold shrink-0 text-neutral-950 dark:text-white">{item.minute}</span>
                   <span className="text-neutral-600 dark:text-zinc-400">{item.topic}</span>

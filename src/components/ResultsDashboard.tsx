@@ -404,7 +404,7 @@ export const ResultsDashboard: React.FC<ResultsDashboardProps> = ({
                             ? 'bg-black dark:bg-white text-white dark:text-black shadow-xs'
                             : isWatch
                             ? 'border border-neutral-400 dark:border-zinc-600 text-neutral-800 dark:text-zinc-200 bg-neutral-100 dark:bg-zinc-800'
-                            : 'border border-neutral-200 dark:border-zinc-700 text-neutral-400 dark:text-zinc-500 bg-neutral-100 dark:bg-zinc-850'
+                            : 'border border-neutral-200 dark:border-zinc-700 text-neutral-400 dark:text-zinc-500 bg-neutral-100 dark:bg-zinc-900'
                         }`}
                       >
                         {isActNow ? (language === 'fa' ? '🔥 اقدام فوری' : '🔥 Act Now') : isWatch ? (language === 'fa' ? 'زیر نظر' : 'Watch') : (language === 'fa' ? 'هرزنامه' : 'Noise')}
@@ -541,7 +541,7 @@ export const ResultsDashboard: React.FC<ResultsDashboardProps> = ({
                   </button>
 
                   <span className="font-mono text-[11px] text-neutral-400 dark:text-zinc-500">
-                    Tokens: {item.totalTokensUsed} (${item.totalCostUsd.toFixed(6)})
+                    {language === 'fa' ? 'توکن‌ها:' : 'Tokens:'} {item.totalTokensUsed} (${item.totalCostUsd.toFixed(6)})
                   </span>
                 </div>
 
@@ -551,23 +551,29 @@ export const ResultsDashboard: React.FC<ResultsDashboardProps> = ({
                     <div className="grid grid-cols-1 md:grid-cols-3 gap-3">
                       <div className="p-3 bg-white dark:bg-zinc-900 border border-neutral-200 dark:border-zinc-800 rounded-xl">
                         <span className="font-bold text-neutral-950 dark:text-white block mb-1">{language === 'fa' ? 'مرحله ۱: فیلتر ارزان' : 'Stage 1: Cheap Filter'}</span>
-                        <div>Passed: {item.stage1?.passed ? 'YES' : 'NO'}</div>
-                        <div>Score: {item.stage1?.relevanceScore}/100</div>
-                        <div>Cost: ${item.stage1?.costUsd.toFixed(6)}</div>
+                        <div>{language === 'fa' ? 'وضعیت:' : 'Passed:'} {item.stage1?.passed ? (language === 'fa' ? 'پذیرفته شد' : 'YES') : (language === 'fa' ? 'رد شد' : 'NO')}</div>
+                        <div>{language === 'fa' ? 'امتیاز:' : 'Score:'} {item.stage1?.relevanceScore}/100</div>
+                        <div>{language === 'fa' ? 'هزینه:' : 'Cost:'} ${item.stage1?.costUsd.toFixed(6)}</div>
                       </div>
 
                       <div className="p-3 bg-white dark:bg-zinc-900 border border-neutral-200 dark:border-zinc-800 rounded-xl">
                         <span className="font-bold text-neutral-950 dark:text-white block mb-1">{language === 'fa' ? 'مرحله ۲: درک نیت' : 'Stage 2: Intent Understanding'}</span>
-                        <div>Intent: {item.stage2?.intentType || 'N/A'}</div>
-                        <div>Urgency: {item.stage2?.urgency || 'N/A'}</div>
-                        <div>Cost: ${item.stage2?.costUsd.toFixed(6) || 0}</div>
+                        <div>{language === 'fa' ? 'نیت:' : 'Intent:'} {item.stage2?.intentType || 'N/A'}</div>
+                        <div>
+                          {language === 'fa' ? 'فوریت:' : 'Urgency:'}{' '}
+                          {item.stage2?.urgency === 'HIGH' ? (language === 'fa' ? 'بالا (فوری)' : 'HIGH') : item.stage2?.urgency === 'MEDIUM' ? (language === 'fa' ? 'متوسط' : 'MEDIUM') : (item.stage2?.urgency || 'N/A')}
+                        </div>
+                        <div>{language === 'fa' ? 'هزینه:' : 'Cost:'} ${item.stage2?.costUsd.toFixed(6) || 0}</div>
                       </div>
 
                       <div className="p-3 bg-white dark:bg-zinc-900 border border-neutral-200 dark:border-zinc-800 rounded-xl">
                         <span className="font-bold text-neutral-950 dark:text-white block mb-1">{language === 'fa' ? 'مرحله ۳: تناسب محصول' : 'Stage 3: Profile Fit'}</span>
-                        <div>Fit Level: {item.stage3?.fitLevel || 'N/A'}</div>
-                        <div>Score: {item.stage3?.opportunityScore || 0}/100</div>
-                        <div>Cost: ${item.stage3?.costUsd.toFixed(6) || 0}</div>
+                        <div>
+                          {language === 'fa' ? 'سطح تطابق:' : 'Fit Level:'}{' '}
+                          {item.stage3?.fitLevel === 'STRONG_FIT' ? (language === 'fa' ? 'تطابق قوی' : 'STRONG_FIT') : item.stage3?.fitLevel === 'WEAK_FIT' ? (language === 'fa' ? 'تطابق ضعیف' : 'WEAK_FIT') : (item.stage3?.fitLevel || 'N/A')}
+                        </div>
+                        <div>{language === 'fa' ? 'امتیاز:' : 'Score:'} {item.stage3?.opportunityScore || 0}/100</div>
+                        <div>{language === 'fa' ? 'هزینه:' : 'Cost:'} ${item.stage3?.costUsd.toFixed(6) || 0}</div>
                       </div>
                     </div>
                   </div>
@@ -713,11 +719,19 @@ export const ResultsDashboard: React.FC<ResultsDashboardProps> = ({
                             : 'text-neutral-400 dark:text-zinc-500'
                         }`}
                       >
-                        {item.decision === 'ACT_NOW' ? (language === 'fa' ? 'اقدام فوری' : 'ACT NOW') : item.decision}
+                        {item.decision === 'ACT_NOW'
+                          ? (language === 'fa' ? 'اقدام فوری' : 'ACT NOW')
+                          : item.decision === 'WATCH'
+                          ? (language === 'fa' ? 'زیر نظر' : 'WATCH')
+                          : (language === 'fa' ? 'هرزنامه' : 'NOISE')}
                       </span>
                     </td>
                     <td className="p-3.5 font-mono text-[11px] text-neutral-600 dark:text-zinc-400 whitespace-nowrap">
-                      {item.stage2?.urgency || '—'}
+                      {item.stage2?.urgency === 'HIGH'
+                        ? (language === 'fa' ? 'فوری' : 'HIGH')
+                        : item.stage2?.urgency === 'MEDIUM'
+                        ? (language === 'fa' ? 'متوسط' : 'MEDIUM')
+                        : (item.stage2?.urgency || '—')}
                     </td>
                     <td className="p-3.5 pr-4 rtl:pl-4 text-right rtl:text-left whitespace-nowrap">
                       {item.stage4?.suggestedReply ? (

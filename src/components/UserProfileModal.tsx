@@ -286,7 +286,7 @@ export const UserProfileModal: React.FC<UserProfileModalProps> = ({
                 <span className={`text-xs font-extrabold px-2 py-0.5 rounded-full ${
                   plan === 'PRO' ? 'bg-black dark:bg-white text-white dark:text-black' : 'bg-neutral-200 dark:bg-zinc-800 text-neutral-800 dark:text-zinc-200'
                 }`}>
-                  {plan === 'PRO' ? 'Pro Growth ($49/mo)' : 'Free Starter ($0/mo)'}
+                  {plan === 'PRO' ? (language === 'fa' ? 'طرح رشد (۴۹ دلار/ماه)' : 'Pro Growth ($49/mo)') : (language === 'fa' ? 'طرح آغازین ($۰/ماه)' : 'Free Starter ($0/mo)')}
                 </span>
               </div>
 
@@ -306,7 +306,7 @@ export const UserProfileModal: React.FC<UserProfileModalProps> = ({
                 </div>
                 <div className="flex items-center justify-between text-[10px] text-neutral-400 mt-1">
                   <span>{language === 'fa' ? 'دوره ماهانه' : 'Monthly Cycle'}</span>
-                  <span>{language === 'fa' ? 'تمدید خودکار اول ماه میلادی' : 'Renews on 1st of each month'}</span>
+                  <span>{language === 'fa' ? 'تمدید خودکار اول هر ماه' : 'Renews on 1st of each month'}</span>
                 </div>
               </div>
             </div>
@@ -319,12 +319,12 @@ export const UserProfileModal: React.FC<UserProfileModalProps> = ({
                   : (darkMode ? 'border-zinc-800 bg-zinc-900/20' : 'border-neutral-200')
               }`}>
                 <div>
-                  <h4 className="text-xs font-black uppercase tracking-wider">Free Starter</h4>
-                  <div className="text-lg font-black mt-1">$0 <span className="text-xs text-neutral-500 font-normal">/ mo</span></div>
+                  <h4 className="text-xs font-black uppercase tracking-wider">{t.planFree}</h4>
+                  <div className="text-lg font-black mt-1">$0 <span className="text-xs text-neutral-500 font-normal">/ {language === 'fa' ? 'ماه' : 'mo'}</span></div>
                   <ul className="text-[11px] text-neutral-500 dark:text-zinc-400 mt-2 space-y-1">
-                    <li>• 500 posts / month</li>
-                    <li>• 2 Product Profiles</li>
-                    <li>• 4-Stage cascade scanner</li>
+                    <li>• {language === 'fa' ? '۵۰۰ پیام / ماه' : '500 posts / month'}</li>
+                    <li>• {language === 'fa' ? '۲ پروفایل محصول' : '2 Product Profiles'}</li>
+                    <li>• {language === 'fa' ? 'اسکنر آبشاری ۴ مرحله‌ای' : '4-Stage cascade scanner'}</li>
                   </ul>
                 </div>
                 {plan === 'PRO' && (
@@ -344,14 +344,16 @@ export const UserProfileModal: React.FC<UserProfileModalProps> = ({
               }`}>
                 <div>
                   <div className="flex items-center justify-between">
-                    <h4 className="text-xs font-black uppercase tracking-wider">Pro Growth</h4>
-                    <span className="text-[9px] font-bold px-1.5 py-0.2 rounded bg-black dark:bg-white text-white dark:text-black">HOT</span>
+                    <h4 className="text-xs font-black uppercase tracking-wider">{t.planPro}</h4>
+                    <span className="text-[9px] font-bold px-1.5 py-0.2 rounded bg-black dark:bg-white text-white dark:text-black">
+                      {language === 'fa' ? 'محبوب' : 'HOT'}
+                    </span>
                   </div>
-                  <div className="text-lg font-black mt-1">$49 <span className="text-xs text-neutral-500 font-normal">/ mo</span></div>
+                  <div className="text-lg font-black mt-1">$49 <span className="text-xs text-neutral-500 font-normal">/ {language === 'fa' ? 'ماه' : 'mo'}</span></div>
                   <ul className="text-[11px] text-neutral-600 dark:text-zinc-300 mt-2 space-y-1">
-                    <li>• 15,000 posts / month</li>
-                    <li>• Unlimited Profiles</li>
-                    <li>• Live webhook ingest API</li>
+                    <li>• {language === 'fa' ? '۱۵,۰۰۰ پیام / ماه' : '15,000 posts / month'}</li>
+                    <li>• {language === 'fa' ? 'پروفایل‌های نامحدود' : 'Unlimited Profiles'}</li>
+                    <li>• {language === 'fa' ? 'وب‌هوک و API زنده' : 'Live webhook ingest API'}</li>
                   </ul>
                 </div>
                 {plan === 'FREE' && (
@@ -386,7 +388,7 @@ export const UserProfileModal: React.FC<UserProfileModalProps> = ({
                 <button
                   type="button"
                   onClick={handleCopyKey}
-                  className="px-3 py-2 rounded-xl border border-neutral-300 dark:border-zinc-700 hover:bg-neutral-100 dark:hover:bg-zinc-800 text-xs font-bold flex items-center space-x-1 cursor-pointer"
+                  className="px-3 py-2 rounded-xl border border-neutral-300 dark:border-zinc-700 hover:bg-neutral-100 dark:hover:bg-zinc-800 text-xs font-bold flex items-center space-x-1 rtl:space-x-reverse cursor-pointer"
                 >
                   {copiedKey ? <Check className="w-3.5 h-3.5 text-emerald-500" /> : <Copy className="w-3.5 h-3.5" />}
                   <span>{copiedKey ? (language === 'fa' ? 'کپی شد' : 'Copied') : t.copyApiKey}</span>
@@ -402,8 +404,10 @@ export const UserProfileModal: React.FC<UserProfileModalProps> = ({
             <div className={`p-4 rounded-2xl border font-mono text-xs ${
               darkMode ? 'bg-zinc-900 border-zinc-800 text-zinc-300' : 'bg-neutral-50 border-neutral-200 text-neutral-700'
             }`}>
-              <span className="text-[10px] text-neutral-400 block mb-1">CURL INGESTION EXAMPLE:</span>
-              <pre className="text-[11px] overflow-x-auto whitespace-pre-wrap">
+              <span className="text-[10px] text-neutral-400 block mb-1">
+                {language === 'fa' ? 'نمونه فراخوانی با CURL:' : 'CURL INGESTION EXAMPLE:'}
+              </span>
+              <pre className="text-[11px] overflow-x-auto whitespace-pre-wrap" dir="ltr">
 {`curl -X POST /api/agent/run \\
   -H "Authorization: Bearer ${apiKey}" \\
   -H "Content-Type: application/json" \\

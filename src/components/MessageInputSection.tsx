@@ -239,11 +239,11 @@ export const MessageInputSection: React.FC<MessageInputSectionProps> = ({
         </div>
 
         {/* Primary Agent Cascade Execution Button */}
-        <div className="flex items-center space-x-2 rtl:space-x-reverse self-start lg:self-auto">
+        <div className="flex items-center space-x-2 rtl:space-x-reverse w-full sm:w-auto lg:self-auto">
           <button
             onClick={onRunAgent}
             disabled={isLoading || messages.length === 0}
-            className="inline-flex items-center justify-center space-x-2.5 rtl:space-x-reverse px-6 py-3.5 rounded-xl bg-black dark:bg-white text-white dark:text-black font-extrabold text-xs tracking-wider shadow-md hover:opacity-90 active:scale-[0.99] transition-all disabled:opacity-40 disabled:cursor-not-allowed cursor-pointer"
+            className="w-full sm:w-auto inline-flex items-center justify-center space-x-2.5 rtl:space-x-reverse px-6 py-3.5 rounded-xl bg-black dark:bg-white text-white dark:text-black font-extrabold text-xs tracking-wider shadow-md hover:opacity-90 active:scale-[0.99] transition-all disabled:opacity-40 disabled:cursor-not-allowed cursor-pointer"
           >
             <Play className="w-4 h-4 fill-current" />
             <span>
@@ -536,7 +536,7 @@ export const MessageInputSection: React.FC<MessageInputSectionProps> = ({
             {filteredMessages.map((msg) => (
               <div
                 key={msg.id}
-                className="p-4 hover:bg-neutral-50/80 dark:hover:bg-zinc-850/50 transition-colors flex items-start justify-between gap-3 group"
+                className="p-4 hover:bg-neutral-100/70 dark:hover:bg-zinc-800/60 transition-colors flex items-start justify-between gap-3 group"
               >
                 <div className="space-y-1.5 flex-1 min-w-0">
                   <div className="flex flex-wrap items-center gap-2 text-xs font-mono">

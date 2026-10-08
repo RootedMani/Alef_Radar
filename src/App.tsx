@@ -110,12 +110,29 @@ export default function App() {
   const isRtl = language === 'fa';
   const BackArrow = isRtl ? ArrowRight : ArrowLeft;
 
+  const handleSetLanguage = (newLang: Language) => {
+    setLanguage(newLang);
+    if (newLang === 'fa') {
+      if (messages === programmingCourseDataset) {
+        setMessages(programmingCourseDatasetFa);
+      } else if (messages === eyeStrainGlassesDataset) {
+        setMessages(eyeStrainGlassesDatasetFa);
+      }
+    } else {
+      if (messages === programmingCourseDatasetFa) {
+        setMessages(programmingCourseDataset);
+      } else if (messages === eyeStrainGlassesDatasetFa) {
+        setMessages(eyeStrainGlassesDataset);
+      }
+    }
+  };
+
   const handleSetMessages = (newMsgs: CommunityMessage[]) => {
     setMessages(newMsgs);
-    if (newMsgs === eyeStrainGlassesDataset) {
+    if (newMsgs === eyeStrainGlassesDataset || newMsgs === eyeStrainGlassesDatasetFa) {
       const eyewear = profiles.find((p) => p.id.includes('eyewear')) || profiles[1];
       if (eyewear) setActiveProfile(eyewear);
-    } else if (newMsgs === programmingCourseDataset) {
+    } else if (newMsgs === programmingCourseDataset || newMsgs === programmingCourseDatasetFa) {
       const bootcamp = profiles.find((p) => p.id.includes('bootcamp')) || profiles[0];
       if (bootcamp) setActiveProfile(bootcamp);
     }
@@ -123,10 +140,10 @@ export default function App() {
 
   const handleSelectProfile = (p: ProductProfile) => {
     setActiveProfile(p);
-    if (p.id.includes('eyewear') && messages === programmingCourseDataset) {
-      setMessages(eyeStrainGlassesDataset);
-    } else if (p.id.includes('bootcamp') && messages === eyeStrainGlassesDataset) {
-      setMessages(programmingCourseDataset);
+    if (p.id.includes('eyewear') && (messages === programmingCourseDataset || messages === programmingCourseDatasetFa)) {
+      setMessages(language === 'fa' ? eyeStrainGlassesDatasetFa : eyeStrainGlassesDataset);
+    } else if (p.id.includes('bootcamp') && (messages === eyeStrainGlassesDataset || messages === eyeStrainGlassesDatasetFa)) {
+      setMessages(language === 'fa' ? programmingCourseDatasetFa : programmingCourseDataset);
     }
   };
 
@@ -258,7 +275,7 @@ export default function App() {
         darkMode={darkMode}
         onToggleDarkMode={handleToggleDarkMode}
         language={language}
-        onSetLanguage={setLanguage}
+        onSetLanguage={handleSetLanguage}
       />
 
       {/* View Router */}
@@ -362,23 +379,25 @@ export default function App() {
       </main>
 
       {/* Professional SaaS Footer */}
-      <footer className="border-t border-neutral-200 dark:border-zinc-800 bg-white dark:bg-zinc-950 py-8 px-4 text-xs text-neutral-600 dark:text-zinc-400 transition-colors">
-        <div className="max-w-7xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-4 font-mono text-[11px]">
-          <div className="flex items-center space-x-2 rtl:space-x-reverse">
+      <footer className="border-t border-neutral-200 dark:border-zinc-800 bg-white dark:bg-zinc-950 py-6 sm:py-8 px-4 text-xs text-neutral-600 dark:text-zinc-400 transition-colors">
+        <div className="max-w-7xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-3 sm:gap-4 font-mono text-[11px]">
+          <div className="flex flex-wrap items-center justify-center sm:justify-start gap-2 text-center sm:text-left rtl:sm:text-right">
             <span className="font-extrabold text-neutral-950 dark:text-white">{t.appName}</span>
-            <span>//</span>
+            <span className="text-neutral-400 dark:text-zinc-600">//</span>
             <span>{t.tagline}</span>
           </div>
 
-          <div className="flex items-center space-x-3 rtl:space-x-reverse text-neutral-500 dark:text-zinc-400">
-            <span className="flex items-center space-x-1 rtl:space-x-reverse">
+          <div className="flex flex-wrap items-center justify-center sm:justify-end gap-x-3 gap-y-1 text-neutral-500 dark:text-zinc-400 text-center">
+            <span className="flex items-center space-x-1.5 rtl:space-x-reverse">
               <span className="w-2 h-2 rounded-full bg-emerald-500 inline-block animate-pulse"></span>
-              <span className="text-neutral-800 dark:text-zinc-200 font-semibold">99.98% System Uptime</span>
+              <span className="text-neutral-800 dark:text-zinc-200 font-semibold">
+                {language === 'fa' ? '۹۹.۹۸٪ پایداری سیستم' : '99.98% System Uptime'}
+              </span>
             </span>
             <span>•</span>
-            <span>Gemini 3.8 Flash</span>
+            <span>{language === 'fa' ? 'مدل Gemini 3.8 Flash' : 'Gemini 3.8 Flash'}</span>
             <span>•</span>
-            <span>SaaS Cloud Edition</span>
+            <span>{language === 'fa' ? 'نسخه ابری نرم‌افزار' : 'SaaS Cloud Edition'}</span>
           </div>
         </div>
       </footer>
@@ -388,6 +407,7 @@ export default function App() {
         isOpen={showAuthModal}
         onClose={() => setShowAuthModal(false)}
         onAuthSuccess={handleAuthSuccess}
+        language={language}
       />
 
       {/* Logged-In User Profile & Subscription Modal */}
@@ -414,6 +434,7 @@ export default function App() {
         runningCost={runningCost}
         discardedCount={discardedCount}
         actNowCount={actNowCount}
+        language={language}
       />
     </div>
   );

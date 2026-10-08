@@ -155,7 +155,9 @@ export const LandingPage: React.FC<LandingPageProps> = ({
           {/* Card 1 */}
           <div className="p-7 rounded-2xl bg-white dark:bg-zinc-900 border border-neutral-200 dark:border-zinc-800 shadow-xs flex flex-col justify-between">
             <div>
-              <div className="text-xs font-mono font-bold text-neutral-400 dark:text-zinc-500 mb-3">01 // PROFILE</div>
+              <div className="text-xs font-mono font-bold text-neutral-400 dark:text-zinc-500 mb-3">
+                {language === 'fa' ? '۰۱ // تعریف پروفایل' : '01 // PROFILE'}
+              </div>
               <h3 className="text-lg font-extrabold text-neutral-950 dark:text-white mb-2">
                 {t.step1Title}
               </h3>
@@ -172,7 +174,9 @@ export const LandingPage: React.FC<LandingPageProps> = ({
           {/* Card 2 */}
           <div className="p-7 rounded-2xl bg-white dark:bg-zinc-900 border border-neutral-950 dark:border-white shadow-sm flex flex-col justify-between ring-1 ring-neutral-950 dark:ring-white">
             <div>
-              <div className="text-xs font-mono font-bold text-neutral-950 dark:text-white mb-3">02 // 4-STAGE CASCADE</div>
+              <div className="text-xs font-mono font-bold text-neutral-950 dark:text-white mb-3">
+                {language === 'fa' ? '۰۲ // آبشار ۴ مرحله‌ای' : '02 // 4-STAGE CASCADE'}
+              </div>
               <h3 className="text-lg font-extrabold text-neutral-950 dark:text-white mb-2">
                 {t.step2Title}
               </h3>
@@ -189,7 +193,9 @@ export const LandingPage: React.FC<LandingPageProps> = ({
           {/* Card 3 */}
           <div className="p-7 rounded-2xl bg-white dark:bg-zinc-900 border border-neutral-200 dark:border-zinc-800 shadow-xs flex flex-col justify-between">
             <div>
-              <div className="text-xs font-mono font-bold text-neutral-400 dark:text-zinc-500 mb-3">03 // ENGAGEMENT</div>
+              <div className="text-xs font-mono font-bold text-neutral-400 dark:text-zinc-500 mb-3">
+                {language === 'fa' ? '۰۳ // تعامل و پاسخ' : '03 // ENGAGEMENT'}
+              </div>
               <h3 className="text-lg font-extrabold text-neutral-950 dark:text-white mb-2">
                 {t.step3Title}
               </h3>
@@ -306,7 +312,7 @@ export const LandingPage: React.FC<LandingPageProps> = ({
                   : 'Scraped from Reddit r/learnprogramming, Discord developer chats, and tech boards. Features career switchers in tutorial hell, questions, and crypto spam.'}
               </p>
               <div className="text-[11px] font-mono text-neutral-500 dark:text-zinc-400">
-                Target Profile: DevCraft Python Career Accelerator
+                {language === 'fa' ? 'پروفایل هدف: شتاب‌دهنده شغلی پایتون DevCraft' : 'Target Profile: DevCraft Python Career Accelerator'}
               </div>
             </div>
 
@@ -332,7 +338,7 @@ export const LandingPage: React.FC<LandingPageProps> = ({
                   : 'Twitter/X and Reddit threads from remote software engineers, analysts, and traders experiencing 10-hour screen migraines and blurred vision.'}
               </p>
               <div className="text-[11px] font-mono text-neutral-500 dark:text-zinc-400">
-                Target Profile: LuminaShield Precision Eyewear
+                {language === 'fa' ? 'پروفایل هدف: عینک‌های تخصصی LuminaShield' : 'Target Profile: LuminaShield Precision Eyewear'}
               </div>
             </div>
           </div>
@@ -393,7 +399,9 @@ export const LandingPage: React.FC<LandingPageProps> = ({
             <div>
               <div className="flex items-center justify-between">
                 <span className="text-xs font-bold text-neutral-950 dark:text-white uppercase tracking-wider">{t.planPro}</span>
-                <span className="text-[10px] font-mono font-bold bg-neutral-950 dark:bg-white text-white dark:text-black px-2 py-0.5 rounded-full">POPULAR</span>
+                <span className="text-[10px] font-mono font-bold bg-neutral-950 dark:bg-white text-white dark:text-black px-2 py-0.5 rounded-full">
+                  {language === 'fa' ? 'محبوب‌ترین' : 'POPULAR'}
+                </span>
               </div>
               <div className="mt-3 flex items-baseline">
                 <span className="text-3xl font-black text-neutral-950 dark:text-white font-mono">$49</span>
