@@ -42,7 +42,7 @@ Monolithic Approach (Running heavy LLM prompt on every message):
 - Average cost: 1,200 tokens * $0.0004 / 1k = $0.00048 per message.
 - 10,000 community messages/day = $4.80/day ($144.00/month).
 
-OpportunityRadar Multi-Stage Cascade:
+Alef Radar Multi-Stage Cascade:
 - 70% discarded at Stage 1: 7,000 * $0.000012 = $0.084
 - 15% discarded at Stage 2-3: 1,500 * $0.000085 = $0.1275
 - 15% reach Stage 4: 1,500 * $0.000220 = $0.330

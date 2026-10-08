@@ -21,7 +21,12 @@ import {
   HelpCircle
 } from 'lucide-react';
 import { CommunityMessage, ProductProfile } from '../types';
-import { programmingCourseDataset, eyeStrainGlassesDataset } from '../data/demoDatasets';
+import {
+  programmingCourseDataset,
+  eyeStrainGlassesDataset,
+  programmingCourseDatasetFa,
+  eyeStrainGlassesDatasetFa
+} from '../data/demoDatasets';
 import { parseCsv, parseJson, parseRawText } from '../utils/dataParser';
 import { Language, translations } from '../utils/i18n';
 
@@ -330,9 +335,10 @@ export const MessageInputSection: React.FC<MessageInputSectionProps> = ({
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
           <div
             onClick={() => {
-              onSetMessages(programmingCourseDataset);
+              const dataset = language === 'fa' ? programmingCourseDatasetFa : programmingCourseDataset;
+              onSetMessages(dataset);
               setUploadStatus({
-                message: language === 'fa' ? 'فید دوره‌های برنامه‌نویسی و پایتون (۸ پیام) بارگذاری شد.' : 'Loaded Programming & Career Pivot dataset (8 messages)',
+                message: language === 'fa' ? 'فید دوره‌های برنامه‌نویسی و پایتون (۸ پیام فارسی) بارگذاری شد.' : 'Loaded Programming & Career Pivot dataset (8 messages)',
                 isError: false
               });
             }}
@@ -356,9 +362,10 @@ export const MessageInputSection: React.FC<MessageInputSectionProps> = ({
 
           <div
             onClick={() => {
-              onSetMessages(eyeStrainGlassesDataset);
+              const dataset = language === 'fa' ? eyeStrainGlassesDatasetFa : eyeStrainGlassesDataset;
+              onSetMessages(dataset);
               setUploadStatus({
-                message: language === 'fa' ? 'فید خستگی چشم و عینک بلوکنترل (۸ پیام) بارگذاری شد.' : 'Loaded Eye Strain & Blue Light Eyewear dataset (8 messages)',
+                message: language === 'fa' ? 'فید خستگی چشم و عینک بلوکنترل (۸ پیام فارسی) بارگذاری شد.' : 'Loaded Eye Strain & Blue Light Eyewear dataset (8 messages)',
                 isError: false
               });
             }}

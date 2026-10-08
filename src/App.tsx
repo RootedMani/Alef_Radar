@@ -10,7 +10,12 @@ import { ResultsDashboard } from './components/ResultsDashboard';
 import { DocsModal } from './components/DocsModal';
 import { CommunityMessage, MessageAnalysis, ProductProfile, RunSummary, User } from './types';
 import { defaultProductProfiles } from './data/defaultProfiles';
-import { programmingCourseDataset, eyeStrainGlassesDataset } from './data/demoDatasets';
+import {
+  programmingCourseDataset,
+  eyeStrainGlassesDataset,
+  programmingCourseDatasetFa,
+  eyeStrainGlassesDatasetFa
+} from './data/demoDatasets';
 import { runAgentPipeline, saveProfile } from './services/agentApi';
 import { Language, translations } from './utils/i18n';
 import { ArrowLeft, ArrowRight, Radar, Sparkles, CheckCircle2, ShieldCheck } from 'lucide-react';
@@ -84,7 +89,9 @@ export default function App() {
 
   const [profiles, setProfiles] = useState<ProductProfile[]>(defaultProductProfiles);
   const [activeProfile, setActiveProfile] = useState<ProductProfile>(defaultProductProfiles[0]);
-  const [messages, setMessages] = useState<CommunityMessage[]>(programmingCourseDataset);
+  const [messages, setMessages] = useState<CommunityMessage[]>(() =>
+    language === 'fa' ? programmingCourseDatasetFa : programmingCourseDataset
+  );
 
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [runSummary, setRunSummary] = useState<RunSummary | null>(null);
@@ -263,9 +270,9 @@ export default function App() {
             onGetStarted={() => setCurrentView('app')}
             onExploreDatasets={(type) => {
               if (type === 'eyewear') {
-                handleSetMessages(eyeStrainGlassesDataset);
+                handleSetMessages(language === 'fa' ? eyeStrainGlassesDatasetFa : eyeStrainGlassesDataset);
               } else {
-                handleSetMessages(programmingCourseDataset);
+                handleSetMessages(language === 'fa' ? programmingCourseDatasetFa : programmingCourseDataset);
               }
               setCurrentView('app');
             }}

@@ -181,3 +181,185 @@ export const eyeStrainGlassesDataset: CommunityMessage[] = [
     repliesCount: 6
   }
 ];
+
+export const programmingCourseDatasetFa: CommunityMessage[] = [
+  {
+    id: 'prog-fa-01',
+    author: 'ali_career_pivot',
+    platform: 'Telegram',
+    sourceCommunity: 'گروه برنامه‌نویسان پایتون ایران',
+    timestamp: '۲ ساعت پیش',
+    text: 'سلام دوستان. ۲۹ سالمه و تو کار فروشم. الان ۴ ماهه ویدیوهای یوتیوب و آپارات رو برای یادگیری پایتون می‌بینم ولی تو جهنم آموزش‌ها (tutorial hell) گیر افتادم. هر بار VS Code خالی باز می‌کنم قفل می‌شم! واقعاً به یک دوره یا بوت‌کمپ منتورمحور با بررسی واقعی کد (code review) و تسک‌های پرتفولیو نیاز دارم تا بتونم به عنوان جونیور استخدام بشم. حاضرم هزینه کنم اگه واقعاً کارساز باشه.',
+    threadContext: 'بحث آزاد در مورد نحوه خروج از تله آموزش‌های مقدماتی',
+    likesOrUpvotes: 38,
+    repliesCount: 24
+  },
+  {
+    id: 'prog-fa-02',
+    author: 'sara_data_dev',
+    platform: 'Telegram',
+    sourceCommunity: 'کانال متخصصین داده و هوش مصنوعی',
+    timestamp: '۴ ساعت پیش',
+    text: 'کسی دوره یا کارگاه فشرده پایتون برای اتوماسیون سازمانی و کار با API و FastAPI سراغ داره؟ مدیرمون خواسته گزارش‌های هفتگی اکسل رو اتومات کنیم ولی تمام دوره‌های بازار سه هفته طول می‌کشن تا فقط حلقه while رو درس بدن! من یک دوره پروژه محور سریع می‌خوام.',
+    threadContext: 'درخواست راهنمایی در مورد مهارت‌های اتوماسیون بک‌اند',
+    likesOrUpvotes: 19,
+    repliesCount: 9
+  },
+  {
+    id: 'prog-fa-03',
+    author: 'reza_backend_learner',
+    platform: 'Twitter/X',
+    sourceCommunity: 'توییتر فارسی / برنامه‌نویسی',
+    timestamp: '۵ ساعت پیش',
+    text: 'دو ماهه دارم پایتون خودآموز می‌خونم ولی بدون کدریویو سنیرها و فیدبک مستقیم تیمی، پیشرفتم خیلی کنده. کسی بوت‌کمپ یا دوره معتبری می‌شناسه که جلسه زنده رفع اشکال و پروژه‌های بازار کار داشته باشه؟ ممنون می‌شم تجربیاتتون رو بگید.',
+    threadContext: 'رشته‌توییت تغییر شغل به برنامه‌نویسی',
+    likesOrUpvotes: 27,
+    repliesCount: 16
+  },
+  {
+    id: 'prog-fa-04',
+    author: 'tech_curious_arash',
+    platform: 'Reddit',
+    sourceCommunity: 'r/IranianDevs',
+    timestamp: '۶ ساعت پیش',
+    text: 'فکر می‌کنید تو پنج سال آینده راست جای C++ رو تو موتورهای بازی‌سازی می‌گیره؟ گلوگاه‌های عملکردی کجاست؟',
+    threadContext: 'گفتگوی عمومی معماری زبان‌های سیستمی',
+    likesOrUpvotes: 82,
+    repliesCount: 45
+  },
+  {
+    id: 'prog-fa-05',
+    author: 'newbie_mohammad',
+    platform: 'Telegram',
+    sourceCommunity: 'سوپرگروه رفع اشکال پایتون',
+    timestamp: '۸ ساعت پیش',
+    text: 'سلام دوستان. ارور SyntaxError: invalid syntax در خط ۱۲ دارم. چرا if x = 5 ارور میده؟ نیم ساعته روش گیرم.',
+    threadContext: 'پرسش مبتدی در گروه رفع اشکال',
+    likesOrUpvotes: 2,
+    repliesCount: 8
+  },
+  {
+    id: 'prog-fa-06',
+    author: 'crypto_airdrop_spam',
+    platform: 'Telegram',
+    sourceCommunity: 'کانال سیگنال و ایردراپ',
+    timestamp: '۱۰ ساعت پیش',
+    text: '🔥🔥 دریافت ۵۰۰۰ توکن رایگان سولانا همین الان! کیف‌پول رو وصل کن و پاداش فوری بگیر. فقط برای ۱۰۰ نفر اول! کلیک کنید: t.me/free_crypto_scam',
+    threadContext: 'پیام هرزنامه و ربات تبلیغاتی',
+    likesOrUpvotes: 0,
+    repliesCount: 0
+  },
+  {
+    id: 'prog-fa-07',
+    author: 'farhad_switch_job',
+    platform: 'LinkedIn',
+    sourceCommunity: 'شبکه متخصصین فناوری ایران',
+    timestamp: '۱۲ ساعت پیش',
+    text: 'کسی بعد از ۳۰ سالگی از رشته غیرمرتبط موفق شده وارد برنامه‌نویسی بشه؟ به دنبال دوره‌ای هستم که بدون هزینه‌های نجومی، منتورشیپ مستقیم و فیدبک سنیر ارائه بده.',
+    threadContext: 'پست انتقال تجربه شغلی در لینکدین',
+    likesOrUpvotes: 41,
+    repliesCount: 22
+  },
+  {
+    id: 'prog-fa-08',
+    author: 'frontend_hamid',
+    platform: 'Twitter/X',
+    sourceCommunity: 'فرانت‌اند دولوپرز فارسی',
+    timestamp: '۱۴ ساعت پیش',
+    text: 'تیلویند نسخه ۴ واقعاً محشره، کدهای CSS تمیزتر و سرعت کامپایل فوق‌العاده شده. شما بیشتر از کدوم کلاس‌ها استفاده می‌کنید؟',
+    threadContext: 'گپ و گفت ابزارهای فرانت‌اند',
+    likesOrUpvotes: 64,
+    repliesCount: 18
+  }
+];
+
+export const eyeStrainGlassesDatasetFa: CommunityMessage[] = [
+  {
+    id: 'eye-fa-01',
+    author: 'mina_frontend_work',
+    platform: 'Twitter/X',
+    sourceCommunity: 'توییتر فارسی / دورکاری',
+    timestamp: '۱ ساعت پیش',
+    text: 'امروز ۱۰ ساعت مداوم پای مانیتور بودم و چشمام مثل اینه که پر از خاک شده باشه می‌سوزه. هر شب شقیقه‌هام تیر می‌کشه. قطره اشک مصنوعی و قانون ۲۰-۲۰-۲۰ هم جواب نداده. عینک‌های بلوکات یا بلوکنترل واقعاً اثری دارن یا فقط تبلیغاته؟ چه برندی رو پیشنهاد می‌کنید برای کار طولانی با لپ‌تاپ؟',
+    threadContext: 'توییت در مورد خستگی چشم بعد از یک روز کاری سنگین',
+    likesOrUpvotes: 61,
+    repliesCount: 35
+  },
+  {
+    id: 'eye-fa-02',
+    author: 'parham_ui_designer',
+    platform: 'Telegram',
+    sourceCommunity: 'گروه طراحان محصول و UI',
+    timestamp: '۳ ساعت پیش',
+    text: 'از ۹ صبح تا ۸ شب پای فیگما و کد زدن هستم. شب‌ها چشمام قرمز و تار می‌شه. کسی تجربه واقعی استفاده از عینک‌های آنتی‌رفلکس با عدسی بلوکنترل باکیفیت داره؟ واقعاً سردرد و سوزش چشم رو برطرف می‌کنه یا هزینه اضافیه؟',
+    threadContext: 'بحث خستگی مانیتور در کانال طراحان',
+    likesOrUpvotes: 28,
+    repliesCount: 14
+  },
+  {
+    id: 'eye-fa-03',
+    author: 'trader_sina',
+    platform: 'Twitter/X',
+    sourceCommunity: 'معامله‌گران و تریدرهای کریپتو',
+    timestamp: '۴ ساعت پیش',
+    text: 'نگاه کردن به ۴ تا مانیتور از صبح تا عصر خواب شبانه‌م رو کاملاً به هم ریخته. ۲ ساعت تو تخت غلت می‌زنم با چشمای سوزان. عینکی می‌خوام که تابش خیره‌کننده مانیتور رو بگیره بدون اینکه رنگ چارت‌ها رو زرد و کدر کنه.',
+    threadContext: 'بحث ارگونومی ستاپ معاملاتی',
+    likesOrUpvotes: 22,
+    repliesCount: 9
+  },
+  {
+    id: 'eye-fa-04',
+    author: 'sunset_photo_lover',
+    platform: 'Twitter/X',
+    sourceCommunity: 'عکاسان منظره',
+    timestamp: '۶ ساعت پیش',
+    text: 'عکس غروب آفتاب امروز در کوهستان با لنز ۸۵ میلی‌متری. نور ساعت طلایی بی‌نظیر بود! 🌄✨',
+    threadContext: 'اشتراک‌گذاری عکس عکاسی',
+    likesOrUpvotes: 230,
+    repliesCount: 18
+  },
+  {
+    id: 'eye-fa-05',
+    author: 'danial_office_ergo',
+    platform: 'Reddit',
+    sourceCommunity: 'r/Ergonomics',
+    timestamp: '۷ ساعت پیش',
+    text: 'صندلی ارگونومیک جدید گرفتم. شما برای مانیتور ۳۲ اینچ 4K چه فاصله استانداردی از چشم رو رعایت می‌کنید؟',
+    threadContext: 'گفتگو در مورد ابعاد میز و مانیتور',
+    likesOrUpvotes: 14,
+    repliesCount: 10
+  },
+  {
+    id: 'eye-fa-06',
+    author: 'spam_takhfif_bot',
+    platform: 'Telegram',
+    sourceCommunity: 'کانال حراج و تخفیف روزانه',
+    timestamp: '۹ ساعت پیش',
+    text: '⚡ کد تخفیف شگفت‌انگیز: ۸۰٪ تخفیف قاب گوشی قاب ژله‌ای در جشنواره نوروزی! زمان محدود، لینک زیر را لمس کنید: bit.ly/takhfif-promo',
+    threadContext: 'پیام تبلیغاتی ربات حراج',
+    likesOrUpvotes: 1,
+    repliesCount: 0
+  },
+  {
+    id: 'eye-fa-07',
+    author: 'maryam_phd_student',
+    platform: 'Telegram',
+    sourceCommunity: 'گروه دانشجویان دکتری و پژوهشگران',
+    timestamp: '۱۱ ساعت پیش',
+    text: 'نوشتن رساله دکتری یعنی روزی ۱۲ ساعت خوندن مقالات PDF روی صفحه تبلت و لپ‌تاپ. تا ساعت ۴ بعدازظهر چشمام خسته و میگرن شروع می‌شه. چشم‌پزشک عینک بدون نمره با پوشش ضدبازتاب بلوکنترل توصیه کرده. کسی باهاش نتیجه گرفته؟',
+    threadContext: 'سلامت چشم در دوران ماراتن نگارش رساله',
+    likesOrUpvotes: 49,
+    repliesCount: 21
+  },
+  {
+    id: 'eye-fa-08',
+    author: 'ehsan_coder',
+    platform: 'Twitter/X',
+    sourceCommunity: 'استارتاپی‌های مستقل',
+    timestamp: '۱۳ ساعت پیش',
+    text: 'امروز فنجان چهارم اسپرسو رو خوردم. دو تا قابلیت کوچیک ریلیز کردیم و یک باگ ردیس رو فیکس کردیم. قهوه موتور توسعه است ☕🚀',
+    threadContext: 'گزارش روزانه توسعه‌دهنده',
+    likesOrUpvotes: 39,
+    repliesCount: 4
+  }
+];
