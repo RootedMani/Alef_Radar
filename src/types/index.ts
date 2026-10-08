@@ -7,6 +7,13 @@ export interface User {
   email: string;
   name: string;
   role?: string;
+  subscriptionPlan?: 'FREE' | 'PRO' | 'ENTERPRISE';
+  monthlyQuota?: {
+    used: number;
+    total: number;
+  };
+  apiKey?: string;
+  billingPeriodEnd?: string;
   createdAt: string;
 }
 

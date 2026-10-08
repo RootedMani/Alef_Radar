@@ -97,6 +97,19 @@ export function createUser(email: string, password: string, name?: string): Stor
   return newUser;
 }
 
+export function updateUserProfile(
+  email: string,
+  updates: { name?: string; subscriptionPlan?: 'FREE' | 'PRO' | 'ENTERPRISE' }
+): StoredUser | null {
+  const db = readDatabase();
+  const user = db.users.find((u) => u.email.toLowerCase() === email.toLowerCase());
+  if (!user) return null;
+  if (updates.name !== undefined) user.name = updates.name;
+  if (updates.subscriptionPlan !== undefined) user.subscriptionPlan = updates.subscriptionPlan;
+  writeDatabase(db);
+  return user;
+}
+
 export function updateUserPassword(email: string, newPassword: string): boolean {
   const db = readDatabase();
   const user = db.users.find((u) => u.email.toLowerCase() === email.toLowerCase());

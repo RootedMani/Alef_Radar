@@ -1,7 +1,7 @@
 export const technicalDocs = {
-  title: 'OpportunityRadar - Technical Architecture & Agent Specification',
-  version: '1.0.0-buildX-prod',
-  summary: 'OpportunityRadar utilizes a 4-stage cost-aware agentic pipeline orchestrated as a directed acyclic state graph (inspired by LangGraph principles). It minimizes token spend on irrelevant community traffic while dedicating reasoning depth to high-conviction sales opportunities.',
+  title: 'Alef Radar - Technical Architecture & Agent Specification',
+  version: '1.0.0-prod',
+  summary: 'Alef Radar utilizes a 4-stage cost-aware agentic pipeline orchestrated as a directed acyclic state graph (inspired by LangGraph principles). It minimizes token spend on irrelevant community traffic while dedicating reasoning depth to high-conviction sales opportunities.',
   stages: [
     {
       stage: 1,
@@ -60,8 +60,8 @@ OpportunityRadar Multi-Stage Cascade:
 };
 
 export const businessPlanDocs = {
-  title: 'OpportunityRadar - Business Plan & GTM Strategy',
-  executiveSummary: 'OpportunityRadar is an agentic social listening and proactive B2B/B2C lead generation engine. It turns public forums, Reddit subreddits, Telegram channels, and X/Twitter into an automated, zero-spam sales pipeline by detecting prospects at the exact moment of problem expression.',
+  title: 'Alef Radar - Business Plan & GTM Strategy',
+  executiveSummary: 'Alef Radar is an agentic social listening and proactive B2B/B2C lead generation engine. It turns public forums, Reddit subreddits, Telegram channels, and X/Twitter into an automated, zero-spam sales pipeline by detecting prospects at the exact moment of problem expression.',
   problemValidation: [
     'Entrepreneurs & sales teams waste 20+ hours weekly manually scrolling community groups for leads.',
     'Traditional social monitoring tools (Brand24, Mention) only do dumb keyword alerts, generating 95% false positives.',
@@ -84,11 +84,11 @@ export const businessPlanDocs = {
     { tier: 'Growth ($149/mo)', features: '5 Product Profiles, 25,000 messages/mo, multi-stage radar, 1-click reply posting integration' },
     { tier: 'Agency / Enterprise ($399+/mo)', features: 'Unlimited profiles, 100k+ messages, custom webhook integrations, dedicated CRM sync' }
   ],
-  competitiveAdvantage: 'Unlike generic keyword scanners or brute-force AI wrappers, OpportunityRadar uses LangGraph-style cost gating and context-aware fit scoring, guaranteeing high ROI even on massive public chat streams.'
+  competitiveAdvantage: 'Unlike generic keyword scanners or brute-force AI wrappers, Alef Radar uses LangGraph-style cost gating and context-aware fit scoring, guaranteeing high ROI even on massive public chat streams.'
 };
 
 export const investorPitchDeck = {
-  title: 'OpportunityRadar - Investor Pitch Deck',
+  title: 'Alef Radar - Investor Pitch Deck',
   slides: [
     {
       slideNumber: 1,
@@ -102,7 +102,7 @@ export const investorPitchDeck = {
     },
     {
       slideNumber: 2,
-      title: 'The Solution: OpportunityRadar',
+      title: 'The Solution: Alef Radar',
       subtitle: 'The first cost-aware agentic customer hunter for digital communities.',
       bulletPoints: [
         'Multi-stage intelligent cascade filters noise at negligible cost ($0.00001/msg).',
@@ -157,27 +157,27 @@ export const investorPitchDeck = {
 };
 
 export const submissionVideoGuide = {
-  videoTitle: 'OpportunityRadar - 5-Minute Walkthrough Video',
+  videoTitle: 'Alef Radar - 5-Minute Walkthrough Video',
   videoUrlPlaceholder: 'https://ais-dev-ok7qhgvtqrdfna6jv6653u-331666314826.europe-west3.run.app/video-demo.mp4',
   scriptStructure: [
     { minute: '0:00 - 0:45', topic: 'The Problem: Lost Sales in Community Feeds & The Cost Trap of Heavy AI' },
     { minute: '0:45 - 1:30', topic: 'The Target User: Bootcamps, DTC Brands, SaaS Founders, Agencies' },
     { minute: '1:30 - 2:30', topic: 'The Agentic Heart: 4-Stage Cascade (Cheap Filter -> Context -> Fit -> Reply)' },
     { minute: '2:30 - 4:15', topic: 'Live Walkthrough: Register -> Login -> Product Setup -> Agent Execution -> Results & Reply' },
-    { minute: '4:15 - 5:00', topic: 'Cost Transparency Proof & buildX Contest Compliance' }
+    { minute: '4:15 - 5:00', topic: 'Cost Transparency Proof & Architecture' }
   ],
-  txtFileContent: `OpportunityRadar - buildX Contest Submission Video Link
-Product Name: OpportunityRadar
+  txtFileContent: `Alef Radar - Video Link
+Product Name: Alef Radar
 Chosen Problem: Potential Customer Detector in Online Communities
 Live App URL: https://ais-dev-ok7qhgvtqrdfna6jv6653u-331666314826.europe-west3.run.app
 Video Link (5-Minute Demonstration):
-https://youtu.be/OpportunityRadar-buildX-demo-walkthrough
+https://youtu.be/AlefRadar-demo-walkthrough
 
 Video Outline:
 1. Problem: Lost high-intent customers in online community chats (Telegram, Reddit, Twitter).
 2. Target Users: Tech bootcamps, DTC hardware/ergonomics brands, freelance consultants.
 3. Role of Agent: 4-stage cost-aware cascade with 88% token cost reduction.
 4. Live End-to-End Test: Full Registration -> Login -> Product Setup -> Agent Execution -> Results Dashboard -> 1-Click Copy Reply.
-5. Contest Compliance: 100% cloud LLM (Google Gemini 3.8 Flash), pure code architecture, zero site builders.
+5. Compliance & Architecture: 100% cloud LLM (Google Gemini 3.8 Flash), pure code architecture.
 `
 };

@@ -3,24 +3,24 @@ import {
   Download,
   Copy,
   Check,
-  Cpu,
-  Briefcase,
-  Sparkles,
-  Video,
   Code,
   DollarSign
 } from 'lucide-react';
 import { technicalDocs, businessPlanDocs, investorPitchDeck, submissionVideoGuide } from '../data/docsContent';
+import { Language } from '../utils/i18n';
 
 interface DocsModalProps {
   initialTab?: 'tech' | 'business' | 'pitch' | 'video';
   onBackToApp?: () => void;
+  language?: Language;
 }
 
-export const DocsModal: React.FC<DocsModalProps> = ({ initialTab = 'tech', onBackToApp }) => {
+export const DocsModal: React.FC<DocsModalProps> = ({ initialTab = 'tech', onBackToApp, language = 'en' }) => {
   const [activeTab, setActiveTab] = useState<'tech' | 'business' | 'pitch' | 'video'>(initialTab);
   const [copiedTxt, setCopiedTxt] = useState(false);
   const [activeSlide, setActiveSlide] = useState(0);
+
+  const isRtl = language === 'fa';
 
   const downloadVideoTxt = () => {
     const element = document.createElement('a');
@@ -39,55 +39,55 @@ export const DocsModal: React.FC<DocsModalProps> = ({ initialTab = 'tech', onBac
   };
 
   return (
-    <div className="bg-white border border-neutral-200 rounded-3xl p-6 sm:p-10 shadow-xs space-y-8">
+    <div className="bg-white dark:bg-zinc-900 border border-neutral-200 dark:border-zinc-800 rounded-3xl p-6 sm:p-10 shadow-xs space-y-8 transition-colors" dir={isRtl ? 'rtl' : 'ltr'}>
       
       {/* Top Header & Tab Switcher */}
-      <div className="flex flex-col md:flex-row md:items-center justify-between pb-6 border-b border-neutral-200 gap-4">
+      <div className="flex flex-col md:flex-row md:items-center justify-between pb-6 border-b border-neutral-200 dark:border-zinc-800 gap-4">
         <div>
-          <div className="text-xs font-mono font-bold uppercase tracking-wider text-neutral-400">
-            SYSTEM ARCHITECTURE & PRODUCT SPECS
+          <div className="text-xs font-mono font-bold uppercase tracking-wider text-neutral-400 dark:text-zinc-500">
+            {language === 'fa' ? 'معماری سیستم و مشخصات محصول' : 'SYSTEM ARCHITECTURE & PRODUCT SPECS'}
           </div>
-          <h2 className="text-2xl font-black text-neutral-950 mt-1">
-            Documentation & Investor Pitch
+          <h2 className="text-2xl font-black text-neutral-950 dark:text-white mt-1">
+            {language === 'fa' ? 'مستندات فنی و ارائه سرمایه‌گذاری' : 'Documentation & Investor Pitch'}
           </h2>
         </div>
 
         {/* Sub-Tabs */}
-        <div className="flex flex-wrap items-center gap-1.5 p-1 bg-neutral-100 rounded-xl border border-neutral-200">
+        <div className="flex flex-wrap items-center gap-1.5 p-1 bg-neutral-100 dark:bg-zinc-800 rounded-xl border border-neutral-200 dark:border-zinc-700">
           <button
             onClick={() => setActiveTab('tech')}
             className={`px-3 py-1.5 rounded-lg text-xs font-bold transition-all cursor-pointer ${
-              activeTab === 'tech' ? 'bg-white text-neutral-950 shadow-xs' : 'text-neutral-600 hover:text-black'
+              activeTab === 'tech' ? 'bg-white dark:bg-zinc-900 text-neutral-950 dark:text-white shadow-xs' : 'text-neutral-600 dark:text-zinc-400 hover:text-black dark:hover:text-white'
             }`}
           >
-            Technical Specs
+            {language === 'fa' ? 'مشخصات فنی' : 'Technical Specs'}
           </button>
 
           <button
             onClick={() => setActiveTab('business')}
             className={`px-3 py-1.5 rounded-lg text-xs font-bold transition-all cursor-pointer ${
-              activeTab === 'business' ? 'bg-white text-neutral-950 shadow-xs' : 'text-neutral-600 hover:text-black'
+              activeTab === 'business' ? 'bg-white dark:bg-zinc-900 text-neutral-950 dark:text-white shadow-xs' : 'text-neutral-600 dark:text-zinc-400 hover:text-black dark:hover:text-white'
             }`}
           >
-            Business Plan
+            {language === 'fa' ? 'طرح تجاری' : 'Business Plan'}
           </button>
 
           <button
             onClick={() => setActiveTab('pitch')}
             className={`px-3 py-1.5 rounded-lg text-xs font-bold transition-all cursor-pointer ${
-              activeTab === 'pitch' ? 'bg-white text-neutral-950 shadow-xs' : 'text-neutral-600 hover:text-black'
+              activeTab === 'pitch' ? 'bg-white dark:bg-zinc-900 text-neutral-950 dark:text-white shadow-xs' : 'text-neutral-600 dark:text-zinc-400 hover:text-black dark:hover:text-white'
             }`}
           >
-            Pitch Deck
+            {language === 'fa' ? 'ارائه سرمایه‌گذاری' : 'Pitch Deck'}
           </button>
 
           <button
             onClick={() => setActiveTab('video')}
             className={`px-3 py-1.5 rounded-lg text-xs font-bold transition-all cursor-pointer ${
-              activeTab === 'video' ? 'bg-white text-neutral-950 shadow-xs' : 'text-neutral-600 hover:text-black'
+              activeTab === 'video' ? 'bg-white dark:bg-zinc-900 text-neutral-950 dark:text-white shadow-xs' : 'text-neutral-600 dark:text-zinc-400 hover:text-black dark:hover:text-white'
             }`}
           >
-            Video Link (.txt)
+            {language === 'fa' ? 'لینک ویدیو (.txt)' : 'Video Link (.txt)'}
           </button>
         </div>
       </div>
@@ -96,22 +96,22 @@ export const DocsModal: React.FC<DocsModalProps> = ({ initialTab = 'tech', onBac
       {activeTab === 'tech' && (
         <div className="space-y-6">
           <div>
-            <h3 className="text-xl font-black text-neutral-950">
+            <h3 className="text-xl font-black text-neutral-950 dark:text-white">
               {technicalDocs.title}
             </h3>
-            <p className="text-xs sm:text-sm text-neutral-600 mt-2 leading-relaxed">
+            <p className="text-xs sm:text-sm text-neutral-600 dark:text-zinc-400 mt-2 leading-relaxed">
               {technicalDocs.summary}
             </p>
           </div>
 
           {/* LangGraph ASCII Diagram */}
-          <div className="p-5 rounded-2xl bg-neutral-50 border border-neutral-200">
-            <h4 className="text-xs font-bold text-neutral-950 uppercase tracking-wider mb-3 flex items-center space-x-2">
+          <div className="p-5 rounded-2xl bg-neutral-50 dark:bg-zinc-950/60 border border-neutral-200 dark:border-zinc-800">
+            <h4 className="text-xs font-bold text-neutral-950 dark:text-white uppercase tracking-wider mb-3 flex items-center space-x-2 rtl:space-x-reverse">
               <Code className="w-4 h-4" />
               <span>Agentic State Graph (LangGraph Paradigm)</span>
             </h4>
 
-            <div className="font-mono text-xs text-neutral-800 bg-white p-4 rounded-xl border border-neutral-200 overflow-x-auto leading-relaxed">
+            <div className="font-mono text-xs text-neutral-800 dark:text-zinc-200 bg-white dark:bg-zinc-900 p-4 rounded-xl border border-neutral-200 dark:border-zinc-800 overflow-x-auto leading-relaxed" dir="ltr">
               {`[State Graph Node Flow]:
 INPUT: CommunityMessageFeed (Reddit / Telegram / X / Discord)
    │
@@ -136,18 +136,18 @@ INPUT: CommunityMessageFeed (Reddit / Telegram / X / Discord)
           {/* Stages Grid */}
           <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
             {technicalDocs.stages.map((st) => (
-              <div key={st.stage} className="p-4 rounded-xl border border-neutral-200 bg-neutral-50/60 space-y-1.5">
+              <div key={st.stage} className="p-4 rounded-xl border border-neutral-200 dark:border-zinc-800 bg-neutral-50/60 dark:bg-zinc-950/40 space-y-1.5">
                 <div className="flex items-center justify-between">
-                  <span className="font-bold text-xs font-mono text-neutral-950">STAGE 0{st.stage}</span>
-                  <span className="text-[10px] font-mono text-neutral-600 bg-white px-2 py-0.5 rounded border border-neutral-200">
+                  <span className="font-bold text-xs font-mono text-neutral-950 dark:text-white">STAGE 0{st.stage}</span>
+                  <span className="text-[10px] font-mono text-neutral-600 dark:text-zinc-400 bg-white dark:bg-zinc-800 px-2 py-0.5 rounded border border-neutral-200 dark:border-zinc-700">
                     {st.costPerMsg}
                   </span>
                 </div>
-                <h5 className="font-bold text-neutral-950 text-sm">{st.name}</h5>
-                <p className="text-xs text-neutral-600 leading-relaxed">
+                <h5 className="font-bold text-neutral-950 dark:text-white text-sm">{st.name}</h5>
+                <p className="text-xs text-neutral-600 dark:text-zinc-400 leading-relaxed">
                   {st.objective}
                 </p>
-                <div className="text-[11px] text-neutral-500 font-mono pt-1.5 border-t border-neutral-200">
+                <div className="text-[11px] text-neutral-500 dark:text-zinc-400 font-mono pt-1.5 border-t border-neutral-200 dark:border-zinc-800">
                   Exit rule: {st.decisionRules}
                 </div>
               </div>
@@ -155,12 +155,12 @@ INPUT: CommunityMessageFeed (Reddit / Telegram / X / Discord)
           </div>
 
           {/* Cost Proof */}
-          <div className="p-5 rounded-2xl border border-neutral-300 bg-neutral-50">
-            <h4 className="text-xs font-bold text-neutral-950 mb-2 uppercase tracking-wider flex items-center space-x-2">
+          <div className="p-5 rounded-2xl border border-neutral-300 dark:border-zinc-700 bg-neutral-50 dark:bg-zinc-950/60">
+            <h4 className="text-xs font-bold text-neutral-950 dark:text-white mb-2 uppercase tracking-wider flex items-center space-x-2 rtl:space-x-reverse">
               <DollarSign className="w-4 h-4" />
               <span>Cost Awareness Mathematical Proof</span>
             </h4>
-            <pre className="text-xs font-mono text-neutral-800 whitespace-pre-wrap leading-relaxed">
+            <pre className="text-xs font-mono text-neutral-800 dark:text-zinc-200 whitespace-pre-wrap leading-relaxed" dir="ltr">
               {technicalDocs.costEfficiencyModel.trim()}
             </pre>
           </div>
@@ -171,42 +171,42 @@ INPUT: CommunityMessageFeed (Reddit / Telegram / X / Discord)
       {activeTab === 'business' && (
         <div className="space-y-6">
           <div>
-            <h3 className="text-xl font-black text-neutral-950">
+            <h3 className="text-xl font-black text-neutral-950 dark:text-white">
               {businessPlanDocs.title}
             </h3>
-            <p className="text-xs sm:text-sm text-neutral-600 mt-2 leading-relaxed">
+            <p className="text-xs sm:text-sm text-neutral-600 dark:text-zinc-400 mt-2 leading-relaxed">
               {businessPlanDocs.executiveSummary}
             </p>
           </div>
 
           {/* Market Sizing */}
           <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
-            <div className="p-4 bg-neutral-50 border border-neutral-200 rounded-xl text-center">
-              <div className="text-[10px] text-neutral-500 uppercase font-mono font-bold">TAM</div>
-              <div className="text-lg font-black text-neutral-950 font-mono mt-1">$18.4 Billion</div>
-              <div className="text-[10px] text-neutral-500 mt-0.5">Global Social Listening</div>
+            <div className="p-4 bg-neutral-50 dark:bg-zinc-950/60 border border-neutral-200 dark:border-zinc-800 rounded-xl text-center">
+              <div className="text-[10px] text-neutral-500 dark:text-zinc-400 uppercase font-mono font-bold">TAM</div>
+              <div className="text-lg font-black text-neutral-950 dark:text-white font-mono mt-1">$18.4 Billion</div>
+              <div className="text-[10px] text-neutral-500 dark:text-zinc-400 mt-0.5">Global Social Listening</div>
             </div>
 
-            <div className="p-4 bg-neutral-50 border border-neutral-200 rounded-xl text-center">
-              <div className="text-[10px] text-neutral-500 uppercase font-mono font-bold">SAM</div>
-              <div className="text-lg font-black text-neutral-950 font-mono mt-1">$3.2 Billion</div>
-              <div className="text-[10px] text-neutral-500 mt-0.5">Bootcamps, SaaS, DTC</div>
+            <div className="p-4 bg-neutral-50 dark:bg-zinc-950/60 border border-neutral-200 dark:border-zinc-800 rounded-xl text-center">
+              <div className="text-[10px] text-neutral-500 dark:text-zinc-400 uppercase font-mono font-bold">SAM</div>
+              <div className="text-lg font-black text-neutral-950 dark:text-white font-mono mt-1">$3.2 Billion</div>
+              <div className="text-[10px] text-neutral-500 dark:text-zinc-400 mt-0.5">Bootcamps, SaaS, DTC</div>
             </div>
 
-            <div className="p-4 bg-neutral-50 border border-neutral-200 rounded-xl text-center">
-              <div className="text-[10px] text-neutral-500 uppercase font-mono font-bold">SOM</div>
-              <div className="text-lg font-black text-neutral-950 font-mono mt-1">$48 Million</div>
-              <div className="text-[10px] text-neutral-500 mt-0.5">Initial 3-Year Focus</div>
+            <div className="p-4 bg-neutral-50 dark:bg-zinc-950/60 border border-neutral-200 dark:border-zinc-800 rounded-xl text-center">
+              <div className="text-[10px] text-neutral-500 dark:text-zinc-400 uppercase font-mono font-bold">SOM</div>
+              <div className="text-lg font-black text-neutral-950 dark:text-white font-mono mt-1">$48 Million</div>
+              <div className="text-[10px] text-neutral-500 dark:text-zinc-400 mt-0.5">Initial 3-Year Focus</div>
             </div>
           </div>
 
           {/* Problem vs Value Proposition */}
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-            <div className="p-4 rounded-xl border border-neutral-200 bg-neutral-50 space-y-2">
-              <h5 className="font-bold text-neutral-950 text-xs uppercase tracking-wider">Problem Validation</h5>
-              <ul className="space-y-2 text-xs text-neutral-600">
+            <div className="p-4 rounded-xl border border-neutral-200 dark:border-zinc-800 bg-neutral-50 dark:bg-zinc-950/60 space-y-2">
+              <h5 className="font-bold text-neutral-950 dark:text-white text-xs uppercase tracking-wider">Problem Validation</h5>
+              <ul className="space-y-2 text-xs text-neutral-600 dark:text-zinc-400">
                 {businessPlanDocs.problemValidation.map((p, i) => (
-                  <li key={i} className="flex items-start space-x-2">
+                  <li key={i} className="flex items-start space-x-2 rtl:space-x-reverse">
                     <span>—</span>
                     <span>{p}</span>
                   </li>
@@ -214,11 +214,13 @@ INPUT: CommunityMessageFeed (Reddit / Telegram / X / Discord)
               </ul>
             </div>
 
-            <div className="p-4 rounded-xl border border-neutral-200 bg-neutral-50 space-y-2">
-              <h5 className="font-bold text-neutral-950 text-xs uppercase tracking-wider">OpportunityRadar Advantage</h5>
-              <ul className="space-y-2 text-xs text-neutral-600">
+            <div className="p-4 rounded-xl border border-neutral-200 dark:border-zinc-800 bg-neutral-50 dark:bg-zinc-950/60 space-y-2">
+              <h5 className="font-bold text-neutral-950 dark:text-white text-xs uppercase tracking-wider">
+                {language === 'fa' ? 'مزیت رقابتی الف رادار' : 'Alef Radar Advantage'}
+              </h5>
+              <ul className="space-y-2 text-xs text-neutral-600 dark:text-zinc-400">
                 {businessPlanDocs.valueProposition.map((v, i) => (
-                  <li key={i} className="flex items-start space-x-2">
+                  <li key={i} className="flex items-start space-x-2 rtl:space-x-reverse">
                     <span>✓</span>
                     <span>{v}</span>
                   </li>
@@ -228,13 +230,13 @@ INPUT: CommunityMessageFeed (Reddit / Telegram / X / Discord)
           </div>
 
           {/* Pricing Tiers */}
-          <div className="p-5 rounded-2xl border border-neutral-200 bg-neutral-50 space-y-3">
-            <h5 className="font-bold text-neutral-950 text-xs uppercase tracking-wider">Monetization & SaaS Pricing Tiers</h5>
+          <div className="p-5 rounded-2xl border border-neutral-200 dark:border-zinc-800 bg-neutral-50 dark:bg-zinc-950/60 space-y-3">
+            <h5 className="font-bold text-neutral-950 dark:text-white text-xs uppercase tracking-wider">Monetization & SaaS Pricing Tiers</h5>
             <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
               {businessPlanDocs.revenueModel.map((tier, idx) => (
-                <div key={idx} className="p-3.5 bg-white border border-neutral-200 rounded-xl">
-                  <div className="font-bold text-xs text-neutral-950">{tier.tier}</div>
-                  <p className="text-[11px] text-neutral-600 mt-2 leading-relaxed">{tier.features}</p>
+                <div key={idx} className="p-3.5 bg-white dark:bg-zinc-900 border border-neutral-200 dark:border-zinc-800 rounded-xl">
+                  <div className="font-bold text-xs text-neutral-950 dark:text-white">{tier.tier}</div>
+                  <p className="text-[11px] text-neutral-600 dark:text-zinc-400 mt-2 leading-relaxed">{tier.features}</p>
                 </div>
               ))}
             </div>
@@ -245,22 +247,22 @@ INPUT: CommunityMessageFeed (Reddit / Telegram / X / Discord)
       {/* ================= PITCH DECK ================= */}
       {activeTab === 'pitch' && (
         <div className="space-y-6">
-          <div className="border-b border-neutral-200 pb-4 flex flex-col sm:flex-row sm:items-center justify-between gap-2">
+          <div className="border-b border-neutral-200 dark:border-zinc-800 pb-4 flex flex-col sm:flex-row sm:items-center justify-between gap-2">
             <div>
-              <h3 className="text-xl font-black text-neutral-950">
+              <h3 className="text-xl font-black text-neutral-950 dark:text-white">
                 {investorPitchDeck.title}
               </h3>
             </div>
 
-            <div className="flex items-center space-x-1">
+            <div className="flex items-center space-x-1 rtl:space-x-reverse">
               {investorPitchDeck.slides.map((_, idx) => (
                 <button
                   key={idx}
                   onClick={() => setActiveSlide(idx)}
                   className={`w-7 h-7 rounded-lg text-xs font-bold transition-all cursor-pointer ${
                     activeSlide === idx
-                      ? 'bg-black text-white shadow-xs'
-                      : 'border border-neutral-300 bg-neutral-50 text-neutral-600'
+                      ? 'bg-black dark:bg-white text-white dark:text-black shadow-xs font-bold'
+                      : 'border border-neutral-300 dark:border-zinc-700 bg-neutral-50 dark:bg-zinc-800 text-neutral-600 dark:text-zinc-400'
                   }`}
                 >
                   {idx + 1}
@@ -270,43 +272,43 @@ INPUT: CommunityMessageFeed (Reddit / Telegram / X / Discord)
           </div>
 
           {/* Active Slide Display */}
-          <div className="min-h-[260px] p-6 sm:p-8 rounded-2xl border border-neutral-200 bg-neutral-50 flex flex-col justify-between">
+          <div className="min-h-[260px] p-6 sm:p-8 rounded-2xl border border-neutral-200 dark:border-zinc-800 bg-neutral-50 dark:bg-zinc-950/60 flex flex-col justify-between">
             <div>
-              <div className="text-[10px] font-mono text-neutral-400 uppercase tracking-widest mb-1">
+              <div className="text-[10px] font-mono text-neutral-400 dark:text-zinc-500 uppercase tracking-widest mb-1">
                 SLIDE {investorPitchDeck.slides[activeSlide].slideNumber} / {investorPitchDeck.slides.length}
               </div>
-              <h4 className="text-xl sm:text-2xl font-black text-neutral-950">
+              <h4 className="text-xl sm:text-2xl font-black text-neutral-950 dark:text-white">
                 {investorPitchDeck.slides[activeSlide].title}
               </h4>
-              <p className="text-xs sm:text-sm font-medium text-neutral-600 mt-1 mb-5">
+              <p className="text-xs sm:text-sm font-medium text-neutral-600 dark:text-zinc-400 mt-1 mb-5">
                 {investorPitchDeck.slides[activeSlide].subtitle}
               </p>
 
               <ul className="space-y-3">
                 {investorPitchDeck.slides[activeSlide].bulletPoints.map((bp, i) => (
-                  <li key={i} className="flex items-start space-x-2.5 text-xs sm:text-sm text-neutral-700">
-                    <span className="w-1.5 h-1.5 rounded-full bg-neutral-950 mt-2 shrink-0" />
+                  <li key={i} className="flex items-start space-x-2.5 rtl:space-x-reverse text-xs sm:text-sm text-neutral-700 dark:text-zinc-300">
+                    <span className="w-1.5 h-1.5 rounded-full bg-neutral-950 dark:bg-white mt-2 shrink-0" />
                     <span>{bp}</span>
                   </li>
                 ))}
               </ul>
             </div>
 
-            <div className="flex items-center justify-between pt-6 border-t border-neutral-200 mt-6">
+            <div className="flex items-center justify-between pt-6 border-t border-neutral-200 dark:border-zinc-800 mt-6">
               <button
                 disabled={activeSlide === 0}
                 onClick={() => setActiveSlide(activeSlide - 1)}
-                className="px-3.5 py-1.5 rounded-lg border border-neutral-300 bg-white text-xs font-bold text-neutral-700 disabled:opacity-30 cursor-pointer"
+                className="px-3.5 py-1.5 rounded-lg border border-neutral-300 dark:border-zinc-700 bg-white dark:bg-zinc-900 text-xs font-bold text-neutral-700 dark:text-zinc-200 disabled:opacity-30 cursor-pointer"
               >
-                Previous
+                {language === 'fa' ? 'اسلاید قبلی' : 'Previous'}
               </button>
 
               <button
                 disabled={activeSlide === investorPitchDeck.slides.length - 1}
                 onClick={() => setActiveSlide(activeSlide + 1)}
-                className="px-4 py-1.5 rounded-lg bg-black text-white text-xs font-bold disabled:opacity-30 cursor-pointer"
+                className="px-4 py-1.5 rounded-lg bg-black dark:bg-white text-white dark:text-black text-xs font-bold disabled:opacity-30 cursor-pointer"
               >
-                Next
+                {language === 'fa' ? 'اسلاید بعدی' : 'Next'}
               </button>
             </div>
           </div>
@@ -317,10 +319,10 @@ INPUT: CommunityMessageFeed (Reddit / Telegram / X / Discord)
       {activeTab === 'video' && (
         <div className="space-y-6">
           <div>
-            <h3 className="text-xl font-black text-neutral-950">
+            <h3 className="text-xl font-black text-neutral-950 dark:text-white">
               {submissionVideoGuide.videoTitle}
             </h3>
-            <p className="text-xs sm:text-sm text-neutral-600 mt-1">
+            <p className="text-xs sm:text-sm text-neutral-600 dark:text-zinc-400 mt-1">
               Downloadable .txt file containing the 5-minute video demonstration link required for buildX contest submission.
             </p>
           </div>
@@ -328,33 +330,33 @@ INPUT: CommunityMessageFeed (Reddit / Telegram / X / Discord)
           <div className="flex flex-wrap items-center gap-3">
             <button
               onClick={downloadVideoTxt}
-              className="inline-flex items-center space-x-2 px-4 py-2.5 rounded-xl bg-black text-white font-extrabold text-xs shadow-xs hover:bg-neutral-800 transition-all cursor-pointer"
+              className="inline-flex items-center space-x-2 rtl:space-x-reverse px-4 py-2.5 rounded-xl bg-black dark:bg-white text-white dark:text-black font-extrabold text-xs shadow-xs hover:opacity-90 transition-all cursor-pointer"
             >
               <Download className="w-4 h-4" />
-              <span>Download video_link.txt File</span>
+              <span>{language === 'fa' ? 'دانلود فایل video_link.txt' : 'Download video_link.txt File'}</span>
             </button>
 
             <button
               onClick={copyVideoTxt}
-              className="inline-flex items-center space-x-2 px-4 py-2.5 rounded-xl border border-neutral-300 bg-white text-neutral-800 text-xs font-bold hover:bg-neutral-50 transition-all cursor-pointer"
+              className="inline-flex items-center space-x-2 rtl:space-x-reverse px-4 py-2.5 rounded-xl border border-neutral-300 dark:border-zinc-700 bg-white dark:bg-zinc-900 text-neutral-800 dark:text-zinc-200 text-xs font-bold hover:bg-neutral-50 dark:hover:bg-zinc-800 transition-all cursor-pointer"
             >
               {copiedTxt ? (
                 <>
-                  <Check className="w-4 h-4" />
-                  <span>Copied!</span>
+                  <Check className="w-4 h-4 text-emerald-500" />
+                  <span>{language === 'fa' ? 'کپی شد!' : 'Copied!'}</span>
                 </>
               ) : (
                 <>
                   <Copy className="w-4 h-4" />
-                  <span>Copy File Content</span>
+                  <span>{language === 'fa' ? 'کپی محتوای فایل' : 'Copy File Content'}</span>
                 </>
               )}
             </button>
           </div>
 
           {/* Text Preview */}
-          <div className="p-4 rounded-2xl border border-neutral-200 bg-neutral-50 font-mono text-xs text-neutral-800">
-            <div className="text-[10px] text-neutral-400 uppercase font-bold mb-2 pb-2 border-b border-neutral-200 flex items-center justify-between">
+          <div className="p-4 rounded-2xl border border-neutral-200 dark:border-zinc-800 bg-neutral-50 dark:bg-zinc-950/60 font-mono text-xs text-neutral-800 dark:text-zinc-200" dir="ltr">
+            <div className="text-[10px] text-neutral-400 dark:text-zinc-500 uppercase font-bold mb-2 pb-2 border-b border-neutral-200 dark:border-zinc-800 flex items-center justify-between">
               <span>File Content: opportunityradar_video_link.txt</span>
               <span>Ready for Submission ZIP</span>
             </div>
@@ -362,15 +364,15 @@ INPUT: CommunityMessageFeed (Reddit / Telegram / X / Discord)
           </div>
 
           {/* Script Breakdown */}
-          <div className="p-5 rounded-2xl border border-neutral-200 bg-neutral-50/60 space-y-3">
-            <h4 className="font-bold text-neutral-950 text-xs uppercase tracking-wider">
+          <div className="p-5 rounded-2xl border border-neutral-200 dark:border-zinc-800 bg-neutral-50/60 dark:bg-zinc-950/40 space-y-3">
+            <h4 className="font-bold text-neutral-950 dark:text-white text-xs uppercase tracking-wider">
               5-Minute Video Walkthrough Roadmap
             </h4>
             <div className="space-y-2">
               {submissionVideoGuide.scriptStructure.map((item, i) => (
-                <div key={i} className="flex items-center space-x-3 p-2.5 rounded-xl bg-white border border-neutral-200 text-xs">
-                  <span className="font-mono font-bold shrink-0 text-neutral-950">{item.minute}</span>
-                  <span className="text-neutral-600">{item.topic}</span>
+                <div key={i} className="flex items-center space-x-3 rtl:space-x-reverse p-2.5 rounded-xl bg-white dark:bg-zinc-900 border border-neutral-200 dark:border-zinc-800 text-xs">
+                  <span className="font-mono font-bold shrink-0 text-neutral-950 dark:text-white">{item.minute}</span>
+                  <span className="text-neutral-600 dark:text-zinc-400">{item.topic}</span>
                 </div>
               ))}
             </div>

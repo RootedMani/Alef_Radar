@@ -105,6 +105,37 @@ export async function resetPasswordWithCode(email: string, resetCode: string, ne
   }
 }
 
+export async function updateUserProfileApi(
+  email: string,
+  updates: { name?: string; subscriptionPlan?: 'FREE' | 'PRO' | 'ENTERPRISE' }
+): Promise<User> {
+  try {
+    const res = await fetch('/api/auth/profile', {
+      method: 'PATCH',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ email, ...updates })
+    });
+    if (!res.ok) {
+      const err = await res.json().catch(() => ({}));
+      throw new Error(err.error || 'Failed to update profile');
+    }
+    const data = await res.json();
+    return data.user;
+  } catch (err: any) {
+    // Local fallback
+    const totalQuota = updates.subscriptionPlan === 'ENTERPRISE' ? 100000 : updates.subscriptionPlan === 'PRO' ? 15000 : 500;
+    const fallbackUser: User = {
+      id: `user-${Date.now()}`,
+      email,
+      name: updates.name || email.split('@')[0],
+      subscriptionPlan: updates.subscriptionPlan || 'FREE',
+      monthlyQuota: { used: 142, total: totalQuota },
+      createdAt: new Date().toISOString()
+    };
+    return fallbackUser;
+  }
+}
+
 export async function fetchProfiles(): Promise<ProductProfile[]> {
   try {
     const res = await fetch('/api/profiles');

@@ -118,7 +118,7 @@ export const AuthModal: React.FC<AuthModalProps> = ({
           </div>
           <h2 className="text-xl font-black text-neutral-950">
             {authView === 'register' && 'Create Your Account'}
-            {authView === 'login' && 'Sign In to OpportunityRadar'}
+            {authView === 'login' && 'Sign In to Alef Radar'}
             {authView === 'forgot' && 'Reset Forgotten Password'}
             {authView === 'reset' && 'Set New Password'}
           </h2>

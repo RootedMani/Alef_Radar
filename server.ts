@@ -8,6 +8,7 @@ import { programmingCourseDataset, eyeStrainGlassesDataset } from './src/data/de
 import {
   findUserByEmail,
   createUser,
+  updateUserProfile,
   updateUserPassword,
   setPasswordResetCode,
   verifyPasswordResetCode,
@@ -119,6 +120,31 @@ app.post('/api/auth/reset-password', (req, res) => {
 
   res.json({
     message: 'Password successfully updated. You can now log in.'
+  });
+});
+
+app.patch('/api/auth/profile', (req, res) => {
+  const { email, name, subscriptionPlan } = req.body;
+  if (!email) {
+    return res.status(400).json({ error: 'Email is required' });
+  }
+
+  const updated = updateUserProfile(email, { name, subscriptionPlan });
+  if (!updated) {
+    return res.status(404).json({ error: 'User not found' });
+  }
+
+  const totalQuota = updated.subscriptionPlan === 'ENTERPRISE' ? 100000 : updated.subscriptionPlan === 'PRO' ? 15000 : 500;
+  res.json({
+    user: {
+      id: updated.id,
+      email: updated.email,
+      name: updated.name,
+      subscriptionPlan: updated.subscriptionPlan || 'FREE',
+      monthlyQuota: { used: 142, total: totalQuota },
+      apiKey: `or_live_${Buffer.from(updated.email).toString('base64').substring(0, 16)}`,
+      createdAt: updated.createdAt
+    }
   });
 });
 
