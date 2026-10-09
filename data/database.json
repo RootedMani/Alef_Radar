@@ -6,7 +6,9 @@
       "name": "Sarah J. Jenkins",
       "passwordHash": "$2b$10$gEveXkpIRxmEx2HQsN2WIuzYm8dKyKoLZ5GyFuOZEl6giDszJzQae",
       "createdAt": "2026-10-07T09:12:31.479Z",
-      "subscriptionPlan": "PRO"
+      "subscriptionPlan": "PRO",
+      "resetCode": "458526",
+      "resetCodeExpires": "2026-10-09T13:16:03.859Z"
     },
     {
       "id": "user-demo-02",

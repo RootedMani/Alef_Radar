@@ -123,6 +123,10 @@ export async function initDatabase(): Promise<void> {
     isMongoConnected = false;
     console.warn('⚠️ [MongoDB] Connection could not be established. Seamlessly using local JSON database fallback.');
     console.warn('   Reason:', err.message || err);
+    if (err.message && (err.message.includes('auth') || err.message.includes('Authentication'))) {
+      console.warn('   💡 MongoDB Auth Tip: If your password has special characters like @, #, or %, make sure they are URL-encoded in MONGODB_URI.');
+      console.warn('   💡 MongoDB Auth Tip: In MongoDB Atlas, verify your Database User exists under "Database Access" and IP "0.0.0.0/0" is added under "Network Access".');
+    }
   }
 
   mongoose.connection.on('connected', () => {

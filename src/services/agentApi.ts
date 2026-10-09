@@ -98,24 +98,28 @@ export async function fetchAdminUsers(): Promise<{
 }
 
 export async function requestPasswordReset(email: string): Promise<{ resetCode: string; message: string; emailDelivered?: boolean }> {
+  const controller = new AbortController();
+  const timeoutId = setTimeout(() => controller.abort(), 8000);
+
   try {
     const res = await fetch('/api/auth/forgot-password', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ email })
+      body: JSON.stringify({ email }),
+      signal: controller.signal
     });
+    clearTimeout(timeoutId);
     if (!res.ok) {
       const err = await res.json().catch(() => ({}));
-      throw new Error(err.error || 'No account found with this email');
+      throw new Error(err.error || 'No account found with this email address');
     }
     return await res.json();
   } catch (err: any) {
-    if (err.message && (err.message.includes('No account') || err.message.includes('required'))) {
-      throw err;
+    clearTimeout(timeoutId);
+    if (err.name === 'AbortError') {
+      throw new Error('Connection timed out. Please check your network and try again.');
     }
-    // Offline simulation code
-    const mockCode = Math.floor(100000 + Math.random() * 900000).toString();
-    return { resetCode: mockCode, message: 'Password reset code generated' };
+    throw err;
   }
 }
 

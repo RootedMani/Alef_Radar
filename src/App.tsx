@@ -23,10 +23,6 @@ import { Language, translations } from './utils/i18n';
 import { ArrowLeft, ArrowRight, Radar, Sparkles, CheckCircle2, ShieldCheck } from 'lucide-react';
 
 export default function App() {
-  const [currentView, setCurrentView] = useState<'landing' | 'app' | 'docs'>('landing');
-  const [isLoadingIntro, setIsLoadingIntro] = useState<boolean>(true);
-
-  // User state initialized from persistent storage
   const [user, setUser] = useState<User | null>(() => {
     try {
       const saved = localStorage.getItem('opportunityradar_user');
@@ -34,6 +30,31 @@ export default function App() {
       return null;
     } catch {
       return null;
+    }
+  });
+
+  const [currentView, setCurrentView] = useState<'landing' | 'app' | 'docs'>(() => {
+    try {
+      const savedView = localStorage.getItem('opportunityradar_view');
+      if (savedView === 'app' || savedView === 'landing' || savedView === 'docs') return savedView;
+      const savedUser = localStorage.getItem('opportunityradar_user');
+      if (savedUser) return 'app';
+    } catch {}
+    return 'landing';
+  });
+
+  const handleSetCurrentView = (view: 'landing' | 'app' | 'docs') => {
+    setCurrentView(view);
+    localStorage.setItem('opportunityradar_view', view);
+  };
+
+  const [isLoadingIntro, setIsLoadingIntro] = useState<boolean>(() => {
+    try {
+      const seen = sessionStorage.getItem('opportunityradar_intro_seen');
+      if (seen) return false;
+      return true;
+    } catch {
+      return false;
     }
   });
 
@@ -114,6 +135,25 @@ export default function App() {
         }
       })
       .catch((err) => console.warn('Could not load profiles from server:', err));
+
+    // Validate stored user session with server
+    const savedUser = localStorage.getItem('opportunityradar_user');
+    if (savedUser) {
+      try {
+        const parsed = JSON.parse(savedUser);
+        if (parsed && parsed.email) {
+          fetch(`/api/auth/me?email=${encodeURIComponent(parsed.email)}`)
+            .then((res) => (res.ok ? res.json() : null))
+            .then((data) => {
+              if (data && data.user) {
+                setUser(data.user);
+                localStorage.setItem('opportunityradar_user', JSON.stringify(data.user));
+              }
+            })
+            .catch(() => {});
+        }
+      } catch {}
+    }
   }, []);
 
   const [messages, setMessages] = useState<CommunityMessage[]>(() =>
@@ -277,11 +317,13 @@ export default function App() {
   const handleLogout = async () => {
     await logoutUser();
     setUser(null);
+    handleSetCurrentView('landing');
   };
 
   const handleAuthSuccess = (authenticatedUser: User) => {
     localStorage.setItem('opportunityradar_user', JSON.stringify(authenticatedUser));
     setUser(authenticatedUser);
+    handleSetCurrentView('app');
   };
 
   const handleUpdateUser = (updated: User) => {
@@ -297,7 +339,10 @@ export default function App() {
       {/* Intro Radar Loading Animation */}
       {isLoadingIntro && (
         <RadarIntroLoader
-          onComplete={() => setIsLoadingIntro(false)}
+          onComplete={() => {
+            setIsLoadingIntro(false);
+            sessionStorage.setItem('opportunityradar_intro_seen', 'true');
+          }}
           darkMode={darkMode}
         />
       )}
@@ -312,7 +357,7 @@ export default function App() {
         onLogout={handleLogout}
         onOpenProfile={() => setShowProfileModal(true)}
         currentView={currentView}
-        setCurrentView={setCurrentView}
+        setCurrentView={handleSetCurrentView}
         darkMode={darkMode}
         onToggleDarkMode={handleToggleDarkMode}
         language={language}
@@ -325,16 +370,16 @@ export default function App() {
         {/* VIEW 1: LANDING PAGE */}
         {currentView === 'landing' && (
           <LandingPage
-            onGetStarted={() => setCurrentView('app')}
+            onGetStarted={() => handleSetCurrentView('app')}
             onExploreDatasets={(type) => {
               if (type === 'eyewear') {
                 handleSetMessages(language === 'fa' ? eyeStrainGlassesDatasetFa : eyeStrainGlassesDataset);
               } else {
                 handleSetMessages(language === 'fa' ? programmingCourseDatasetFa : programmingCourseDataset);
               }
-              setCurrentView('app');
+              handleSetCurrentView('app');
             }}
-            onViewDocs={() => setCurrentView('docs')}
+            onViewDocs={() => handleSetCurrentView('docs')}
             language={language}
           />
         )}
@@ -346,7 +391,7 @@ export default function App() {
             <div className="flex flex-col sm:flex-row sm:items-center justify-between pb-4 border-b border-neutral-200 dark:border-zinc-800 gap-3">
               <div>
                 <button
-                  onClick={() => setCurrentView('landing')}
+                  onClick={() => handleSetCurrentView('landing')}
                   className="inline-flex items-center space-x-1.5 rtl:space-x-reverse text-xs text-neutral-500 dark:text-zinc-400 hover:text-neutral-950 dark:hover:text-white mb-1 transition-colors cursor-pointer"
                 >
                   <BackArrow className="w-3.5 h-3.5" />

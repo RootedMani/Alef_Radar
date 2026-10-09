@@ -145,9 +145,12 @@ app.post('/api/auth/forgot-password', async (req, res) => {
           user: process.env.SMTP_USER,
           pass: process.env.SMTP_PASS,
         },
+        connectionTimeout: 3500,
+        greetingTimeout: 2500,
+        socketTimeout: 3500,
       });
 
-      await transporter.sendMail({
+      const mailPromise = transporter.sendMail({
         from: `"Alef Radar" <${process.env.SMTP_USER}>`,
         to: user.email,
         subject: 'Your Password Reset Verification Code - Alef Radar',
@@ -161,6 +164,9 @@ app.post('/api/auth/forgot-password', async (req, res) => {
           <p style="color:#a1a1aa;font-size:12px;margin-bottom:0;">This code expires in 15 minutes. If you did not request a password reset, you can safely ignore this email.</p>
         </div>`
       });
+
+      const timeoutPromise = new Promise((_, reject) => setTimeout(() => reject(new Error('SMTP send timed out')), 4000));
+      await Promise.race([mailPromise, timeoutPromise]);
       emailDelivered = true;
       console.log(`✅ [Password Reset] Free SMTP email sent to ${user.email}`);
     } catch (mailErr: any) {
@@ -170,8 +176,8 @@ app.post('/api/auth/forgot-password', async (req, res) => {
 
   res.json({
     message: emailDelivered
-      ? `A verification code was sent to your email (${user.email}).`
-      : 'Password reset code generated successfully (free instant recovery).',
+      ? `A verification code was sent to ${user.email}.`
+      : 'Verification code generated.',
     resetCode,
     emailDelivered,
     email: user.email

@@ -64,11 +64,11 @@ export const AuthModal: React.FC<AuthModalProps> = ({
         setSuccessMessage(
           res.emailDelivered
             ? (language === 'fa'
-                ? `کد تأیید به ایمیل شما ارسال شد (کد مستقیم: ${res.resetCode}). رمز عبور جدید خود را وارد کنید.`
-                : `Verification code sent to your email (Direct code: ${res.resetCode}). Enter your new password below.`)
+                ? `کد تأیید به ایمیل شما ارسال شد (${resetEmail}).`
+                : `Verification code was sent to ${resetEmail}.`)
             : (language === 'fa'
-                ? `کد تأیید رایگان و فوری صادر شد: ${res.resetCode}. بدون نیاز به سرویس‌های ایمیل پولی.`
-                : `Free instant verification code generated: ${res.resetCode}. Zero cost & no third-party email account required!`)
+                ? `کد تأیید صادر شد: ${res.resetCode}. رمز عبور جدید خود را وارد کنید.`
+                : `Verification code: ${res.resetCode}. Enter your new password below.`)
         );
       } else if (authView === 'reset') {
         await resetPasswordWithCode(resetEmail, resetCode, newPassword);
@@ -336,10 +336,6 @@ export const AuthModal: React.FC<AuthModalProps> = ({
           {/* FORGOT PASSWORD: Email Request Field */}
           {authView === 'forgot' && (
             <div className="space-y-3">
-              <div className="p-2.5 rounded-xl bg-emerald-500/10 border border-emerald-500/20 text-emerald-700 dark:text-emerald-400 text-[11px] font-semibold flex items-center space-x-2 rtl:space-x-reverse">
-                <CheckCircle2 className="w-4 h-4 shrink-0 text-emerald-500" />
-                <span>{language === 'fa' ? 'بازیابی ۱۰۰٪ رایگان و آنی: بدون نیاز به سرویس‌های ایمیل پولی.' : '100% Free Instant Recovery: Works instantly without any paid email service!'}</span>
-              </div>
               <div>
                 <label className="block text-xs font-bold text-neutral-700 dark:text-zinc-300 mb-1">
                   {language === 'fa' ? 'ایمیل حساب کاربری' : 'Registered Email Address'}
@@ -359,6 +355,21 @@ export const AuthModal: React.FC<AuthModalProps> = ({
                   />
                 </div>
               </div>
+              {error && error.toLowerCase().includes('no account') && (
+                <div className="pt-1 text-center">
+                  <button
+                    type="button"
+                    onClick={() => {
+                      setEmail(resetEmail);
+                      setError(null);
+                      setAuthView('register');
+                    }}
+                    className="text-xs font-bold text-neutral-900 dark:text-white underline hover:opacity-80 transition-opacity cursor-pointer"
+                  >
+                    {language === 'fa' ? 'ثبت‌نام این حساب کاربری جدید ←' : 'Create an account with this email →'}
+                  </button>
+                </div>
+              )}
             </div>
           )}
 
