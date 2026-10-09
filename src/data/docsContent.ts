@@ -365,4 +365,3 @@ https://youtu.be/AlefRadar-demo-walkthrough
 ۵. مشخصات زیرساخت: هوش مصنوعی Google Gemini 3.8 Flash و معماری کامل فول‌استک.
 `
 };
-

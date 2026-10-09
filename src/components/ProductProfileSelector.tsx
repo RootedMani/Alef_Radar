@@ -76,10 +76,10 @@ export const ProductProfileSelector: React.FC<ProductProfileSelectorProps> = ({
   return (
     <div
       dir={isRtl ? 'rtl' : 'ltr'}
-      className="bg-white dark:bg-zinc-900 border border-neutral-200 dark:border-zinc-800 rounded-3xl p-6 shadow-xs transition-colors"
+      className="glass-panel rounded-3xl p-6 sm:p-7 shadow-xs transition-colors"
     >
       {/* Top Header */}
-      <div className="flex flex-col sm:flex-row sm:items-center justify-between pb-4 mb-5 border-b border-neutral-200 dark:border-zinc-800 gap-3">
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between pb-4 mb-5 border-b border-neutral-200/80 dark:border-white/10 gap-3">
         <div>
           <div className="flex items-center space-x-2 rtl:space-x-reverse">
             <span className="text-xs font-mono font-bold uppercase tracking-wider text-neutral-400 dark:text-zinc-500">
@@ -90,17 +90,17 @@ export const ProductProfileSelector: React.FC<ProductProfileSelectorProps> = ({
               {activeProfile.category}
             </span>
           </div>
-          <h2 className="text-lg font-extrabold text-neutral-950 dark:text-white mt-1">
+          <h2 className="text-lg font-extrabold text-neutral-950 dark:text-white mt-1 break-words">
             {t.targetProfileTitle}
           </h2>
-          <p className="text-xs text-neutral-500 dark:text-zinc-400 mt-0.5">
+          <p className="text-xs text-neutral-500 dark:text-zinc-400 mt-0.5 break-words">
             {t.targetProfileSubtitle}
           </p>
         </div>
 
         <button
           onClick={() => setShowCreateModal(true)}
-          className="inline-flex items-center space-x-1.5 rtl:space-x-reverse px-3 py-1.5 rounded-xl border border-neutral-300 dark:border-zinc-700 bg-neutral-50 dark:bg-zinc-800 hover:bg-neutral-100 dark:hover:bg-zinc-700 text-neutral-900 dark:text-zinc-100 text-xs font-bold transition-all self-start sm:self-auto cursor-pointer"
+          className="inline-flex items-center space-x-1.5 rtl:space-x-reverse px-3 py-1.5 rounded-xl border border-neutral-200/80 dark:border-white/15 bg-white/60 dark:bg-zinc-800/60 backdrop-blur-md hover:bg-white/80 dark:hover:bg-zinc-700/80 text-neutral-900 dark:text-zinc-100 text-xs font-bold transition-all self-start sm:self-auto cursor-pointer shadow-xs"
         >
           <Plus className="w-3.5 h-3.5" />
           <span>{language === 'fa' ? 'پروفایل جدید' : 'New Profile'}</span>
@@ -117,12 +117,12 @@ export const ProductProfileSelector: React.FC<ProductProfileSelectorProps> = ({
               onClick={() => onSelectProfile(p)}
               className={`cursor-pointer rounded-2xl p-4 border transition-all text-left rtl:text-right relative ${
                 isSelected
-                  ? 'bg-neutral-50 dark:bg-zinc-800/60 border-neutral-950 dark:border-white shadow-xs ring-1 ring-neutral-950 dark:ring-white'
-                  : 'bg-white dark:bg-zinc-900 border-neutral-200 dark:border-zinc-800 hover:border-neutral-400 dark:hover:border-zinc-600'
+                  ? 'bg-neutral-900/10 dark:bg-white/10 border-neutral-950 dark:border-white shadow-xs ring-1 ring-neutral-950 dark:ring-white backdrop-blur-md'
+                  : 'glass-card hover:border-neutral-400 dark:hover:border-zinc-500'
               }`}
             >
               <div className="flex items-start justify-between">
-                <div className="text-xs font-extrabold text-neutral-950 dark:text-white pr-4 rtl:pr-0 rtl:pl-4">
+                <div className="text-xs font-extrabold text-neutral-950 dark:text-white pr-4 rtl:pr-0 rtl:pl-4 break-words">
                   {p.name}
                 </div>
                 {isSelected && (
@@ -132,11 +132,11 @@ export const ProductProfileSelector: React.FC<ProductProfileSelectorProps> = ({
                 )}
               </div>
 
-              <p className="text-[11px] text-neutral-500 dark:text-zinc-400 mt-1.5 line-clamp-2 leading-relaxed">
+              <p className="text-[11px] text-neutral-500 dark:text-zinc-400 mt-1.5 line-clamp-2 leading-relaxed break-words">
                 {p.tagline}
               </p>
 
-              <div className="mt-3 pt-2.5 border-t border-neutral-100 dark:border-zinc-800 flex items-center justify-between text-[10px] font-mono text-neutral-400 dark:text-zinc-500">
+              <div className="mt-3 pt-2.5 border-t border-neutral-200/50 dark:border-white/10 flex items-center justify-between text-[10px] font-mono text-neutral-400 dark:text-zinc-500">
                 <span>{p.category}</span>
                 {p.pricePoint && <span className="font-bold text-neutral-900 dark:text-zinc-200">{p.pricePoint}</span>}
               </div>
@@ -146,7 +146,7 @@ export const ProductProfileSelector: React.FC<ProductProfileSelectorProps> = ({
       </div>
 
       {/* Active Profile Selected Highlights Panel */}
-      <div className="p-4 rounded-2xl border border-neutral-200 dark:border-zinc-800 bg-neutral-50/70 dark:bg-zinc-950/60 space-y-3">
+      <div className="p-4 rounded-2xl border border-neutral-200/80 dark:border-white/10 bg-white/40 dark:bg-zinc-950/40 backdrop-blur-md space-y-3">
         <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2">
           <div className="flex items-center space-x-2 rtl:space-x-reverse text-xs">
             <span className="font-bold text-neutral-900 dark:text-zinc-100">{activeProfile.name}</span>
@@ -159,7 +159,7 @@ export const ProductProfileSelector: React.FC<ProductProfileSelectorProps> = ({
           </div>
         </div>
 
-        <p className="text-xs text-neutral-600 dark:text-zinc-300 leading-relaxed">
+        <p className="text-xs text-neutral-600 dark:text-zinc-300 leading-relaxed break-words">
           {activeProfile.description}
         </p>
 
@@ -171,7 +171,7 @@ export const ProductProfileSelector: React.FC<ProductProfileSelectorProps> = ({
           {activeProfile.painPointsSolved.map((pp, idx) => (
             <span
               key={idx}
-              className="text-[10px] font-medium px-2 py-0.5 rounded-md bg-white dark:bg-zinc-800 border border-neutral-200 dark:border-zinc-700 text-neutral-700 dark:text-zinc-300"
+              className="text-[10px] font-medium px-2 py-0.5 rounded-md bg-white/70 dark:bg-zinc-800/70 backdrop-blur-xs border border-neutral-200/80 dark:border-white/10 text-neutral-700 dark:text-zinc-300 break-words"
             >
               {pp}
             </span>
@@ -181,8 +181,8 @@ export const ProductProfileSelector: React.FC<ProductProfileSelectorProps> = ({
 
       {/* MODAL: CREATE CUSTOM PROFILE */}
       {showCreateModal && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/60 backdrop-blur-xs animate-fade-in" dir={isRtl ? 'rtl' : 'ltr'}>
-          <div className="relative w-full max-w-lg bg-white dark:bg-zinc-900 border border-neutral-200 dark:border-zinc-800 rounded-3xl p-6 sm:p-7 shadow-2xl overflow-y-auto max-h-[90vh]">
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/60 backdrop-blur-md animate-fade-in" dir={isRtl ? 'rtl' : 'ltr'}>
+          <div className="relative w-full max-w-lg glass-modal rounded-3xl p-6 sm:p-7 shadow-2xl overflow-y-auto max-h-[90vh]">
             <button
               onClick={() => setShowCreateModal(false)}
               className={`absolute top-5 ${isRtl ? 'left-5' : 'right-5'} p-1 rounded-lg text-neutral-400 dark:text-zinc-500 hover:text-neutral-900 dark:hover:text-white cursor-pointer`}
@@ -191,10 +191,10 @@ export const ProductProfileSelector: React.FC<ProductProfileSelectorProps> = ({
             </button>
 
             <div className="mb-4">
-              <h3 className="text-lg font-extrabold text-neutral-950 dark:text-white">
+              <h3 className="text-lg font-extrabold text-neutral-950 dark:text-white break-words">
                 {language === 'fa' ? 'تعریف پروفایل محصول جدید' : 'Create Custom Product Profile'}
               </h3>
-              <p className="text-xs text-neutral-500 dark:text-zinc-400 mt-0.5">
+              <p className="text-xs text-neutral-500 dark:text-zinc-400 mt-0.5 break-words">
                 {language === 'fa'
                   ? 'ایجنت پیام‌های جوامع آنلاین را بر اساس این مشخصات بررسی کرده و پاسخ ارزش‌محور می‌نویسد.'
                   : 'Define your product value props so the agent detects exact matches and speaks in your voice.'}
@@ -213,7 +213,7 @@ export const ProductProfileSelector: React.FC<ProductProfileSelectorProps> = ({
                     value={newProfile.name || ''}
                     onChange={(e) => setNewProfile({ ...newProfile, name: e.target.value })}
                     placeholder="e.g. TestCraft AI"
-                    className="w-full bg-neutral-50 dark:bg-zinc-950 border border-neutral-300 dark:border-zinc-700 rounded-xl px-3 py-2 text-xs text-neutral-900 dark:text-zinc-100 focus:outline-none focus:border-black dark:focus:border-white"
+                    className="w-full glass-input rounded-xl px-3 py-2 text-xs text-neutral-900 dark:text-zinc-100 focus:outline-none focus:border-black dark:focus:border-white"
                   />
                 </div>
                 <div>
@@ -225,7 +225,7 @@ export const ProductProfileSelector: React.FC<ProductProfileSelectorProps> = ({
                     value={newProfile.category || ''}
                     onChange={(e) => setNewProfile({ ...newProfile, category: e.target.value })}
                     placeholder="e.g. Developer Tools"
-                    className="w-full bg-neutral-50 dark:bg-zinc-950 border border-neutral-300 dark:border-zinc-700 rounded-xl px-3 py-2 text-xs text-neutral-900 dark:text-zinc-100 focus:outline-none focus:border-black dark:focus:border-white"
+                    className="w-full glass-input rounded-xl px-3 py-2 text-xs text-neutral-900 dark:text-zinc-100 focus:outline-none focus:border-black dark:focus:border-white"
                   />
                 </div>
               </div>
@@ -239,7 +239,7 @@ export const ProductProfileSelector: React.FC<ProductProfileSelectorProps> = ({
                   value={newProfile.tagline || ''}
                   onChange={(e) => setNewProfile({ ...newProfile, tagline: e.target.value })}
                   placeholder="e.g. Automated end-to-end tests for FastAPI backends"
-                  className="w-full bg-neutral-50 dark:bg-zinc-950 border border-neutral-300 dark:border-zinc-700 rounded-xl px-3 py-2 text-xs text-neutral-900 dark:text-zinc-100 focus:outline-none focus:border-black dark:focus:border-white"
+                  className="w-full glass-input rounded-xl px-3 py-2 text-xs text-neutral-900 dark:text-zinc-100 focus:outline-none focus:border-black dark:focus:border-white"
                 />
               </div>
 
@@ -253,7 +253,7 @@ export const ProductProfileSelector: React.FC<ProductProfileSelectorProps> = ({
                   value={newProfile.description || ''}
                   onChange={(e) => setNewProfile({ ...newProfile, description: e.target.value })}
                   placeholder="Explain exactly how your product solves user pain points..."
-                  className="w-full bg-neutral-50 dark:bg-zinc-950 border border-neutral-300 dark:border-zinc-700 rounded-xl px-3 py-2 text-xs text-neutral-900 dark:text-zinc-100 focus:outline-none focus:border-black dark:focus:border-white"
+                  className="w-full glass-input rounded-xl px-3 py-2 text-xs text-neutral-900 dark:text-zinc-100 focus:outline-none focus:border-black dark:focus:border-white"
                 />
               </div>
 
@@ -269,7 +269,7 @@ export const ProductProfileSelector: React.FC<ProductProfileSelectorProps> = ({
                     setNewProfile({ ...newProfile, painPointsSolved: e.target.value.split(',').map((s) => s.trim()) });
                   }}
                   placeholder="e.g. Flaky tests, slow deployments, zero code coverage"
-                  className="w-full bg-neutral-50 dark:bg-zinc-950 border border-neutral-300 dark:border-zinc-700 rounded-xl px-3 py-2 text-xs text-neutral-900 dark:text-zinc-100 focus:outline-none focus:border-black dark:focus:border-white"
+                  className="w-full glass-input rounded-xl px-3 py-2 text-xs text-neutral-900 dark:text-zinc-100 focus:outline-none focus:border-black dark:focus:border-white"
                 />
               </div>
 
@@ -281,18 +281,18 @@ export const ProductProfileSelector: React.FC<ProductProfileSelectorProps> = ({
                   <select
                     value={newProfile.toneOfVoice || 'empathic_expert'}
                     onChange={(e: any) => setNewProfile({ ...newProfile, toneOfVoice: e.target.value })}
-                    className="w-full bg-neutral-50 dark:bg-zinc-950 border border-neutral-300 dark:border-zinc-700 rounded-xl px-3 py-2 text-xs text-neutral-900 dark:text-zinc-100 focus:outline-none cursor-pointer"
+                    className="w-full glass-input rounded-xl px-3 py-2 text-xs text-neutral-900 dark:text-zinc-100 focus:outline-none cursor-pointer"
                   >
-                    <option value="empathic_expert">
+                    <option value="empathic_expert" className="bg-white dark:bg-zinc-900 text-neutral-900 dark:text-white">
                       {language === 'fa' ? 'متخصص همدل (Empathic Expert)' : 'Empathic Expert'}
                     </option>
-                    <option value="friendly_peer">
+                    <option value="friendly_peer" className="bg-white dark:bg-zinc-900 text-neutral-900 dark:text-white">
                       {language === 'fa' ? 'همتای صمیمی (Friendly Peer)' : 'Friendly Peer'}
                     </option>
-                    <option value="consultative">
+                    <option value="consultative" className="bg-white dark:bg-zinc-900 text-neutral-900 dark:text-white">
                       {language === 'fa' ? 'مشاوره‌ای (Consultative)' : 'Consultative'}
                     </option>
-                    <option value="direct_builder">
+                    <option value="direct_builder" className="bg-white dark:bg-zinc-900 text-neutral-900 dark:text-white">
                       {language === 'fa' ? 'سازنده مستقیم (Direct Builder)' : 'Direct Builder'}
                     </option>
                   </select>
@@ -307,16 +307,16 @@ export const ProductProfileSelector: React.FC<ProductProfileSelectorProps> = ({
                     value={newProfile.pricePoint || ''}
                     onChange={(e) => setNewProfile({ ...newProfile, pricePoint: e.target.value })}
                     placeholder="e.g. $49 / mo"
-                    className="w-full bg-neutral-50 dark:bg-zinc-950 border border-neutral-300 dark:border-zinc-700 rounded-xl px-3 py-2 text-xs text-neutral-900 dark:text-zinc-100 focus:outline-none"
+                    className="w-full glass-input rounded-xl px-3 py-2 text-xs text-neutral-900 dark:text-zinc-100 focus:outline-none"
                   />
                 </div>
               </div>
 
-              <div className="flex justify-end space-x-2 rtl:space-x-reverse pt-4 border-t border-neutral-200 dark:border-zinc-800">
+              <div className="flex justify-end space-x-2 rtl:space-x-reverse pt-4 border-t border-neutral-200/80 dark:border-white/10">
                 <button
                   type="button"
                   onClick={() => setShowCreateModal(false)}
-                  className="px-4 py-2 border border-neutral-300 dark:border-zinc-700 rounded-xl text-xs font-semibold text-neutral-600 dark:text-zinc-400 hover:bg-neutral-100 dark:hover:bg-zinc-800 cursor-pointer"
+                  className="px-4 py-2 border border-neutral-200/80 dark:border-white/10 rounded-xl text-xs font-semibold text-neutral-600 dark:text-zinc-400 hover:bg-black/5 dark:hover:bg-white/5 cursor-pointer"
                 >
                   {language === 'fa' ? 'انصراف' : 'Cancel'}
                 </button>

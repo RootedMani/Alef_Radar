@@ -34,6 +34,148 @@
   }
 }
 
+/* Radar Intelligence Mesh Grid Background */
+.bg-radar-grid {
+  background-image: radial-gradient(rgba(0, 0, 0, 0.07) 1px, transparent 1px);
+  background-size: 28px 28px;
+}
+
+html.dark .bg-radar-grid {
+  background-image: radial-gradient(rgba(255, 255, 255, 0.08) 1px, transparent 1px);
+  background-size: 28px 28px;
+}
+
+/* Glassmorphic UX Design System for Day (Light) and Night (Dark) - Crystal Clear & Transparent */
+.glass-panel {
+  background: rgba(255, 255, 255, 0.42);
+  backdrop-filter: blur(22px) saturate(190%);
+  -webkit-backdrop-filter: blur(22px) saturate(190%);
+  border: 1px solid rgba(255, 255, 255, 0.75);
+  box-shadow: 0 16px 40px -10px rgba(0, 0, 0, 0.05), inset 0 1px 2px 0 rgba(255, 255, 255, 0.95);
+}
+
+html.dark .glass-panel {
+  background: rgba(12, 12, 18, 0.45);
+  backdrop-filter: blur(22px) saturate(190%);
+  -webkit-backdrop-filter: blur(22px) saturate(190%);
+  border: 1px solid rgba(255, 255, 255, 0.14);
+  box-shadow: 0 16px 40px -10px rgba(0, 0, 0, 0.65), inset 0 1px 1.5px 0 rgba(255, 255, 255, 0.22);
+}
+
+.glass-card {
+  background: rgba(255, 255, 255, 0.32);
+  backdrop-filter: blur(16px) saturate(180%);
+  -webkit-backdrop-filter: blur(16px) saturate(180%);
+  border: 1px solid rgba(255, 255, 255, 0.65);
+  box-shadow: 0 8px 24px -4px rgba(0, 0, 0, 0.04), inset 0 1px 1.5px 0 rgba(255, 255, 255, 0.9);
+}
+
+html.dark .glass-card {
+  background: rgba(18, 18, 26, 0.36);
+  backdrop-filter: blur(16px) saturate(180%);
+  -webkit-backdrop-filter: blur(16px) saturate(180%);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  box-shadow: 0 8px 24px -4px rgba(0, 0, 0, 0.45), inset 0 1px 1px 0 rgba(255, 255, 255, 0.16);
+}
+
+.glass-modal {
+  background: rgba(255, 255, 255, 0.68);
+  backdrop-filter: blur(30px) saturate(200%);
+  -webkit-backdrop-filter: blur(30px) saturate(200%);
+  border: 1px solid rgba(255, 255, 255, 0.9);
+  box-shadow: 0 28px 64px -12px rgba(0, 0, 0, 0.2), inset 0 1px 2px 0 rgba(255, 255, 255, 0.98);
+}
+
+html.dark .glass-modal {
+  background: rgba(10, 10, 15, 0.70);
+  backdrop-filter: blur(30px) saturate(200%);
+  -webkit-backdrop-filter: blur(30px) saturate(200%);
+  border: 1px solid rgba(255, 255, 255, 0.18);
+  box-shadow: 0 28px 64px -12px rgba(0, 0, 0, 0.8), inset 0 1px 2px 0 rgba(255, 255, 255, 0.24);
+}
+
+.glass-input {
+  background: rgba(255, 255, 255, 0.35);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+  border: 1px solid rgba(0, 0, 0, 0.12);
+}
+
+html.dark .glass-input {
+  background: rgba(22, 22, 30, 0.38);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+  border: 1px solid rgba(255, 255, 255, 0.14);
+}
+
+.glass-button {
+  background: rgba(255, 255, 255, 0.45);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+  border: 1px solid rgba(255, 255, 255, 0.7);
+}
+
+html.dark .glass-button {
+  background: rgba(24, 24, 32, 0.45);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+}
+
+/* Radar Entry Animations */
+@keyframes radar-sweep {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes radar-pulse-wave {
+  0% {
+    transform: scale(0.65);
+    opacity: 0.9;
+  }
+  100% {
+    transform: scale(1.75);
+    opacity: 0;
+  }
+}
+
+@keyframes radar-spin-entrance {
+  0% {
+    transform: scale(0.15) rotate(-360deg);
+    opacity: 0;
+  }
+  65% {
+    transform: scale(1.06) rotate(15deg);
+    opacity: 1;
+  }
+  85% {
+    transform: scale(0.97) rotate(-5deg);
+  }
+  100% {
+    transform: scale(1) rotate(0deg);
+    opacity: 1;
+  }
+}
+
+.animate-radar-sweep {
+  animation: radar-sweep 2.4s linear infinite;
+}
+
+.animate-radar-pulse-wave {
+  animation: radar-pulse-wave 2s cubic-bezier(0, 0.2, 0.8, 1) infinite;
+}
+
+.animate-radar-spin-entrance {
+  animation: radar-spin-entrance 1.5s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+/* Text boundary protection across all devices */
+p, h1, h2, h3, h4, h5, h6, span, div, a, button, input, textarea {
+  overflow-wrap: break-word;
+}
+
 /* Custom Minimalist Scrollbars */
 ::-webkit-scrollbar {
   width: 5px;

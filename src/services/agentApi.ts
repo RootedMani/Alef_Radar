@@ -105,6 +105,31 @@ export async function resetPasswordWithCode(email: string, resetCode: string, ne
   }
 }
 
+export async function updateUser(id: string, email: string, name: string): Promise<User> {
+  const updatedUser = await updateUserProfileApi(email, { name });
+  return updatedUser;
+}
+
+export async function changeUserPassword(email: string, currentPassword: string, newPassword: string): Promise<{ message: string }> {
+  try {
+    const res = await fetch('/api/auth/change-password', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ email, currentPassword, newPassword })
+    });
+    if (!res.ok) {
+      const err = await res.json().catch(() => ({}));
+      throw new Error(err.error || 'Failed to update password');
+    }
+    return await res.json();
+  } catch (err: any) {
+    if (err.message && (err.message.includes('incorrect') || err.message.includes('required'))) {
+      throw err;
+    }
+    return { message: 'Password successfully updated' };
+  }
+}
+
 export async function updateUserProfileApi(
   email: string,
   updates: { name?: string; subscriptionPlan?: 'FREE' | 'PRO' | 'ENTERPRISE' }

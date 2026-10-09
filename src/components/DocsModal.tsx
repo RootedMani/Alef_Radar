@@ -53,10 +53,10 @@ export const DocsModal: React.FC<DocsModalProps> = ({ initialTab = 'tech', onBac
   };
 
   return (
-    <div className="bg-white dark:bg-zinc-900 border border-neutral-200 dark:border-zinc-800 rounded-3xl p-6 sm:p-10 shadow-xs space-y-8 transition-colors" dir={isRtl ? 'rtl' : 'ltr'}>
-      
+    <div className="glass-panel rounded-3xl p-6 sm:p-10 shadow-xs space-y-8 transition-colors" dir={isRtl ? 'rtl' : 'ltr'}>
+
       {/* Top Header & Tab Switcher */}
-      <div className="flex flex-col md:flex-row md:items-center justify-between pb-6 border-b border-neutral-200 dark:border-zinc-800 gap-4">
+      <div className="flex flex-col md:flex-row md:items-center justify-between pb-6 border-b border-neutral-200/80 dark:border-white/10 gap-4">
         <div>
           <div className="text-xs font-mono font-bold uppercase tracking-wider text-neutral-400 dark:text-zinc-500">
             {language === 'fa' ? 'معماری سیستم و مشخصات محصول' : 'SYSTEM ARCHITECTURE & PRODUCT SPECS'}
@@ -67,7 +67,7 @@ export const DocsModal: React.FC<DocsModalProps> = ({ initialTab = 'tech', onBac
         </div>
 
         {/* Sub-Tabs */}
-        <div className="flex flex-wrap items-center gap-1.5 p-1 bg-neutral-100 dark:bg-zinc-800 rounded-xl border border-neutral-200 dark:border-zinc-700">
+        <div className="flex flex-wrap items-center gap-1.5 p-1 bg-neutral-100/70 dark:bg-zinc-800/70 backdrop-blur-md rounded-xl border border-neutral-200/80 dark:border-white/10">
           <button
             onClick={() => setActiveTab('tech')}
             className={`px-3 py-1.5 rounded-lg text-xs font-bold transition-all cursor-pointer ${
@@ -119,13 +119,13 @@ export const DocsModal: React.FC<DocsModalProps> = ({ initialTab = 'tech', onBac
           </div>
 
           {/* LangGraph ASCII Diagram */}
-          <div className="p-5 rounded-2xl bg-neutral-50 dark:bg-zinc-950/60 border border-neutral-200 dark:border-zinc-800">
+          <div className="p-5 rounded-2xl glass-card">
             <h4 className="text-xs font-bold text-neutral-950 dark:text-white uppercase tracking-wider mb-3 flex items-center space-x-2 rtl:space-x-reverse">
               <Code className="w-4 h-4" />
               <span>{language === 'fa' ? 'گراف حالت ایجنتی (الگوی استدلالی LangGraph)' : 'Agentic State Graph (LangGraph Paradigm)'}</span>
             </h4>
 
-            <div className="font-mono text-xs text-neutral-800 dark:text-zinc-200 bg-white dark:bg-zinc-900 p-4 rounded-xl border border-neutral-200 dark:border-zinc-800 overflow-x-auto leading-relaxed" dir="ltr">
+            <div className="font-mono text-xs text-neutral-800 dark:text-zinc-200 bg-white/70 dark:bg-zinc-900/70 backdrop-blur-xs p-4 rounded-xl border border-neutral-200/80 dark:border-white/10 overflow-x-auto leading-relaxed" dir="ltr">
               {`[State Graph Node Flow]:
 INPUT: CommunityMessageFeed (Reddit / Telegram / X / Discord)
    │
@@ -150,12 +150,12 @@ INPUT: CommunityMessageFeed (Reddit / Telegram / X / Discord)
           {/* Stages Grid */}
           <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
             {currentTechDocs.stages.map((st) => (
-              <div key={st.stage} className="p-4 rounded-xl border border-neutral-200 dark:border-zinc-800 bg-neutral-50/60 dark:bg-zinc-950/40 space-y-1.5">
+              <div key={st.stage} className="p-4 rounded-xl glass-card space-y-1.5">
                 <div className="flex items-center justify-between">
                   <span className="font-bold text-xs font-mono text-neutral-950 dark:text-white">
                     {language === 'fa' ? `مرحله ۰${st.stage}` : `STAGE 0${st.stage}`}
                   </span>
-                  <span className="text-[10px] font-mono text-neutral-600 dark:text-zinc-400 bg-white dark:bg-zinc-800 px-2 py-0.5 rounded border border-neutral-200 dark:border-zinc-700">
+                  <span className="text-[10px] font-mono text-neutral-600 dark:text-zinc-400 bg-white/80 dark:bg-zinc-800/80 px-2 py-0.5 rounded border border-neutral-200/80 dark:border-white/10">
                     {st.costPerMsg}
                   </span>
                 </div>
@@ -163,7 +163,7 @@ INPUT: CommunityMessageFeed (Reddit / Telegram / X / Discord)
                 <p className="text-xs text-neutral-600 dark:text-zinc-400 leading-relaxed">
                   {st.objective}
                 </p>
-                <div className="text-[11px] text-neutral-500 dark:text-zinc-400 font-mono pt-1.5 border-t border-neutral-200 dark:border-zinc-800">
+                <div className="text-[11px] text-neutral-500 dark:text-zinc-400 font-mono pt-1.5 border-t border-neutral-200/60 dark:border-white/10">
                   {language === 'fa' ? 'شرط تصمیم: ' : 'Exit rule: '} {st.decisionRules}
                 </div>
               </div>
@@ -171,7 +171,7 @@ INPUT: CommunityMessageFeed (Reddit / Telegram / X / Discord)
           </div>
 
           {/* Cost Proof */}
-          <div className="p-5 rounded-2xl border border-neutral-300 dark:border-zinc-700 bg-neutral-50 dark:bg-zinc-950/60">
+          <div className="p-5 rounded-2xl glass-card">
             <h4 className="text-xs font-bold text-neutral-950 dark:text-white mb-2 uppercase tracking-wider flex items-center space-x-2 rtl:space-x-reverse">
               <DollarSign className="w-4 h-4" />
               <span>{language === 'fa' ? 'اثبات ریاضی بهینگی هزینه و مصرف توکن' : 'Cost Awareness Mathematical Proof'}</span>
@@ -197,7 +197,7 @@ INPUT: CommunityMessageFeed (Reddit / Telegram / X / Discord)
 
           {/* Market Sizing */}
           <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
-            <div className="p-4 bg-neutral-50 dark:bg-zinc-950/60 border border-neutral-200 dark:border-zinc-800 rounded-xl text-center">
+            <div className="p-4 glass-card rounded-xl text-center">
               <div className="text-[10px] text-neutral-500 dark:text-zinc-400 uppercase font-mono font-bold">TAM</div>
               <div className="text-lg font-black text-neutral-950 dark:text-white font-mono mt-1">
                 {language === 'fa' ? '۱۸.۴ میلیارد دلار' : '$18.4 Billion'}
@@ -207,7 +207,7 @@ INPUT: CommunityMessageFeed (Reddit / Telegram / X / Discord)
               </div>
             </div>
 
-            <div className="p-4 bg-neutral-50 dark:bg-zinc-950/60 border border-neutral-200 dark:border-zinc-800 rounded-xl text-center">
+            <div className="p-4 glass-card rounded-xl text-center">
               <div className="text-[10px] text-neutral-500 dark:text-zinc-400 uppercase font-mono font-bold">SAM</div>
               <div className="text-lg font-black text-neutral-950 dark:text-white font-mono mt-1">
                 {language === 'fa' ? '۳.۲ میلیارد دلار' : '$3.2 Billion'}
@@ -217,7 +217,7 @@ INPUT: CommunityMessageFeed (Reddit / Telegram / X / Discord)
               </div>
             </div>
 
-            <div className="p-4 bg-neutral-50 dark:bg-zinc-950/60 border border-neutral-200 dark:border-zinc-800 rounded-xl text-center">
+            <div className="p-4 glass-card rounded-xl text-center">
               <div className="text-[10px] text-neutral-500 dark:text-zinc-400 uppercase font-mono font-bold">SOM</div>
               <div className="text-lg font-black text-neutral-950 dark:text-white font-mono mt-1">
                 {language === 'fa' ? '۴۸ میلیون دلار' : '$48 Million'}
@@ -230,7 +230,7 @@ INPUT: CommunityMessageFeed (Reddit / Telegram / X / Discord)
 
           {/* Problem vs Value Proposition */}
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-            <div className="p-4 rounded-xl border border-neutral-200 dark:border-zinc-800 bg-neutral-50 dark:bg-zinc-950/60 space-y-2">
+            <div className="p-4 rounded-xl glass-card space-y-2">
               <h5 className="font-bold text-neutral-950 dark:text-white text-xs uppercase tracking-wider">
                 {language === 'fa' ? 'اعتبارسنجی مسئله' : 'Problem Validation'}
               </h5>
@@ -244,7 +244,7 @@ INPUT: CommunityMessageFeed (Reddit / Telegram / X / Discord)
               </ul>
             </div>
 
-            <div className="p-4 rounded-xl border border-neutral-200 dark:border-zinc-800 bg-neutral-50 dark:bg-zinc-950/60 space-y-2">
+            <div className="p-4 rounded-xl glass-card space-y-2">
               <h5 className="font-bold text-neutral-950 dark:text-white text-xs uppercase tracking-wider">
                 {language === 'fa' ? 'مزیت رقابتی الف رادار' : 'Alef Radar Advantage'}
               </h5>
@@ -260,13 +260,13 @@ INPUT: CommunityMessageFeed (Reddit / Telegram / X / Discord)
           </div>
 
           {/* Pricing Tiers */}
-          <div className="p-5 rounded-2xl border border-neutral-200 dark:border-zinc-800 bg-neutral-50 dark:bg-zinc-950/60 space-y-3">
+          <div className="p-5 rounded-2xl glass-card space-y-3">
             <h5 className="font-bold text-neutral-950 dark:text-white text-xs uppercase tracking-wider">
               {language === 'fa' ? 'مدل درآمدی و پلن‌های قیمت‌گذاری SaaS' : 'Monetization & SaaS Pricing Tiers'}
             </h5>
             <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
               {currentBusinessDocs.revenueModel.map((tier, idx) => (
-                <div key={idx} className="p-3.5 bg-white dark:bg-zinc-900 border border-neutral-200 dark:border-zinc-800 rounded-xl">
+                <div key={idx} className="p-3.5 bg-white/70 dark:bg-zinc-900/70 backdrop-blur-xs border border-neutral-200/80 dark:border-white/10 rounded-xl">
                   <div className="font-bold text-xs text-neutral-950 dark:text-white">{tier.tier}</div>
                   <p className="text-[11px] text-neutral-600 dark:text-zinc-400 mt-2 leading-relaxed">{tier.features}</p>
                 </div>
@@ -279,7 +279,7 @@ INPUT: CommunityMessageFeed (Reddit / Telegram / X / Discord)
       {/* ================= PITCH DECK ================= */}
       {activeTab === 'pitch' && (
         <div className="space-y-6">
-          <div className="border-b border-neutral-200 dark:border-zinc-800 pb-4 flex flex-col sm:flex-row sm:items-center justify-between gap-2">
+          <div className="border-b border-neutral-200/80 dark:border-white/10 pb-4 flex flex-col sm:flex-row sm:items-center justify-between gap-2">
             <div>
               <h3 className="text-xl font-black text-neutral-950 dark:text-white">
                 {currentPitchDeck.title}
@@ -294,7 +294,7 @@ INPUT: CommunityMessageFeed (Reddit / Telegram / X / Discord)
                   className={`w-7 h-7 rounded-lg text-xs font-bold transition-all cursor-pointer ${
                     activeSlide === idx
                       ? 'bg-black dark:bg-white text-white dark:text-black shadow-xs font-bold'
-                      : 'border border-neutral-300 dark:border-zinc-700 bg-neutral-50 dark:bg-zinc-800 text-neutral-600 dark:text-zinc-400'
+                      : 'border border-neutral-200/80 dark:border-white/10 bg-white/60 dark:bg-zinc-800/60 text-neutral-600 dark:text-zinc-400'
                   }`}
                 >
                   {idx + 1}
@@ -304,10 +304,10 @@ INPUT: CommunityMessageFeed (Reddit / Telegram / X / Discord)
           </div>
 
           {/* Active Slide Display */}
-          <div className="min-h-[260px] p-6 sm:p-8 rounded-2xl border border-neutral-200 dark:border-zinc-800 bg-neutral-50 dark:bg-zinc-950/60 flex flex-col justify-between">
+          <div className="min-h-[260px] p-6 sm:p-8 rounded-2xl glass-card flex flex-col justify-between">
             <div>
               <div className="text-[10px] font-mono text-neutral-400 dark:text-zinc-500 uppercase tracking-widest mb-1">
-                {language === 'fa' 
+                {language === 'fa'
                   ? `اسلاید ${currentPitchDeck.slides[activeSlide].slideNumber} از ${currentPitchDeck.slides.length}`
                   : `SLIDE ${currentPitchDeck.slides[activeSlide].slideNumber} / ${currentPitchDeck.slides.length}`}
               </div>
@@ -328,11 +328,11 @@ INPUT: CommunityMessageFeed (Reddit / Telegram / X / Discord)
               </ul>
             </div>
 
-            <div className="flex items-center justify-between pt-6 border-t border-neutral-200 dark:border-zinc-800 mt-6">
+            <div className="flex items-center justify-between pt-6 border-t border-neutral-200/80 dark:border-white/10 mt-6">
               <button
                 disabled={activeSlide === 0}
                 onClick={() => setActiveSlide(activeSlide - 1)}
-                className="px-3.5 py-1.5 rounded-lg border border-neutral-300 dark:border-zinc-700 bg-white dark:bg-zinc-900 text-xs font-bold text-neutral-700 dark:text-zinc-200 disabled:opacity-30 cursor-pointer"
+                className="px-3.5 py-1.5 rounded-lg border border-neutral-200/80 dark:border-white/10 bg-white/70 dark:bg-zinc-900/70 text-xs font-bold text-neutral-700 dark:text-zinc-200 disabled:opacity-30 cursor-pointer shadow-xs"
               >
                 {language === 'fa' ? 'اسلاید قبلی' : 'Previous'}
               </button>
@@ -340,7 +340,7 @@ INPUT: CommunityMessageFeed (Reddit / Telegram / X / Discord)
               <button
                 disabled={activeSlide === currentPitchDeck.slides.length - 1}
                 onClick={() => setActiveSlide(activeSlide + 1)}
-                className="px-4 py-1.5 rounded-lg bg-black dark:bg-white text-white dark:text-black text-xs font-bold disabled:opacity-30 cursor-pointer"
+                className="px-4 py-1.5 rounded-lg bg-black dark:bg-white text-white dark:text-black text-xs font-bold disabled:opacity-30 cursor-pointer shadow-xs"
               >
                 {language === 'fa' ? 'اسلاید بعدی' : 'Next'}
               </button>
@@ -357,7 +357,7 @@ INPUT: CommunityMessageFeed (Reddit / Telegram / X / Discord)
               {currentVideoGuide.videoTitle}
             </h3>
             <p className="text-xs sm:text-sm text-neutral-600 dark:text-zinc-400 mt-1">
-              {language === 'fa' 
+              {language === 'fa'
                 ? 'فایل متنی قابل دانلود شامل مشخصات سناریو و لینک ویدیوی معرفی ۵ دقیقه‌ای برای مسابقه buildX.'
                 : 'Downloadable .txt file containing the 5-minute video demonstration link required for buildX contest submission.'}
             </p>
@@ -374,7 +374,7 @@ INPUT: CommunityMessageFeed (Reddit / Telegram / X / Discord)
 
             <button
               onClick={copyVideoTxt}
-              className="inline-flex items-center space-x-2 rtl:space-x-reverse px-4 py-2.5 rounded-xl border border-neutral-300 dark:border-zinc-700 bg-white dark:bg-zinc-900 text-neutral-800 dark:text-zinc-200 text-xs font-bold hover:bg-neutral-50 dark:hover:bg-zinc-800 transition-all cursor-pointer"
+              className="inline-flex items-center space-x-2 rtl:space-x-reverse px-4 py-2.5 rounded-xl border border-neutral-200/80 dark:border-white/10 bg-white/70 dark:bg-zinc-900/70 text-neutral-800 dark:text-zinc-200 text-xs font-bold hover:bg-neutral-50 dark:hover:bg-zinc-800 transition-all cursor-pointer shadow-xs"
             >
               {copiedTxt ? (
                 <>
@@ -391,8 +391,8 @@ INPUT: CommunityMessageFeed (Reddit / Telegram / X / Discord)
           </div>
 
           {/* Text Preview */}
-          <div className="p-4 rounded-2xl border border-neutral-200 dark:border-zinc-800 bg-neutral-50 dark:bg-zinc-950/60 font-mono text-xs text-neutral-800 dark:text-zinc-200" dir={language === 'fa' ? 'rtl' : 'ltr'}>
-            <div className="text-[10px] text-neutral-400 dark:text-zinc-500 uppercase font-bold mb-2 pb-2 border-b border-neutral-200 dark:border-zinc-800 flex items-center justify-between">
+          <div className="p-4 rounded-2xl glass-card font-mono text-xs text-neutral-800 dark:text-zinc-200" dir={language === 'fa' ? 'rtl' : 'ltr'}>
+            <div className="text-[10px] text-neutral-400 dark:text-zinc-500 uppercase font-bold mb-2 pb-2 border-b border-neutral-200/80 dark:border-white/10 flex items-center justify-between">
               <span>{language === 'fa' ? 'محتوای فایل: opportunityradar_video_link.txt' : 'File Content: opportunityradar_video_link.txt'}</span>
               <span>{language === 'fa' ? 'آماده برای ارسال در ZIP' : 'Ready for Submission ZIP'}</span>
             </div>
@@ -400,13 +400,13 @@ INPUT: CommunityMessageFeed (Reddit / Telegram / X / Discord)
           </div>
 
           {/* Script Breakdown */}
-          <div className="p-5 rounded-2xl border border-neutral-200 dark:border-zinc-800 bg-neutral-50/60 dark:bg-zinc-950/40 space-y-3">
+          <div className="p-5 rounded-2xl glass-card space-y-3">
             <h4 className="font-bold text-neutral-950 dark:text-white text-xs uppercase tracking-wider">
               {language === 'fa' ? 'برنامه زمان‌بندی ویدیوی دموی ۵ دقیقه‌ای' : '5-Minute Video Walkthrough Roadmap'}
             </h4>
             <div className="space-y-2">
               {currentVideoGuide.scriptStructure.map((item, i) => (
-                <div key={i} className="flex items-center space-x-3 rtl:space-x-reverse p-2.5 rounded-xl bg-white dark:bg-zinc-900 border border-neutral-200 dark:border-zinc-800 text-xs">
+                <div key={i} className="flex items-center space-x-3 rtl:space-x-reverse p-2.5 rounded-xl bg-white/70 dark:bg-zinc-900/70 backdrop-blur-xs border border-neutral-200/80 dark:border-white/10 text-xs">
                   <span className="font-mono font-bold shrink-0 text-neutral-950 dark:text-white">{item.minute}</span>
                   <span className="text-neutral-600 dark:text-zinc-400">{item.topic}</span>
                 </div>

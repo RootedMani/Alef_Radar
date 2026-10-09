@@ -62,7 +62,14 @@ export const UserProfileModal: React.FC<UserProfileModalProps> = ({
   const quotaUsed = user.monthlyQuota?.used || 142;
   const quotaTotal = plan === 'ENTERPRISE' ? 100000 : plan === 'PRO' ? 15000 : 500;
   const quotaPercentage = Math.min(100, Math.round((quotaUsed / quotaTotal) * 100));
-  const apiKey = user.apiKey || `or_live_${Buffer.from(user.email || 'user').toString('base64').substring(0, 16)}`;
+  const fallbackKey = (() => {
+    try {
+      return btoa(unescape(encodeURIComponent(user.email || 'user'))).replace(/[^a-zA-Z0-9]/g, '').substring(0, 16);
+    } catch {
+      return 'user1234567890';
+    }
+  })();
+  const apiKey = user.apiKey || `or_live_${fallbackKey}`;
 
   const handleSaveProfile = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -124,10 +131,8 @@ export const UserProfileModal: React.FC<UserProfileModalProps> = ({
   };
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/60 backdrop-blur-xs animate-fade-in" dir={isRtl ? 'rtl' : 'ltr'}>
-      <div className={`relative w-full max-w-xl rounded-3xl border shadow-2xl p-6 sm:p-8 overflow-hidden transition-colors ${
-        darkMode ? 'bg-zinc-950 border-zinc-800 text-zinc-100' : 'bg-white border-neutral-200 text-neutral-900'
-      }`}>
+    <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/60 backdrop-blur-md animate-fade-in" dir={isRtl ? 'rtl' : 'ltr'}>
+      <div className="relative w-full max-w-xl rounded-3xl glass-modal shadow-2xl p-6 sm:p-8 overflow-hidden transition-colors">
         
         {/* Close Button */}
         <button
@@ -140,7 +145,7 @@ export const UserProfileModal: React.FC<UserProfileModalProps> = ({
         </button>
 
         {/* Modal Top Profile Header */}
-        <div className="flex items-center space-x-3.5 rtl:space-x-reverse mb-6 pb-5 border-b border-neutral-200 dark:border-zinc-800">
+        <div className="flex items-center space-x-3.5 rtl:space-x-reverse mb-6 pb-5 border-b border-neutral-200/80 dark:border-white/10">
           <div className="w-12 h-12 rounded-2xl bg-black dark:bg-white text-white dark:text-black flex items-center justify-center text-lg font-black shadow-sm shrink-0">
             {user.name ? user.name.charAt(0).toUpperCase() : 'U'}
           </div>
@@ -161,7 +166,7 @@ export const UserProfileModal: React.FC<UserProfileModalProps> = ({
         </div>
 
         {/* Sub-Tabs Switcher */}
-        <div className="flex flex-wrap items-center gap-1 p-1 bg-neutral-100 dark:bg-zinc-900 rounded-xl mb-6 border border-neutral-200 dark:border-zinc-800">
+        <div className="flex flex-wrap items-center gap-1 p-1 bg-neutral-100/70 dark:bg-zinc-900/70 backdrop-blur-md rounded-xl mb-6 border border-neutral-200/80 dark:border-white/10">
           <button
             onClick={() => setActiveTab('account')}
             className={`flex-1 py-1.5 px-2.5 rounded-lg text-xs font-bold transition-all cursor-pointer ${
@@ -235,11 +240,7 @@ export const UserProfileModal: React.FC<UserProfileModalProps> = ({
                 value={displayName}
                 onChange={(e) => setDisplayName(e.target.value)}
                 placeholder="e.g. Alex Rivera"
-                className={`w-full rounded-xl py-2 px-3 text-xs focus:outline-none transition-colors border ${
-                  darkMode
-                    ? 'bg-zinc-900 border-zinc-800 text-zinc-100 focus:border-white'
-                    : 'bg-neutral-50 border-neutral-200 text-neutral-900 focus:border-black'
-                }`}
+                className="w-full rounded-xl py-2 px-3 text-xs focus:outline-none transition-colors glass-input"
               />
             </div>
 
@@ -251,9 +252,7 @@ export const UserProfileModal: React.FC<UserProfileModalProps> = ({
                 type="email"
                 disabled
                 value={user.email}
-                className={`w-full rounded-xl py-2 px-3 text-xs opacity-70 cursor-not-allowed border font-mono ${
-                  darkMode ? 'bg-zinc-900/60 border-zinc-800 text-zinc-400' : 'bg-neutral-100 border-neutral-200 text-neutral-500'
-                }`}
+                className="w-full rounded-xl py-2 px-3 text-xs opacity-70 cursor-not-allowed glass-input font-mono"
               />
               <span className="text-[10px] text-neutral-400 mt-1 block">
                 {language === 'fa' ? 'آدرس ایمیل شناسه اصلی حساب شماست.' : 'Email is verified and serves as your account unique identifier.'}
@@ -276,9 +275,7 @@ export const UserProfileModal: React.FC<UserProfileModalProps> = ({
         {activeTab === 'subscription' && (
           <div className="space-y-5">
             {/* Current Plan Overview Card */}
-            <div className={`p-4 rounded-2xl border ${
-              darkMode ? 'bg-zinc-900 border-zinc-800' : 'bg-neutral-50 border-neutral-200'
-            }`}>
+            <div className="p-4 rounded-2xl glass-card">
               <div className="flex items-center justify-between mb-2">
                 <span className="text-xs font-mono font-bold uppercase tracking-wider text-neutral-400">
                   {t.currentPlanLabel}
@@ -315,8 +312,8 @@ export const UserProfileModal: React.FC<UserProfileModalProps> = ({
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
               <div className={`p-4 rounded-2xl border flex flex-col justify-between ${
                 plan === 'FREE'
-                  ? (darkMode ? 'border-zinc-700 bg-zinc-900/50' : 'border-neutral-300 bg-neutral-50')
-                  : (darkMode ? 'border-zinc-800 bg-zinc-900/20' : 'border-neutral-200')
+                  ? 'glass-panel border-neutral-950 dark:border-white shadow-xs'
+                  : 'glass-card'
               }`}>
                 <div>
                   <h4 className="text-xs font-black uppercase tracking-wider">{t.planFree}</h4>
@@ -339,8 +336,8 @@ export const UserProfileModal: React.FC<UserProfileModalProps> = ({
 
               <div className={`p-4 rounded-2xl border flex flex-col justify-between ${
                 plan === 'PRO'
-                  ? (darkMode ? 'border-white bg-zinc-900' : 'border-black bg-white ring-1 ring-black')
-                  : (darkMode ? 'border-zinc-800 bg-zinc-900/40' : 'border-neutral-200 bg-neutral-50/50')
+                  ? 'glass-panel border-neutral-950 dark:border-white ring-1 ring-neutral-950 dark:ring-white shadow-md'
+                  : 'glass-card'
               }`}>
                 <div>
                   <div className="flex items-center justify-between">
@@ -381,14 +378,12 @@ export const UserProfileModal: React.FC<UserProfileModalProps> = ({
                   type="text"
                   readOnly
                   value={apiKey}
-                  className={`flex-1 rounded-xl py-2 px-3 text-xs font-mono border ${
-                    darkMode ? 'bg-zinc-900 border-zinc-800 text-zinc-100' : 'bg-neutral-50 border-neutral-200 text-neutral-900'
-                  }`}
+                  className="flex-1 rounded-xl py-2 px-3 text-xs font-mono glass-input"
                 />
                 <button
                   type="button"
                   onClick={handleCopyKey}
-                  className="px-3 py-2 rounded-xl border border-neutral-300 dark:border-zinc-700 hover:bg-neutral-100 dark:hover:bg-zinc-800 text-xs font-bold flex items-center space-x-1 rtl:space-x-reverse cursor-pointer"
+                  className="px-3 py-2 rounded-xl border border-neutral-200/80 dark:border-white/10 hover:bg-neutral-100 dark:hover:bg-zinc-800 text-xs font-bold flex items-center space-x-1 rtl:space-x-reverse cursor-pointer shadow-xs"
                 >
                   {copiedKey ? <Check className="w-3.5 h-3.5 text-emerald-500" /> : <Copy className="w-3.5 h-3.5" />}
                   <span>{copiedKey ? (language === 'fa' ? 'کپی شد' : 'Copied') : t.copyApiKey}</span>
@@ -401,9 +396,7 @@ export const UserProfileModal: React.FC<UserProfileModalProps> = ({
               </p>
             </div>
 
-            <div className={`p-4 rounded-2xl border font-mono text-xs ${
-              darkMode ? 'bg-zinc-900 border-zinc-800 text-zinc-300' : 'bg-neutral-50 border-neutral-200 text-neutral-700'
-            }`}>
+            <div className="p-4 rounded-2xl glass-card font-mono text-xs">
               <span className="text-[10px] text-neutral-400 block mb-1">
                 {language === 'fa' ? 'نمونه فراخوانی با CURL:' : 'CURL INGESTION EXAMPLE:'}
               </span>

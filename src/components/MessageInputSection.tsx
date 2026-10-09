@@ -215,25 +215,25 @@ export const MessageInputSection: React.FC<MessageInputSectionProps> = ({
   return (
     <div
       dir={isRtl ? 'rtl' : 'ltr'}
-      className="bg-white dark:bg-zinc-900 border border-neutral-200 dark:border-zinc-800 rounded-3xl p-6 sm:p-8 shadow-xs space-y-6 transition-colors"
+      className="glass-panel rounded-3xl p-6 sm:p-8 shadow-xs space-y-6 transition-colors"
     >
       {/* Workspace Header Bar */}
-      <div className="flex flex-col lg:flex-row lg:items-center justify-between pb-5 border-b border-neutral-200 dark:border-zinc-800 gap-4">
+      <div className="flex flex-col lg:flex-row lg:items-center justify-between pb-5 border-b border-neutral-200/80 dark:border-white/10 gap-4">
         <div>
           <div className="flex items-center space-x-2 rtl:space-x-reverse">
             <span className="text-xs font-mono font-bold uppercase tracking-wider text-neutral-400 dark:text-zinc-500">
               {t.step2StreamLabel}
             </span>
             <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse" />
-            <span className="text-xs font-mono font-bold px-2 py-0.5 rounded-full bg-neutral-100 dark:bg-zinc-800 border border-neutral-200 dark:border-zinc-700 text-neutral-800 dark:text-zinc-200">
+            <span className="text-xs font-mono font-bold px-2 py-0.5 rounded-full bg-white/60 dark:bg-zinc-800/60 backdrop-blur-xs border border-neutral-200/80 dark:border-white/10 text-neutral-800 dark:text-zinc-200">
               {messages.length} {t.loadedPosts}
             </span>
           </div>
 
-          <h2 className="text-xl font-black text-neutral-950 dark:text-white mt-1">
+          <h2 className="text-xl font-black text-neutral-950 dark:text-white mt-1 break-words">
             {t.feedTitle}
           </h2>
-          <p className="text-xs text-neutral-500 dark:text-zinc-400 mt-0.5">
+          <p className="text-xs text-neutral-500 dark:text-zinc-400 mt-0.5 break-words">
             {t.feedSubtitle}
           </p>
         </div>
@@ -256,7 +256,7 @@ export const MessageInputSection: React.FC<MessageInputSectionProps> = ({
       </div>
 
       {/* Ingestion Mode Switcher */}
-      <div className="flex flex-wrap items-center gap-2 p-1.5 bg-neutral-100 dark:bg-zinc-800/80 rounded-2xl border border-neutral-200 dark:border-zinc-700">
+      <div className="flex flex-wrap items-center gap-2 p-1.5 bg-neutral-100/60 dark:bg-zinc-800/40 backdrop-blur-md rounded-2xl border border-neutral-200/80 dark:border-white/10">
         <button
           onClick={() => setActiveTab('benchmarks')}
           className={`flex items-center space-x-2 rtl:space-x-reverse px-4 py-2 rounded-xl text-xs font-bold transition-all cursor-pointer ${
@@ -295,7 +295,7 @@ export const MessageInputSection: React.FC<MessageInputSectionProps> = ({
 
         <button
           onClick={() => setShowManualModal(true)}
-          className={`flex items-center space-x-1.5 rtl:space-x-reverse px-3 py-2 rounded-xl text-xs font-bold border border-neutral-300 dark:border-zinc-700 bg-white dark:bg-zinc-900 hover:bg-neutral-50 dark:hover:bg-zinc-800 text-neutral-800 dark:text-zinc-200 transition-colors cursor-pointer shadow-2xs ${
+          className={`flex items-center space-x-1.5 rtl:space-x-reverse px-3 py-2 rounded-xl text-xs font-bold border border-neutral-200/80 dark:border-white/15 bg-white/70 dark:bg-zinc-900/70 backdrop-blur-md hover:bg-neutral-50 dark:hover:bg-zinc-800 text-neutral-800 dark:text-zinc-200 transition-colors cursor-pointer shadow-2xs ${
             isRtl ? 'mr-auto' : 'ml-auto'
           }`}
         >
@@ -342,7 +342,7 @@ export const MessageInputSection: React.FC<MessageInputSectionProps> = ({
                 isError: false
               });
             }}
-            className="p-5 rounded-2xl border border-neutral-200 dark:border-zinc-800 hover:border-neutral-950 dark:hover:border-white bg-neutral-50/50 dark:bg-zinc-950/40 hover:bg-white dark:hover:bg-zinc-900 transition-all cursor-pointer group"
+            className="p-5 rounded-2xl glass-card hover:border-neutral-950 dark:hover:border-white transition-all cursor-pointer group"
           >
             <div className="flex items-center justify-between mb-2">
               <span className="text-[11px] font-mono font-bold text-neutral-500 dark:text-zinc-400 uppercase">
@@ -352,10 +352,10 @@ export const MessageInputSection: React.FC<MessageInputSectionProps> = ({
                 {t.loadBatchBtn}
               </span>
             </div>
-            <h4 className="text-sm font-extrabold text-neutral-950 dark:text-white mb-1">
+            <h4 className="text-sm font-extrabold text-neutral-950 dark:text-white mb-1 break-words">
               {t.benchmark01Title}
             </h4>
-            <p className="text-xs text-neutral-600 dark:text-zinc-400 leading-relaxed">
+            <p className="text-xs text-neutral-600 dark:text-zinc-400 leading-relaxed break-words">
               {t.benchmark01Desc}
             </p>
           </div>
@@ -369,7 +369,7 @@ export const MessageInputSection: React.FC<MessageInputSectionProps> = ({
                 isError: false
               });
             }}
-            className="p-5 rounded-2xl border border-neutral-200 dark:border-zinc-800 hover:border-neutral-950 dark:hover:border-white bg-neutral-50/50 dark:bg-zinc-950/40 hover:bg-white dark:hover:bg-zinc-900 transition-all cursor-pointer group"
+            className="p-5 rounded-2xl glass-card hover:border-neutral-950 dark:hover:border-white transition-all cursor-pointer group"
           >
             <div className="flex items-center justify-between mb-2">
               <span className="text-[11px] font-mono font-bold text-neutral-500 dark:text-zinc-400 uppercase">
@@ -379,10 +379,10 @@ export const MessageInputSection: React.FC<MessageInputSectionProps> = ({
                 {t.loadBatchBtn}
               </span>
             </div>
-            <h4 className="text-sm font-extrabold text-neutral-950 dark:text-white mb-1">
+            <h4 className="text-sm font-extrabold text-neutral-950 dark:text-white mb-1 break-words">
               {t.benchmark02Title}
             </h4>
-            <p className="text-xs text-neutral-600 dark:text-zinc-400 leading-relaxed">
+            <p className="text-xs text-neutral-600 dark:text-zinc-400 leading-relaxed break-words">
               {t.benchmark02Desc}
             </p>
           </div>
@@ -396,7 +396,7 @@ export const MessageInputSection: React.FC<MessageInputSectionProps> = ({
             onDragOver={(e) => e.preventDefault()}
             onDrop={handleDrop}
             onClick={() => fileInputRef.current?.click()}
-            className="p-8 sm:p-10 border-2 border-dashed border-neutral-300 dark:border-zinc-700 hover:border-black dark:hover:border-white rounded-2xl bg-neutral-50 dark:bg-zinc-950/50 hover:bg-white dark:hover:bg-zinc-900 transition-all text-center cursor-pointer group"
+            className="p-8 sm:p-10 border-2 border-dashed border-neutral-300/80 dark:border-white/15 hover:border-black dark:hover:border-white rounded-2xl bg-white/40 dark:bg-zinc-950/40 backdrop-blur-md hover:bg-white/60 dark:hover:bg-zinc-900/60 transition-all text-center cursor-pointer group"
           >
             <input
               type="file"
@@ -405,13 +405,13 @@ export const MessageInputSection: React.FC<MessageInputSectionProps> = ({
               accept=".csv,.tsv,.json,.txt"
               className="hidden"
             />
-            <div className="inline-flex items-center justify-center w-12 h-12 rounded-2xl bg-white dark:bg-zinc-800 border border-neutral-200 dark:border-zinc-700 group-hover:border-black dark:group-hover:border-white mb-3 shadow-2xs transition-colors">
+            <div className="inline-flex items-center justify-center w-12 h-12 rounded-2xl bg-white/80 dark:bg-zinc-800/80 border border-neutral-200/80 dark:border-white/10 group-hover:border-black dark:group-hover:border-white mb-3 shadow-2xs transition-colors">
               <UploadCloud className="w-6 h-6 text-neutral-700 dark:text-zinc-300 group-hover:text-black dark:group-hover:text-white" />
             </div>
-            <h3 className="text-sm font-extrabold text-neutral-950 dark:text-white mb-1">
+            <h3 className="text-sm font-extrabold text-neutral-950 dark:text-white mb-1 break-words">
               {t.uploadTitle}
             </h3>
-            <p className="text-xs text-neutral-500 dark:text-zinc-400 max-w-md mx-auto leading-relaxed">
+            <p className="text-xs text-neutral-500 dark:text-zinc-400 max-w-md mx-auto leading-relaxed break-words">
               {t.uploadDesc}
             </p>
             <div className="mt-3 flex items-center justify-center space-x-2 rtl:space-x-reverse text-[11px] font-mono text-neutral-400 dark:text-zinc-500">
@@ -420,8 +420,8 @@ export const MessageInputSection: React.FC<MessageInputSectionProps> = ({
           </div>
 
           {/* Sample template hints */}
-          <div className="p-4 rounded-xl bg-neutral-50 dark:bg-zinc-950/50 border border-neutral-200 dark:border-zinc-800 flex flex-col sm:flex-row sm:items-center justify-between gap-3 text-xs">
-            <div className="text-neutral-600 dark:text-zinc-400">
+          <div className="p-4 rounded-xl bg-white/40 dark:bg-zinc-950/40 backdrop-blur-md border border-neutral-200/80 dark:border-white/10 flex flex-col sm:flex-row sm:items-center justify-between gap-3 text-xs">
+            <div className="text-neutral-600 dark:text-zinc-400 break-words">
               {t.sampleTemplateHint}
             </div>
             <button
@@ -463,7 +463,7 @@ export const MessageInputSection: React.FC<MessageInputSectionProps> = ({
                 ? `متن پیام‌ها را اینجا بچسبانید، برای نمونه:\n[تلگرام] @reza: دنبال یک دوره پایتون با منتور ارشد و بررسی کد هستم.\n[ردیت] @spambot: دریافت ایردراپ رایگان در کانال ما!\nیا آرایه JSON وارد کنید: [{"text": "چشمانم بعد از ۱۰ ساعت کار با مانیتور می‌سوزد...", "author": "سارا"}]`
                 : `Paste here, for example:\n[Reddit] @dev_mike: I've been stuck in tutorial hell for 4 months, need structured mentor code reviews.\n[Telegram] @crypto_bot: Claim 5000 free coins on our site!\nOr paste a JSON array: [{"text": "My eyes hurt after 10 hours of screen work...", "author": "sara"}]`
             }
-            className="w-full bg-neutral-50 dark:bg-zinc-950 border border-neutral-300 dark:border-zinc-700 rounded-2xl p-4 text-xs font-mono text-neutral-900 dark:text-zinc-100 placeholder-neutral-400 dark:placeholder-zinc-600 focus:outline-none focus:border-black dark:focus:border-white transition-colors"
+            className="w-full glass-input rounded-2xl p-4 text-xs font-mono text-neutral-900 dark:text-zinc-100 placeholder-neutral-400 dark:placeholder-zinc-600 focus:outline-none focus:border-black dark:focus:border-white transition-colors"
           />
 
           <div className="flex items-center justify-between">
@@ -482,10 +482,10 @@ export const MessageInputSection: React.FC<MessageInputSectionProps> = ({
       )}
 
       {/* INGESTED STREAM PREVIEW & MANAGEMENT TABLE */}
-      <div className="border border-neutral-200 dark:border-zinc-800 rounded-2xl overflow-hidden">
+      <div className="border border-neutral-200/80 dark:border-white/10 rounded-2xl overflow-hidden glass-card">
         
         {/* Sub-bar with Platform Breakdown and Search */}
-        <div className="p-4 bg-neutral-50 dark:bg-zinc-950/60 border-b border-neutral-200 dark:border-zinc-800 flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+        <div className="p-4 bg-white/40 dark:bg-zinc-950/40 backdrop-blur-md border-b border-neutral-200/80 dark:border-white/10 flex flex-col sm:flex-row sm:items-center justify-between gap-3">
           <div className="flex flex-wrap items-center gap-1.5">
             <span className="text-xs font-mono font-bold text-neutral-600 dark:text-zinc-400 mr-1 rtl:ml-1 rtl:mr-0">
               {language === 'fa' ? 'پلتفرم‌ها:' : 'Platforms:'}
@@ -493,7 +493,7 @@ export const MessageInputSection: React.FC<MessageInputSectionProps> = ({
             {Object.entries(platformCounts).map(([platform, count]) => (
               <span
                 key={platform}
-                className="px-2 py-0.5 rounded-md text-[11px] font-mono font-bold bg-white dark:bg-zinc-800 border border-neutral-200 dark:border-zinc-700 text-neutral-800 dark:text-zinc-200 shadow-2xs"
+                className="px-2 py-0.5 rounded-md text-[11px] font-mono font-bold bg-white/80 dark:bg-zinc-800/80 border border-neutral-200/80 dark:border-white/10 text-neutral-800 dark:text-zinc-200 shadow-2xs"
               >
                 {platform}: {count}
               </span>
@@ -508,14 +508,14 @@ export const MessageInputSection: React.FC<MessageInputSectionProps> = ({
                 value={searchFilter}
                 onChange={(e) => setSearchFilter(e.target.value)}
                 placeholder={t.searchBatchPlaceholder}
-                className={`w-40 sm:w-48 bg-white dark:bg-zinc-900 border border-neutral-300 dark:border-zinc-700 rounded-lg py-1 ${isRtl ? 'pr-8 pl-2.5' : 'pl-8 pr-2.5'} text-xs text-neutral-900 dark:text-zinc-100 placeholder-neutral-400 dark:placeholder-zinc-500 focus:outline-none focus:border-black dark:focus:border-white font-sans`}
+                className={`w-40 sm:w-48 glass-input rounded-lg py-1 ${isRtl ? 'pr-8 pl-2.5' : 'pl-8 pr-2.5'} text-xs text-neutral-900 dark:text-zinc-100 placeholder-neutral-400 dark:placeholder-zinc-500 focus:outline-none focus:border-black dark:focus:border-white font-sans`}
               />
             </div>
 
             {messages.length > 0 && (
               <button
                 onClick={handleClearAll}
-                className="p-1.5 rounded-lg border border-neutral-200 dark:border-zinc-700 bg-white dark:bg-zinc-800 hover:bg-red-50 dark:hover:bg-red-950/40 text-neutral-500 dark:text-zinc-400 hover:text-red-600 transition-colors cursor-pointer"
+                className="p-1.5 rounded-lg border border-neutral-200/80 dark:border-white/10 bg-white/60 dark:bg-zinc-800/60 backdrop-blur-xs hover:bg-red-50 dark:hover:bg-red-950/40 text-neutral-500 dark:text-zinc-400 hover:text-red-600 transition-colors cursor-pointer"
                 title={language === 'fa' ? 'پاکسازی کامل این بسته' : 'Clear entire batch'}
               >
                 <Trash2 className="w-3.5 h-3.5" />
@@ -532,16 +532,16 @@ export const MessageInputSection: React.FC<MessageInputSectionProps> = ({
             <p className="text-[11px] text-neutral-400 dark:text-zinc-500">{t.noMessagesSub}</p>
           </div>
         ) : (
-          <div className="divide-y divide-neutral-100 dark:divide-zinc-800 max-h-96 overflow-y-auto">
+          <div className="divide-y divide-neutral-200/50 dark:divide-white/10 max-h-96 overflow-y-auto">
             {filteredMessages.map((msg) => (
               <div
                 key={msg.id}
-                className="p-4 hover:bg-neutral-100/70 dark:hover:bg-zinc-800/60 transition-colors flex items-start justify-between gap-3 group"
+                className="p-4 hover:bg-neutral-900/5 dark:hover:bg-white/5 transition-colors flex items-start justify-between gap-3 group"
               >
                 <div className="space-y-1.5 flex-1 min-w-0">
                   <div className="flex flex-wrap items-center gap-2 text-xs font-mono">
                     <span className="font-bold text-neutral-950 dark:text-white">@{msg.author}</span>
-                    <span className="px-1.5 py-0.2 rounded border border-neutral-200 dark:border-zinc-700 bg-neutral-100 dark:bg-zinc-800 text-neutral-700 dark:text-zinc-300 text-[10px] font-sans">
+                    <span className="px-1.5 py-0.2 rounded border border-neutral-200/80 dark:border-white/10 bg-white/60 dark:bg-zinc-800/60 text-neutral-700 dark:text-zinc-300 text-[10px] font-sans">
                       {msg.platform}
                     </span>
                     <span className="text-neutral-500 dark:text-zinc-400 text-[11px] font-sans truncate max-w-[240px]">
@@ -552,14 +552,14 @@ export const MessageInputSection: React.FC<MessageInputSectionProps> = ({
                     </span>
                   </div>
 
-                  <p className="text-xs text-neutral-800 dark:text-zinc-200 leading-relaxed font-sans pr-2 rtl:pr-0 rtl:pl-2">
+                  <p className="text-xs text-neutral-800 dark:text-zinc-200 leading-relaxed font-sans pr-2 rtl:pr-0 rtl:pl-2 break-words">
                     {msg.text}
                   </p>
                 </div>
 
                 <button
                   onClick={() => handleDeleteMessage(msg.id)}
-                  className="opacity-0 group-hover:opacity-100 p-1 rounded-lg text-neutral-400 dark:text-zinc-500 hover:text-red-600 hover:bg-neutral-100 dark:hover:bg-zinc-800 transition-all cursor-pointer self-start shrink-0"
+                  className="opacity-0 group-hover:opacity-100 p-1 rounded-lg text-neutral-400 dark:text-zinc-500 hover:text-red-600 hover:bg-black/5 dark:hover:bg-white/5 transition-all cursor-pointer self-start shrink-0"
                   title={language === 'fa' ? 'حذف پیام از بسته' : 'Remove message from batch'}
                 >
                   <Trash2 className="w-3.5 h-3.5" />
@@ -572,8 +572,8 @@ export const MessageInputSection: React.FC<MessageInputSectionProps> = ({
 
       {/* MODAL: ADD MANUAL CUSTOM MESSAGE */}
       {showManualModal && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/60 backdrop-blur-xs animate-fade-in" dir={isRtl ? 'rtl' : 'ltr'}>
-          <div className="relative w-full max-w-md bg-white dark:bg-zinc-900 border border-neutral-200 dark:border-zinc-800 rounded-3xl p-6 sm:p-7 shadow-2xl transition-colors">
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/60 backdrop-blur-md animate-fade-in" dir={isRtl ? 'rtl' : 'ltr'}>
+          <div className="relative w-full max-w-md glass-modal rounded-3xl p-6 sm:p-7 shadow-2xl transition-colors">
             <button
               onClick={() => setShowManualModal(false)}
               className={`absolute top-5 ${isRtl ? 'left-5' : 'right-5'} p-1 rounded-lg text-neutral-400 dark:text-zinc-500 hover:text-neutral-900 dark:hover:text-white transition-colors cursor-pointer`}
@@ -582,8 +582,8 @@ export const MessageInputSection: React.FC<MessageInputSectionProps> = ({
             </button>
 
             <div className="mb-4">
-              <h3 className="text-lg font-extrabold text-neutral-950 dark:text-white">{t.addModalTitle}</h3>
-              <p className="text-xs text-neutral-500 dark:text-zinc-400 mt-0.5">
+              <h3 className="text-lg font-extrabold text-neutral-950 dark:text-white break-words">{t.addModalTitle}</h3>
+              <p className="text-xs text-neutral-500 dark:text-zinc-400 mt-0.5 break-words">
                 {t.addModalDesc}
               </p>
             </div>
@@ -597,7 +597,7 @@ export const MessageInputSection: React.FC<MessageInputSectionProps> = ({
                     value={manualAuthor}
                     onChange={(e) => setManualAuthor(e.target.value)}
                     placeholder={language === 'fa' ? 'مثال: علی_بنیانگذار' : 'e.g. david_founder'}
-                    className="w-full bg-neutral-50 dark:bg-zinc-950 border border-neutral-200 dark:border-zinc-700 rounded-xl p-2 text-xs text-neutral-900 dark:text-zinc-100 focus:outline-none focus:border-black dark:focus:border-white"
+                    className="w-full glass-input rounded-xl p-2 text-xs text-neutral-900 dark:text-zinc-100 focus:outline-none focus:border-black dark:focus:border-white"
                   />
                 </div>
                 <div>
@@ -605,14 +605,14 @@ export const MessageInputSection: React.FC<MessageInputSectionProps> = ({
                   <select
                     value={manualPlatform}
                     onChange={(e) => setManualPlatform(e.target.value as any)}
-                    className="w-full bg-neutral-50 dark:bg-zinc-950 border border-neutral-200 dark:border-zinc-700 rounded-xl p-2 text-xs text-neutral-900 dark:text-zinc-100 focus:outline-none focus:border-black dark:focus:border-white cursor-pointer"
+                    className="w-full glass-input rounded-xl p-2 text-xs text-neutral-900 dark:text-zinc-100 focus:outline-none focus:border-black dark:focus:border-white cursor-pointer"
                   >
-                    <option value="Reddit">Reddit</option>
-                    <option value="Telegram">Telegram</option>
-                    <option value="Discord">Discord</option>
-                    <option value="Twitter/X">Twitter/X</option>
-                    <option value="LinkedIn">LinkedIn</option>
-                    <option value="Forum">Forum</option>
+                    <option value="Reddit" className="bg-white dark:bg-zinc-900 text-neutral-900 dark:text-white">Reddit</option>
+                    <option value="Telegram" className="bg-white dark:bg-zinc-900 text-neutral-900 dark:text-white">Telegram</option>
+                    <option value="Discord" className="bg-white dark:bg-zinc-900 text-neutral-900 dark:text-white">Discord</option>
+                    <option value="Twitter/X" className="bg-white dark:bg-zinc-900 text-neutral-900 dark:text-white">Twitter/X</option>
+                    <option value="LinkedIn" className="bg-white dark:bg-zinc-900 text-neutral-900 dark:text-white">LinkedIn</option>
+                    <option value="Forum" className="bg-white dark:bg-zinc-900 text-neutral-900 dark:text-white">Forum</option>
                   </select>
                 </div>
               </div>
@@ -624,7 +624,7 @@ export const MessageInputSection: React.FC<MessageInputSectionProps> = ({
                   value={manualCommunity}
                   onChange={(e) => setManualCommunity(e.target.value)}
                   placeholder={language === 'fa' ? 'مثال: r/learnprogramming یا گروه تلگرام توسعه‌دهندگان' : 'e.g. r/learnprogramming or Telegram Tech Group'}
-                  className="w-full bg-neutral-50 dark:bg-zinc-950 border border-neutral-200 dark:border-zinc-700 rounded-xl p-2 text-xs text-neutral-900 dark:text-zinc-100 focus:outline-none focus:border-black dark:focus:border-white"
+                  className="w-full glass-input rounded-xl p-2 text-xs text-neutral-900 dark:text-zinc-100 focus:outline-none focus:border-black dark:focus:border-white"
                 />
               </div>
 
@@ -636,7 +636,7 @@ export const MessageInputSection: React.FC<MessageInputSectionProps> = ({
                   value={manualText}
                   onChange={(e) => setManualText(e.target.value)}
                   placeholder={language === 'fa' ? 'متن دقیق پیام مخاطب را اینجا بنویسید یا بچسبانید...' : 'Paste or write the exact prospect message here...'}
-                  className="w-full bg-neutral-50 dark:bg-zinc-950 border border-neutral-200 dark:border-zinc-700 rounded-xl p-2.5 text-xs text-neutral-900 dark:text-zinc-100 focus:outline-none focus:border-black dark:focus:border-white"
+                  className="w-full glass-input rounded-xl p-2.5 text-xs text-neutral-900 dark:text-zinc-100 focus:outline-none focus:border-black dark:focus:border-white"
                 />
               </div>
 

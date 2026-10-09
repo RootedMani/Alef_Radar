@@ -123,6 +123,24 @@ app.post('/api/auth/reset-password', (req, res) => {
   });
 });
 
+app.post('/api/auth/change-password', (req, res) => {
+  const { email, currentPassword, newPassword } = req.body;
+  if (!email || !currentPassword || !newPassword) {
+    return res.status(400).json({ error: 'Email, current password, and new password are required' });
+  }
+
+  const user = findUserByEmail(email);
+  if (!user || user.passwordHash !== currentPassword) {
+    return res.status(401).json({ error: 'Current password is incorrect' });
+  }
+
+  updateUserPassword(email, newPassword);
+
+  res.json({
+    message: 'Password successfully updated.'
+  });
+});
+
 app.patch('/api/auth/profile', (req, res) => {
   const { email, name, subscriptionPlan } = req.body;
   if (!email) {

@@ -76,23 +76,23 @@ export const LandingPage: React.FC<LandingPageProps> = ({
 
   return (
     <div className="space-y-24 pb-16" dir={isRtl ? 'rtl' : 'ltr'}>
-      
+
       {/* Hero Section */}
       <section className="pt-8 sm:pt-14 pb-4 text-center max-w-4xl mx-auto px-4">
-        
+
         {/* Eyebrow Badge */}
-        <div className="inline-flex items-center space-x-2 rtl:space-x-reverse px-3.5 py-1 rounded-full border border-neutral-300 dark:border-zinc-800 bg-white dark:bg-zinc-900 text-xs font-mono font-bold text-neutral-800 dark:text-zinc-200 mb-6 shadow-xs">
+        <div className="inline-flex items-center space-x-2 rtl:space-x-reverse px-3.5 py-1 rounded-full border border-neutral-200/80 dark:border-white/15 bg-white/70 dark:bg-zinc-900/60 backdrop-blur-md text-xs font-mono font-bold text-neutral-800 dark:text-zinc-200 mb-6 shadow-xs">
           <Radar className="w-3.5 h-3.5 text-black dark:text-white" />
           <span>{t.heroEyebrow}</span>
         </div>
 
         {/* Main Headline */}
-        <h1 className="text-3xl sm:text-5xl lg:text-6xl font-black text-neutral-950 dark:text-white tracking-tight leading-[1.12]">
+        <h1 className="text-3xl sm:text-5xl lg:text-6xl font-black text-neutral-950 dark:text-white tracking-tight leading-[1.12] break-words">
           {t.heroTitle}
         </h1>
 
         {/* Subtitle */}
-        <p className="mt-5 text-base sm:text-lg text-neutral-600 dark:text-zinc-400 max-w-2xl mx-auto leading-relaxed">
+        <p className="mt-5 text-base sm:text-lg text-neutral-600 dark:text-zinc-400 max-w-2xl mx-auto leading-relaxed break-words">
           {t.heroSubtitle}
         </p>
 
@@ -108,7 +108,7 @@ export const LandingPage: React.FC<LandingPageProps> = ({
 
           <button
             onClick={onViewDocs}
-            className="w-full sm:w-auto inline-flex items-center justify-center space-x-2 rtl:space-x-reverse px-6 py-3.5 rounded-xl border border-neutral-300 dark:border-zinc-700 bg-white dark:bg-zinc-900 hover:bg-neutral-100 dark:hover:bg-zinc-800 text-neutral-900 dark:text-white font-bold text-sm transition-all cursor-pointer"
+            className="w-full sm:w-auto inline-flex items-center justify-center space-x-2 rtl:space-x-reverse px-6 py-3.5 rounded-xl border border-neutral-200/80 dark:border-white/15 bg-white/60 dark:bg-zinc-900/60 backdrop-blur-md hover:bg-white/80 dark:hover:bg-zinc-800/80 text-neutral-900 dark:text-white font-bold text-sm transition-all cursor-pointer shadow-xs"
           >
             <Cpu className="w-4 h-4" />
             <span>{t.docsBtn}</span>
@@ -116,7 +116,7 @@ export const LandingPage: React.FC<LandingPageProps> = ({
         </div>
 
         {/* Micro Telemetry Metrics */}
-        <div className="mt-14 pt-8 border-t border-neutral-200 dark:border-zinc-800 grid grid-cols-2 md:grid-cols-4 gap-6 text-center">
+        <div className="mt-14 pt-8 border-t border-neutral-200/80 dark:border-white/10 grid grid-cols-2 md:grid-cols-4 gap-6 text-center">
           <div>
             <div className="text-2xl sm:text-3xl font-black text-neutral-950 dark:text-white font-mono">88.7%</div>
             <div className="text-xs text-neutral-500 dark:text-zinc-400 font-medium mt-1">{t.statCostSaved}</div>
@@ -142,68 +142,68 @@ export const LandingPage: React.FC<LandingPageProps> = ({
           <div className="text-xs font-mono font-bold uppercase tracking-wider text-neutral-400 dark:text-zinc-500">
             {language === 'fa' ? 'معماری خط‌لوله رادار' : 'Pipeline Architecture'}
           </div>
-          <h2 className="text-2xl sm:text-3xl font-black text-neutral-950 dark:text-white mt-1">
+          <h2 className="text-2xl sm:text-3xl font-black text-neutral-950 dark:text-white mt-1 break-words">
             {t.workflowTitle}
           </h2>
-          <p className="text-xs sm:text-sm text-neutral-500 dark:text-zinc-400 mt-2">
+          <p className="text-xs sm:text-sm text-neutral-500 dark:text-zinc-400 mt-2 break-words">
             {t.workflowSubtitle}
           </p>
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-          
+
           {/* Card 1 */}
-          <div className="p-7 rounded-2xl bg-white dark:bg-zinc-900 border border-neutral-200 dark:border-zinc-800 shadow-xs flex flex-col justify-between">
+          <div className="p-7 rounded-2xl glass-card flex flex-col justify-between">
             <div>
               <div className="text-xs font-mono font-bold text-neutral-400 dark:text-zinc-500 mb-3">
                 {language === 'fa' ? '۰۱ // تعریف پروفایل' : '01 // PROFILE'}
               </div>
-              <h3 className="text-lg font-extrabold text-neutral-950 dark:text-white mb-2">
+              <h3 className="text-lg font-extrabold text-neutral-950 dark:text-white mb-2 break-words">
                 {t.step1Title}
               </h3>
-              <p className="text-xs text-neutral-600 dark:text-zinc-400 leading-relaxed">
+              <p className="text-xs text-neutral-600 dark:text-zinc-400 leading-relaxed break-words">
                 {t.step1Desc}
               </p>
             </div>
-            <div className="mt-6 pt-4 border-t border-neutral-100 dark:border-zinc-800 flex items-center justify-between text-xs font-mono text-neutral-400 dark:text-zinc-500">
+            <div className="mt-6 pt-4 border-t border-neutral-200/50 dark:border-white/10 flex items-center justify-between text-xs font-mono text-neutral-400 dark:text-zinc-500">
               <span>{language === 'fa' ? 'راه‌اندازی در ۶۰ ثانیه' : 'Ready in 60s'}</span>
               <span>{language === 'fa' ? 'سفارشی‌سازی کامل' : 'Fully Customizable'}</span>
             </div>
           </div>
 
           {/* Card 2 */}
-          <div className="p-7 rounded-2xl bg-white dark:bg-zinc-900 border border-neutral-950 dark:border-white shadow-sm flex flex-col justify-between ring-1 ring-neutral-950 dark:ring-white">
+          <div className="p-7 rounded-2xl glass-panel border border-neutral-950/80 dark:border-white/80 shadow-md flex flex-col justify-between ring-1 ring-neutral-950/20 dark:ring-white/20">
             <div>
               <div className="text-xs font-mono font-bold text-neutral-950 dark:text-white mb-3">
                 {language === 'fa' ? '۰۲ // آبشار ۴ مرحله‌ای' : '02 // 4-STAGE CASCADE'}
               </div>
-              <h3 className="text-lg font-extrabold text-neutral-950 dark:text-white mb-2">
+              <h3 className="text-lg font-extrabold text-neutral-950 dark:text-white mb-2 break-words">
                 {t.step2Title}
               </h3>
-              <p className="text-xs text-neutral-600 dark:text-zinc-400 leading-relaxed">
+              <p className="text-xs text-neutral-600 dark:text-zinc-400 leading-relaxed break-words">
                 {t.step2Desc}
               </p>
             </div>
-            <div className="mt-6 pt-4 border-t border-neutral-100 dark:border-zinc-800 flex items-center justify-between text-xs font-mono text-neutral-950 dark:text-white font-bold">
+            <div className="mt-6 pt-4 border-t border-neutral-200/50 dark:border-white/10 flex items-center justify-between text-xs font-mono text-neutral-950 dark:text-white font-bold">
               <span>88.7% {language === 'fa' ? 'صرفه‌جویی هزینه' : 'Cost Pruned'}</span>
               <span>Gemini 3.8 Flash</span>
             </div>
           </div>
 
           {/* Card 3 */}
-          <div className="p-7 rounded-2xl bg-white dark:bg-zinc-900 border border-neutral-200 dark:border-zinc-800 shadow-xs flex flex-col justify-between">
+          <div className="p-7 rounded-2xl glass-card flex flex-col justify-between">
             <div>
               <div className="text-xs font-mono font-bold text-neutral-400 dark:text-zinc-500 mb-3">
                 {language === 'fa' ? '۰۳ // تعامل و پاسخ' : '03 // ENGAGEMENT'}
               </div>
-              <h3 className="text-lg font-extrabold text-neutral-950 dark:text-white mb-2">
+              <h3 className="text-lg font-extrabold text-neutral-950 dark:text-white mb-2 break-words">
                 {t.step3Title}
               </h3>
-              <p className="text-xs text-neutral-600 dark:text-zinc-400 leading-relaxed">
+              <p className="text-xs text-neutral-600 dark:text-zinc-400 leading-relaxed break-words">
                 {t.step3Desc}
               </p>
             </div>
-            <div className="mt-6 pt-4 border-t border-neutral-100 dark:border-zinc-800 flex items-center justify-between text-xs font-mono text-neutral-400 dark:text-zinc-500">
+            <div className="mt-6 pt-4 border-t border-neutral-200/50 dark:border-white/10 flex items-center justify-between text-xs font-mono text-neutral-400 dark:text-zinc-500">
               <span>{language === 'fa' ? 'کپی با ۱ کلیک' : '1-Click Copy'}</span>
               <span>{language === 'fa' ? 'بدون گزارش اسپم' : 'Zero Account Bans'}</span>
             </div>
@@ -213,23 +213,23 @@ export const LandingPage: React.FC<LandingPageProps> = ({
 
       {/* The Cost-Aware Advantage (Comparison Grid) */}
       <section className="max-w-5xl mx-auto px-4">
-        <div className="p-8 sm:p-10 rounded-3xl bg-white dark:bg-zinc-900 border border-neutral-200 dark:border-zinc-800 shadow-sm">
+        <div className="p-8 sm:p-10 rounded-3xl glass-panel shadow-sm">
           <div className="text-center max-w-lg mx-auto mb-8">
             <span className="text-xs font-mono font-bold uppercase tracking-wider text-neutral-400 dark:text-zinc-500">
               {language === 'fa' ? 'اعتبارسنجی اقتصادی' : 'Economic Validation'}
             </span>
-            <h2 className="text-2xl font-black text-neutral-950 dark:text-white mt-1">
+            <h2 className="text-2xl font-black text-neutral-950 dark:text-white mt-1 break-words">
               {t.economicTitle}
             </h2>
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-            
+
             {/* Manual */}
-            <div className="p-5 rounded-xl border border-neutral-200 dark:border-zinc-800 bg-neutral-50/60 dark:bg-zinc-950/40 text-center">
+            <div className="p-5 rounded-xl border border-neutral-200/80 dark:border-white/10 bg-white/40 dark:bg-zinc-950/40 backdrop-blur-md text-center">
               <div className="text-xs font-bold text-neutral-500 dark:text-zinc-400 uppercase tracking-wide">{t.manualBrowsing}</div>
               <div className="text-2xl font-black text-neutral-950 dark:text-white mt-2 font-mono">20+ {language === 'fa' ? 'ساعت/هفته' : 'Hours/wk'}</div>
-              <p className="text-xs text-neutral-600 dark:text-zinc-400 mt-2 leading-relaxed">
+              <p className="text-xs text-neutral-600 dark:text-zinc-400 mt-2 leading-relaxed break-words">
                 {language === 'fa'
                   ? 'بررسی دستی کانال‌های دیسکورد و ردیت؛ ۹۵٪ زمان روی چت‌های نامربوط تلف شده و پیام‌ها ساعت‌ها دیر ارسال می‌شوند.'
                   : 'Growth leads manually reading through Discord and Reddit. 95% wasted on banter; replies arrive hours too late.'}
@@ -237,10 +237,10 @@ export const LandingPage: React.FC<LandingPageProps> = ({
             </div>
 
             {/* Naive AI */}
-            <div className="p-5 rounded-xl border border-neutral-200 dark:border-zinc-800 bg-neutral-50/60 dark:bg-zinc-950/40 text-center">
+            <div className="p-5 rounded-xl border border-neutral-200/80 dark:border-white/10 bg-white/40 dark:bg-zinc-950/40 backdrop-blur-md text-center">
               <div className="text-xs font-bold text-neutral-500 dark:text-zinc-400 uppercase tracking-wide">{t.naiveAi}</div>
               <div className="text-2xl font-black text-neutral-950 dark:text-white mt-2 font-mono">$144.00 <span className="text-xs font-normal">/ mo</span></div>
-              <p className="text-xs text-neutral-600 dark:text-zinc-400 mt-2 leading-relaxed">
+              <p className="text-xs text-neutral-600 dark:text-zinc-400 mt-2 leading-relaxed break-words">
                 {language === 'fa'
                   ? 'ارسال ۱۲۰۰ توکن به مدل‌های سنگین روی ۱۰,۰۰۰ پیام ماهانه بودجه را روی ربات‌ها و جوک‌ها می‌سوزاند.'
                   : 'Pumping 1,200 tokens per message through heavy LLMs across 10,000 community messages burns budget on memes and bots.'}
@@ -251,7 +251,7 @@ export const LandingPage: React.FC<LandingPageProps> = ({
             <div className="p-5 rounded-xl border border-neutral-950 dark:border-white bg-neutral-950 dark:bg-white text-white dark:text-black text-center shadow-md">
               <div className="text-xs font-bold uppercase tracking-wide opacity-80">{t.radarCascade}</div>
               <div className="text-2xl font-black mt-2 font-mono">$16.24 <span className="text-xs font-normal opacity-70">/ mo</span></div>
-              <p className="text-xs text-neutral-300 dark:text-neutral-700 mt-2 leading-relaxed">
+              <p className="text-xs text-neutral-300 dark:text-neutral-700 mt-2 leading-relaxed break-words">
                 {language === 'fa'
                   ? '۷۰٪ در مرحله ۱ (۰.۰۰۰۰۱ دلار) حذف شده و تنها سرنخ‌های طلایی به مرحله نهایی می‌رسند و هزینه را ۸۸.۷٪ کاهش می‌دهند.'
                   : '70% pruned at Stage 1 ($0.00001/msg). Only verified buyer leads reach final generation, slashing bills by 88.7%.'}
@@ -263,16 +263,16 @@ export const LandingPage: React.FC<LandingPageProps> = ({
 
       {/* Production Datasets Showcase */}
       <section className="max-w-5xl mx-auto px-4">
-        <div className="border border-neutral-200 dark:border-zinc-800 rounded-3xl p-8 bg-white dark:bg-zinc-900 shadow-xs">
-          <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-6 pb-4 border-b border-neutral-200 dark:border-zinc-800">
+        <div className="glass-panel rounded-3xl p-8 shadow-xs">
+          <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-6 pb-4 border-b border-neutral-200/80 dark:border-white/10">
             <div>
               <span className="text-xs font-mono font-bold uppercase tracking-wider text-neutral-400 dark:text-zinc-500">
                 {language === 'fa' ? 'جریان‌های آزمایشی آماده' : 'Live Pre-loaded Streams'}
               </span>
-              <h2 className="text-2xl font-black text-neutral-950 dark:text-white mt-0.5">
+              <h2 className="text-2xl font-black text-neutral-950 dark:text-white mt-0.5 break-words">
                 {language === 'fa' ? 'آزمایش با جریان‌های آماده مکالمات آنلاین' : 'Test With Pre-Loaded Community Datasets'}
               </h2>
-              <p className="text-xs text-neutral-500 dark:text-zinc-400 mt-1">
+              <p className="text-xs text-neutral-500 dark:text-zinc-400 mt-1 break-words">
                 {language === 'fa'
                   ? 'پیام‌های واقعی شامل خریداران بالقوه، پرسش‌های سطحی و هرزنامه‌های ربات‌ها.'
                   : 'Authentic community messages containing urgent buyers, weak curiosities, and spam noise.'}
@@ -289,11 +289,11 @@ export const LandingPage: React.FC<LandingPageProps> = ({
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-            
+
             {/* Dataset 1 */}
             <div
               onClick={() => onExploreDatasets('programming')}
-              className="p-5 rounded-2xl border border-neutral-200 dark:border-zinc-800 hover:border-neutral-950 dark:hover:border-white transition-all cursor-pointer bg-neutral-50/50 dark:bg-zinc-950/40 group"
+              className="p-5 rounded-2xl glass-card hover:border-neutral-950 dark:hover:border-white transition-all cursor-pointer group"
             >
               <div className="flex items-center justify-between mb-2">
                 <span className="text-xs font-mono font-bold text-neutral-500 dark:text-zinc-400">
@@ -303,15 +303,15 @@ export const LandingPage: React.FC<LandingPageProps> = ({
                   {language === 'fa' ? 'اجرای تست ←' : 'Run Test →'}
                 </span>
               </div>
-              <h4 className="font-extrabold text-neutral-950 dark:text-white text-base mb-1">
+              <h4 className="font-extrabold text-neutral-950 dark:text-white text-base mb-1 break-words">
                 {language === 'fa' ? 'دوره آموزش پایتون و تغییر مسیر شغلی' : 'Programming Course & Career Pivot Community'}
               </h4>
-              <p className="text-xs text-neutral-600 dark:text-zinc-400 leading-relaxed mb-3">
+              <p className="text-xs text-neutral-600 dark:text-zinc-400 leading-relaxed mb-3 break-words">
                 {language === 'fa'
                   ? 'پیام‌های ردیت r/learnprogramming و دیسکورد؛ افراد گیر افتاده در آموزش‌های تکراری همراه با اسپم ایردراپ.'
                   : 'Scraped from Reddit r/learnprogramming, Discord developer chats, and tech boards. Features career switchers in tutorial hell, questions, and crypto spam.'}
               </p>
-              <div className="text-[11px] font-mono text-neutral-500 dark:text-zinc-400">
+              <div className="text-[11px] font-mono text-neutral-500 dark:text-zinc-400 break-words">
                 {language === 'fa' ? 'پروفایل هدف: شتاب‌دهنده شغلی پایتون DevCraft' : 'Target Profile: DevCraft Python Career Accelerator'}
               </div>
             </div>
@@ -319,7 +319,7 @@ export const LandingPage: React.FC<LandingPageProps> = ({
             {/* Dataset 2 */}
             <div
               onClick={() => onExploreDatasets('eyewear')}
-              className="p-5 rounded-2xl border border-neutral-200 dark:border-zinc-800 hover:border-neutral-950 dark:hover:border-white transition-all cursor-pointer bg-neutral-50/50 dark:bg-zinc-950/40 group"
+              className="p-5 rounded-2xl glass-card hover:border-neutral-950 dark:hover:border-white transition-all cursor-pointer group"
             >
               <div className="flex items-center justify-between mb-2">
                 <span className="text-xs font-mono font-bold text-neutral-500 dark:text-zinc-400">
@@ -329,15 +329,15 @@ export const LandingPage: React.FC<LandingPageProps> = ({
                   {language === 'fa' ? 'اجرای تست ←' : 'Run Test →'}
                 </span>
               </div>
-              <h4 className="font-extrabold text-neutral-950 dark:text-white text-base mb-1">
+              <h4 className="font-extrabold text-neutral-950 dark:text-white text-base mb-1 break-words">
                 {language === 'fa' ? 'عینک بلوکنترل و خستگی چشم مانیتور' : 'Blue-Light Glasses & Screen Fatigue Feed'}
               </h4>
-              <p className="text-xs text-neutral-600 dark:text-zinc-400 leading-relaxed mb-3">
+              <p className="text-xs text-neutral-600 dark:text-zinc-400 leading-relaxed mb-3 break-words">
                 {language === 'fa'
                   ? 'مکالمات توییتر و ردیت از برنامه‌نویسان و تحلیل‌گرانی که از سوزش چشم و میگرن مانیتور رنج می‌برند.'
                   : 'Twitter/X and Reddit threads from remote software engineers, analysts, and traders experiencing 10-hour screen migraines and blurred vision.'}
               </p>
-              <div className="text-[11px] font-mono text-neutral-500 dark:text-zinc-400">
+              <div className="text-[11px] font-mono text-neutral-500 dark:text-zinc-400 break-words">
                 {language === 'fa' ? 'پروفایل هدف: عینک‌های تخصصی LuminaShield' : 'Target Profile: LuminaShield Precision Eyewear'}
               </div>
             </div>
@@ -351,24 +351,24 @@ export const LandingPage: React.FC<LandingPageProps> = ({
           <span className="text-xs font-mono font-bold uppercase tracking-wider text-neutral-400 dark:text-zinc-500">
             {language === 'fa' ? 'تعرفه‌های شفاف' : 'Predictable Pricing'}
           </span>
-          <h2 className="text-2xl sm:text-3xl font-black text-neutral-950 dark:text-white mt-1">
+          <h2 className="text-2xl sm:text-3xl font-black text-neutral-950 dark:text-white mt-1 break-words">
             {t.pricingTitle}
           </h2>
-          <p className="text-xs sm:text-sm text-neutral-500 dark:text-zinc-400 mt-2">
+          <p className="text-xs sm:text-sm text-neutral-500 dark:text-zinc-400 mt-2 break-words">
             {t.pricingSubtitle}
           </p>
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
           {/* Starter Plan */}
-          <div className="p-6 rounded-2xl bg-white dark:bg-zinc-900 border border-neutral-200 dark:border-zinc-800 flex flex-col justify-between">
+          <div className="p-6 rounded-2xl glass-card flex flex-col justify-between">
             <div>
               <div className="text-xs font-bold text-neutral-500 dark:text-zinc-400 uppercase tracking-wider">{t.planFree}</div>
               <div className="mt-3 flex items-baseline">
                 <span className="text-3xl font-black text-neutral-950 dark:text-white font-mono">$0</span>
                 <span className="text-xs text-neutral-500 dark:text-zinc-400 ml-1 rtl:mr-1">/ {language === 'fa' ? 'همیشگی' : 'forever'}</span>
               </div>
-              <p className="text-xs text-neutral-600 dark:text-zinc-400 mt-2">
+              <p className="text-xs text-neutral-600 dark:text-zinc-400 mt-2 break-words">
                 {language === 'fa' ? 'مناسب ارزیابی خط‌لوله ایجنت و اسکن دسته‌های پیام دستی.' : 'Ideal for evaluating the agent pipeline and scanning manual community message batches.'}
               </p>
               <ul className="mt-5 space-y-2 text-xs text-neutral-700 dark:text-zinc-300">
@@ -388,14 +388,14 @@ export const LandingPage: React.FC<LandingPageProps> = ({
             </div>
             <button
               onClick={onGetStarted}
-              className="mt-6 w-full py-2.5 rounded-xl border border-neutral-300 dark:border-zinc-700 bg-white dark:bg-zinc-800 hover:bg-neutral-100 dark:hover:bg-zinc-700 text-xs font-bold text-neutral-900 dark:text-white transition-colors cursor-pointer"
+              className="mt-6 w-full py-2.5 rounded-xl border border-neutral-200/80 dark:border-white/15 bg-white/70 dark:bg-zinc-800/70 hover:bg-neutral-100 dark:hover:bg-zinc-700/80 backdrop-blur-md text-xs font-bold text-neutral-900 dark:text-white transition-colors cursor-pointer shadow-xs"
             >
               {language === 'fa' ? 'شروع رایگان' : 'Get Started Free'}
             </button>
           </div>
 
           {/* Pro Growth Plan */}
-          <div className="p-6 rounded-2xl bg-white dark:bg-zinc-900 border border-neutral-950 dark:border-white shadow-md ring-1 ring-neutral-950 dark:ring-white flex flex-col justify-between">
+          <div className="p-6 rounded-2xl glass-panel border border-neutral-950 dark:border-white shadow-md ring-1 ring-neutral-950/20 dark:ring-white/20 flex flex-col justify-between">
             <div>
               <div className="flex items-center justify-between">
                 <span className="text-xs font-bold text-neutral-950 dark:text-white uppercase tracking-wider">{t.planPro}</span>
@@ -407,7 +407,7 @@ export const LandingPage: React.FC<LandingPageProps> = ({
                 <span className="text-3xl font-black text-neutral-950 dark:text-white font-mono">$49</span>
                 <span className="text-xs text-neutral-500 dark:text-zinc-400 ml-1 rtl:mr-1">/ {language === 'fa' ? 'ماهانه' : 'month'}</span>
               </div>
-              <p className="text-xs text-neutral-600 dark:text-zinc-400 mt-2">
+              <p className="text-xs text-neutral-600 dark:text-zinc-400 mt-2 break-words">
                 {language === 'fa' ? 'برای بنیان‌گذاران، بازاریابان ساس و آژانس‌های نظارت روزانه کانال‌ها.' : 'For active founders, SaaS marketers, and growth agencies monitoring daily channels.'}
               </p>
               <ul className="mt-5 space-y-2 text-xs text-neutral-700 dark:text-zinc-300">
@@ -438,14 +438,14 @@ export const LandingPage: React.FC<LandingPageProps> = ({
           </div>
 
           {/* Enterprise Plan */}
-          <div className="p-6 rounded-2xl bg-white dark:bg-zinc-900 border border-neutral-200 dark:border-zinc-800 flex flex-col justify-between">
+          <div className="p-6 rounded-2xl glass-card flex flex-col justify-between">
             <div>
               <div className="text-xs font-bold text-neutral-500 dark:text-zinc-400 uppercase tracking-wider">{t.planEnterprise}</div>
               <div className="mt-3 flex items-baseline">
                 <span className="text-3xl font-black text-neutral-950 dark:text-white font-mono">$199</span>
                 <span className="text-xs text-neutral-500 dark:text-zinc-400 ml-1 rtl:mr-1">/ {language === 'fa' ? 'ماهانه' : 'month'}</span>
               </div>
-              <p className="text-xs text-neutral-600 dark:text-zinc-400 mt-2">
+              <p className="text-xs text-neutral-600 dark:text-zinc-400 mt-2 break-words">
                 {language === 'fa' ? 'جریان‌های سنگین، سینک مستقیم به CRM، و لحن فاین‌تون شده.' : 'High-volume streaming listeners, dedicated webhooks, CRM sync, and custom model fine-tuning.'}
               </p>
               <ul className="mt-5 space-y-2 text-xs text-neutral-700 dark:text-zinc-300">
@@ -465,7 +465,7 @@ export const LandingPage: React.FC<LandingPageProps> = ({
             </div>
             <button
               onClick={onGetStarted}
-              className="mt-6 w-full py-2.5 rounded-xl border border-neutral-300 dark:border-zinc-700 bg-white dark:bg-zinc-800 hover:bg-neutral-100 dark:hover:bg-zinc-700 text-xs font-bold text-neutral-900 dark:text-white transition-colors cursor-pointer"
+              className="mt-6 w-full py-2.5 rounded-xl border border-neutral-200/80 dark:border-white/15 bg-white/70 dark:bg-zinc-800/70 hover:bg-neutral-100 dark:hover:bg-zinc-700/80 backdrop-blur-md text-xs font-bold text-neutral-900 dark:text-white transition-colors cursor-pointer shadow-xs"
             >
               {language === 'fa' ? 'تماس با فروش' : 'Contact Sales'}
             </button>
@@ -479,7 +479,7 @@ export const LandingPage: React.FC<LandingPageProps> = ({
           <span className="text-xs font-mono font-bold uppercase tracking-wider text-neutral-400 dark:text-zinc-500">
             {language === 'fa' ? 'پاسخ به سوالات' : 'Got Questions?'}
           </span>
-          <h2 className="text-2xl font-black text-neutral-950 dark:text-white mt-1">
+          <h2 className="text-2xl font-black text-neutral-950 dark:text-white mt-1 break-words">
             {t.faqTitle}
           </h2>
         </div>
@@ -488,13 +488,13 @@ export const LandingPage: React.FC<LandingPageProps> = ({
           {faqs.map((faq, idx) => (
             <div
               key={idx}
-              className="border border-neutral-200 dark:border-zinc-800 rounded-2xl bg-white dark:bg-zinc-900 overflow-hidden transition-all"
+              className="border border-neutral-200/80 dark:border-white/10 rounded-2xl glass-card overflow-hidden transition-all"
             >
               <button
                 onClick={() => setOpenFaq(openFaq === idx ? null : idx)}
                 className="w-full p-4 sm:p-5 flex items-center justify-between text-left rtl:text-right text-xs sm:text-sm font-bold text-neutral-900 dark:text-white cursor-pointer"
               >
-                <span>{faq.q}</span>
+                <span className="break-words">{faq.q}</span>
                 <ChevronDown
                   className={`w-4 h-4 text-neutral-400 dark:text-zinc-500 transition-transform ${
                     openFaq === idx ? 'rotate-180 text-black dark:text-white' : ''
@@ -502,7 +502,7 @@ export const LandingPage: React.FC<LandingPageProps> = ({
                 />
               </button>
               {openFaq === idx && (
-                <div className="px-5 pb-5 text-xs text-neutral-600 dark:text-zinc-400 leading-relaxed border-t border-neutral-100 dark:border-zinc-800 pt-3">
+                <div className="px-5 pb-5 text-xs text-neutral-600 dark:text-zinc-400 leading-relaxed border-t border-neutral-200/60 dark:border-white/10 pt-3 break-words">
                   {faq.a}
                 </div>
               )}
@@ -514,10 +514,10 @@ export const LandingPage: React.FC<LandingPageProps> = ({
       {/* Call To Action Banner */}
       <section className="max-w-4xl mx-auto px-4 text-center">
         <div className="p-10 rounded-3xl bg-neutral-950 dark:bg-white text-white dark:text-black shadow-xl space-y-4">
-          <h2 className="text-2xl sm:text-3xl font-black tracking-tight">
+          <h2 className="text-2xl sm:text-3xl font-black tracking-tight break-words">
             {t.ctaTitle}
           </h2>
-          <p className="text-xs sm:text-sm text-neutral-400 dark:text-neutral-600 max-w-xl mx-auto leading-relaxed">
+          <p className="text-xs sm:text-sm text-neutral-400 dark:text-neutral-600 max-w-xl mx-auto leading-relaxed break-words">
             {t.ctaSubtitle}
           </p>
           <div className="pt-2">
