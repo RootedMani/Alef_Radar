@@ -58,28 +58,38 @@ export const AuthModal: React.FC<AuthModalProps> = ({
         onClose();
       } else if (authView === 'forgot') {
         const res = await requestPasswordReset(resetEmail);
-        setGeneratedCode(res.resetCode);
-        setResetCode(res.resetCode);
+        if (res.emailDelivered) {
+          setGeneratedCode(null);
+          setResetCode('');
+        } else {
+          setGeneratedCode(res.resetCode);
+          setResetCode(res.resetCode);
+        }
         setAuthView('reset');
         setSuccessMessage(
           res.emailDelivered
             ? (language === 'fa'
-                ? `کد تأیید به ایمیل شما ارسال شد (${resetEmail}).`
-                : `Verification code was sent to ${resetEmail}.`)
+                ? `کد ۶ رقمی به ایمیل ${resetEmail} ارسال گردید. لطفاً ایمیل خود را بررسی کنید.`
+                : `A 6-digit verification code was sent to ${resetEmail}. Check your inbox.`)
             : (language === 'fa'
-                ? `کد تأیید صادر شد: ${res.resetCode}. رمز عبور جدید خود را وارد کنید.`
+                ? `کد تأیید آزمایشی: ${res.resetCode}. رمز عبور جدید را وارد کنید.`
                 : `Verification code: ${res.resetCode}. Enter your new password below.`)
         );
       } else if (authView === 'reset') {
-        await resetPasswordWithCode(resetEmail, resetCode, newPassword);
-        setSuccessMessage(
-          language === 'fa'
-            ? 'رمز عبور با موفقیت به‌روزرسانی شد! اکنون می‌توانید وارد شوید.'
-            : 'Password successfully updated! You can now log in.'
-        );
-        setEmail(resetEmail);
-        setPassword(newPassword);
-        setAuthView('login');
+        const resetRes = await resetPasswordWithCode(resetEmail, resetCode, newPassword);
+        if (resetRes.user) {
+          onAuthSuccess(resetRes.user);
+          onClose();
+        } else {
+          setSuccessMessage(
+            language === 'fa'
+              ? 'رمز عبور با موفقیت تغییر کرد! اکنون وارد حساب کاربری شدید.'
+              : 'Password successfully updated! You are now logged in.'
+          );
+          setEmail(resetEmail);
+          setPassword(newPassword);
+          setAuthView('login');
+        }
       }
     } catch (err: any) {
       setError(err.message || (language === 'fa' ? 'عملیات با خطا مواجه شد. لطفاً دوباره تلاش کنید.' : 'Operation failed. Please try again.'));

@@ -19,6 +19,7 @@ import {
   deleteProfile,
   getDatabaseStatus,
   getAllUsers,
+  findUserById,
 } from './src/db/storage';
 
 dotenv.config();
@@ -204,20 +205,34 @@ app.get('/api/admin/users', async (req, res) => {
 });
 
 app.post('/api/auth/reset-password', async (req, res) => {
-  const { email, resetCode, newPassword } = req.body;
+  const email = req.body.email;
+  const resetCode = req.body.resetCode || req.body.code;
+  const newPassword = req.body.newPassword || req.body.password;
+
   if (!email || !resetCode || !newPassword) {
     return res.status(400).json({ error: 'Email, verification code, and new password are required' });
   }
 
-  const isValid = await verifyPasswordResetCode(email, resetCode);
+  const isValid = await verifyPasswordResetCode(email, String(resetCode).trim());
   if (!isValid) {
     return res.status(400).json({ error: 'Invalid or expired verification reset code' });
   }
 
   await updateUserPassword(email, newPassword);
+  const updatedUser = await findUserByEmail(email);
 
   res.json({
-    message: 'Password successfully updated. You can now log in.'
+    success: true,
+    message: 'Password successfully updated.',
+    user: updatedUser ? {
+      id: updatedUser.id,
+      email: updatedUser.email,
+      name: updatedUser.name,
+      role: updatedUser.role,
+      subscriptionPlan: updatedUser.subscriptionPlan,
+      createdAt: updatedUser.createdAt
+    } : undefined,
+    token: updatedUser ? `token-${updatedUser.id}` : undefined
   });
 });
 
@@ -269,39 +284,33 @@ app.get('/api/auth/me', async (req, res) => {
   const authHeader = req.headers.authorization;
   const emailQuery = req.query.email as string | undefined;
 
-  if (emailQuery) {
-    const user = await findUserByEmail(emailQuery);
-    if (user) {
-      return res.json({
-        user: {
-          id: user.id,
-          email: user.email,
-          name: user.name,
-          role: user.role,
-          subscriptionPlan: user.subscriptionPlan,
-          createdAt: user.createdAt
-        }
-      });
+  let user: any = null;
+
+  // 1. First check Bearer token if present
+  if (authHeader && authHeader.startsWith('Bearer ')) {
+    const token = authHeader.replace('Bearer ', '').trim();
+    if (token.startsWith('token-')) {
+      const userId = token.replace('token-', '');
+      user = await findUserById(userId);
     }
   }
 
-  if (authHeader && authHeader.startsWith('Bearer ')) {
-    const token = authHeader.replace('Bearer ', '');
-    if (token.startsWith('token-')) {
-      const defaultUser = await findUserByEmail('founder@opportunityradar.ai');
-      if (defaultUser) {
-        return res.json({
-          user: {
-            id: defaultUser.id,
-            email: defaultUser.email,
-            name: defaultUser.name,
-            role: defaultUser.role,
-            subscriptionPlan: defaultUser.subscriptionPlan,
-            createdAt: defaultUser.createdAt
-          }
-        });
+  // 2. If token not matched or query provided, fallback to email lookup
+  if (!user && emailQuery) {
+    user = await findUserByEmail(emailQuery);
+  }
+
+  if (user) {
+    return res.json({
+      user: {
+        id: user.id,
+        email: user.email,
+        name: user.name,
+        role: user.role,
+        subscriptionPlan: user.subscriptionPlan,
+        createdAt: user.createdAt
       }
-    }
+    });
   }
 
   res.status(401).json({ error: 'Not authenticated' });

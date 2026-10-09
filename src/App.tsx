@@ -138,11 +138,18 @@ export default function App() {
 
     // Validate stored user session with server
     const savedUser = localStorage.getItem('opportunityradar_user');
+    const savedToken = localStorage.getItem('opportunityradar_token');
     if (savedUser) {
       try {
         const parsed = JSON.parse(savedUser);
-        if (parsed && parsed.email) {
-          fetch(`/api/auth/me?email=${encodeURIComponent(parsed.email)}`)
+        if (parsed && (parsed.email || savedToken)) {
+          const headers: Record<string, string> = {};
+          if (savedToken) headers['Authorization'] = `Bearer ${savedToken}`;
+          const url = parsed.email
+            ? `/api/auth/me?email=${encodeURIComponent(parsed.email)}`
+            : `/api/auth/me`;
+
+          fetch(url, { headers })
             .then((res) => (res.ok ? res.json() : null))
             .then((data) => {
               if (data && data.user) {

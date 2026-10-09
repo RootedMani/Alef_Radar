@@ -34,6 +34,26 @@
       "createdAt": "2026-10-09T11:26:21.472Z",
       "resetCode": "112858",
       "resetCodeExpires": "2026-10-09T12:22:41.594Z"
+    },
+    {
+      "id": "user-mani",
+      "email": "manijabaripersonal@gmail.com",
+      "name": "Mani Jabari",
+      "passwordHash": "$2a$10$wE96c7q5M3P18kS6U6XUvOaW2M.00YqfLp5Lq9xQ3bH6a7pI9w1mO",
+      "role": "Founder",
+      "subscriptionPlan": "PRO",
+      "createdAt": "2026-10-09T12:00:00.000Z",
+      "resetCode": "714970",
+      "resetCodeExpires": "2026-10-09T13:53:53.253Z"
+    },
+    {
+      "id": "user-1791553448976",
+      "email": "mani_real_test@domain.com",
+      "name": "Mani Test",
+      "passwordHash": "$2b$10$E9v6Ftp7HEocBWfxkE7PGei5w8nh3TDwXXX0htOeZ9VBjV3bB13Me",
+      "role": "Member",
+      "subscriptionPlan": "FREE",
+      "createdAt": "2026-10-09T13:44:08.976Z"
     }
   ],
   "profiles": [

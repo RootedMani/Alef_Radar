@@ -43,6 +43,15 @@ const initialDatabase: DatabaseSchema = {
       role: 'Growth Lead',
       subscriptionPlan: 'ENTERPRISE',
       createdAt: '2026-10-07T09:12:31.480Z'
+    },
+    {
+      id: 'user-mani',
+      email: 'manijabaripersonal@gmail.com',
+      name: 'Mani Jabari',
+      passwordHash: '$2a$10$wE96c7q5M3P18kS6U6XUvOaW2M.00YqfLp5Lq9xQ3bH6a7pI9w1mO', // default 'radar123'
+      role: 'Founder',
+      subscriptionPlan: 'PRO',
+      createdAt: '2026-10-09T12:00:00.000Z'
     }
   ],
   profiles: defaultProductProfiles,
@@ -89,33 +98,107 @@ const ProfileMongooseSchema = new Schema({
 export const UserModel = mongoose.models.User || mongoose.model('User', UserMongooseSchema);
 export const ProfileModel = mongoose.models.Profile || mongoose.model('Profile', ProfileMongooseSchema);
 
+export function sanitizeMongoUri(rawUri: string): string {
+  let uri = rawUri.trim();
+  if ((uri.startsWith('"') && uri.endsWith('"')) || (uri.startsWith("'") && uri.endsWith("'"))) {
+    uri = uri.slice(1, -1);
+  }
+
+  const schemeMatch = uri.match(/^(mongodb(?:\+srv)?:\/\/)(.*)$/);
+  if (!schemeMatch) return uri;
+
+  const scheme = schemeMatch[1];
+  const rest = schemeMatch[2];
+
+  const atIdx = rest.lastIndexOf('@');
+  if (atIdx === -1) return uri;
+
+  const credentialsPart = rest.substring(0, atIdx);
+  let hostAndPath = rest.substring(atIdx + 1);
+
+  const colonIdx = credentialsPart.indexOf(':');
+  if (colonIdx === -1) return uri;
+
+  let user = credentialsPart.substring(0, colonIdx);
+  let pass = credentialsPart.substring(colonIdx + 1);
+
+  if (user.startsWith('<') && user.endsWith('>')) {
+    user = user.slice(1, -1);
+  }
+  if (pass.startsWith('<') && pass.endsWith('>')) {
+    pass = pass.slice(1, -1);
+  }
+
+  const encodedPass = encodeURIComponent(decodeURIComponent(pass));
+
+  if (hostAndPath.includes('/?')) {
+    hostAndPath = hostAndPath.replace('/?', '/alef-radar?');
+  } else if (!hostAndPath.includes('/')) {
+    hostAndPath = hostAndPath + '/alef-radar';
+  } else if (hostAndPath.endsWith('/')) {
+    hostAndPath = hostAndPath + 'alef-radar';
+  }
+
+  return `${scheme}${user}:${encodedPass}@${hostAndPath}`;
+}
+
 let isMongoConnected = false;
 let mongoInitAttempted = false;
 
 export async function initDatabase(): Promise<void> {
   ensureDbExists();
 
-  const mongoUri = process.env.MONGODB_URI;
-  if (!mongoUri || mongoInitAttempted) return;
+  const rawMongoUri = process.env.MONGODB_URI;
+  if (!rawMongoUri || mongoInitAttempted) return;
 
   mongoInitAttempted = true;
   mongoose.set('bufferCommands', false); // Fail fast, do not buffer if offline
 
+  const mongoUri = sanitizeMongoUri(rawMongoUri);
+
   try {
     await mongoose.connect(mongoUri, {
-      serverSelectionTimeoutMS: 3000,
-      connectTimeoutMS: 3000
+      serverSelectionTimeoutMS: 5000,
+      connectTimeoutMS: 5000
     });
     isMongoConnected = true;
-    console.log('✅ [MongoDB] Successfully connected to MongoDB database.');
+    console.log('✅ [MongoDB] Successfully connected to MongoDB Atlas database!');
 
-    // Seed default profiles into MongoDB if empty
+    // 1. Seed & synchronize user accounts to MongoDB Atlas if not present
     try {
-      const count = await ProfileModel.countDocuments();
-      if (count === 0) {
-        await ProfileModel.insertMany(defaultProductProfiles);
-        console.log('✅ [MongoDB] Initialized default product profiles in MongoDB.');
+      const local = readDatabase();
+      for (const u of local.users) {
+        const exists = await UserModel.findOne({ email: u.email.toLowerCase() });
+        if (!exists) {
+          await UserModel.create({
+            id: u.id,
+            email: u.email.toLowerCase(),
+            name: u.name,
+            passwordHash: u.passwordHash,
+            role: u.role || 'Member',
+            subscriptionPlan: u.subscriptionPlan || 'FREE',
+            resetCode: u.resetCode,
+            resetCodeExpires: u.resetCodeExpires,
+            createdAt: u.createdAt
+          });
+        }
       }
+      console.log('✅ [MongoDB] Synchronized user accounts to MongoDB Atlas.');
+    } catch (userSyncErr) {
+      console.warn('⚠️ [MongoDB] User sync notice:', userSyncErr);
+    }
+
+    // 2. Seed & synchronize product profiles into MongoDB
+    try {
+      const local = readDatabase();
+      const profilesToSync = local.profiles.length > 0 ? local.profiles : defaultProductProfiles;
+      for (const p of profilesToSync) {
+        const exists = await ProfileModel.findOne({ id: p.id });
+        if (!exists) {
+          await ProfileModel.create(p);
+        }
+      }
+      console.log('✅ [MongoDB] Synchronized product profiles to MongoDB Atlas.');
     } catch (seedErr) {
       console.warn('⚠️ [MongoDB] Profile seed notice:', seedErr);
     }
@@ -232,6 +315,32 @@ export async function findUserByEmail(email: string): Promise<StoredUser | undef
 
   const local = readDatabase();
   return local.users.find((u) => u.email.toLowerCase() === normalizedEmail);
+}
+
+export async function findUserById(id: string): Promise<StoredUser | undefined> {
+  if (isUsingMongo()) {
+    try {
+      const doc = await UserModel.findOne({ id }).lean();
+      if (doc) {
+        return {
+          id: (doc as any).id,
+          email: (doc as any).email,
+          name: (doc as any).name,
+          role: (doc as any).role,
+          subscriptionPlan: (doc as any).subscriptionPlan,
+          passwordHash: (doc as any).passwordHash,
+          resetCode: (doc as any).resetCode,
+          resetCodeExpires: (doc as any).resetCodeExpires,
+          createdAt: (doc as any).createdAt
+        };
+      }
+    } catch (err) {
+      console.warn('MongoDB findUserById failed, checking local storage:', err);
+    }
+  }
+
+  const local = readDatabase();
+  return local.users.find((u) => u.id === id);
 }
 
 export async function createUser(email: string, password: string, name?: string): Promise<StoredUser> {

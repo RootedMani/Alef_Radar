@@ -123,24 +123,20 @@ export async function requestPasswordReset(email: string): Promise<{ resetCode: 
   }
 }
 
-export async function resetPasswordWithCode(email: string, resetCode: string, newPassword: string): Promise<{ message: string }> {
-  try {
-    const res = await fetch('/api/auth/reset-password', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ email, resetCode, newPassword })
-    });
-    if (!res.ok) {
-      const err = await res.json().catch(() => ({}));
-      throw new Error(err.error || 'Invalid reset code or password update failed');
-    }
-    return await res.json();
-  } catch (err: any) {
-    if (err.message && (err.message.includes('Invalid') || err.message.includes('expired') || err.message.includes('required'))) {
-      throw err;
-    }
-    return { message: 'Password successfully updated' };
+export async function resetPasswordWithCode(email: string, resetCode: string, newPassword: string): Promise<{ message: string; user?: User; token?: string }> {
+  const res = await fetch('/api/auth/reset-password', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ email, resetCode, newPassword })
+  });
+  if (!res.ok) {
+    const err = await res.json().catch(() => ({}));
+    throw new Error(err.error || 'Invalid reset code or password update failed');
   }
+  const data = await res.json();
+  if (data.token) localStorage.setItem('opportunityradar_token', data.token);
+  if (data.user) localStorage.setItem('opportunityradar_user', JSON.stringify(data.user));
+  return data;
 }
 
 export async function updateUser(id: string, email: string, name: string): Promise<User> {
