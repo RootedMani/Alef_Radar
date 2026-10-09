@@ -4,7 +4,7 @@
       "id": "user-demo-01",
       "email": "founder@opportunityradar.ai",
       "name": "Sarah J. Jenkins",
-      "passwordHash": "radar123",
+      "passwordHash": "$2b$10$gEveXkpIRxmEx2HQsN2WIuzYm8dKyKoLZ5GyFuOZEl6giDszJzQae",
       "createdAt": "2026-10-07T09:12:31.479Z",
       "subscriptionPlan": "PRO"
     },
@@ -21,6 +21,17 @@
       "name": "Test Hunter",
       "passwordHash": "newpassword999",
       "createdAt": "2026-10-07T09:12:35.338Z"
+    },
+    {
+      "id": "user-1791545181472",
+      "email": "test_alex@example.com",
+      "name": "Alex Test",
+      "passwordHash": "$2b$10$qw809ICgIfqiykmyoI1ZausijfJE9Pk8IOAtRsBK7CH6FME6TRbZK",
+      "role": "Member",
+      "subscriptionPlan": "FREE",
+      "createdAt": "2026-10-09T11:26:21.472Z",
+      "resetCode": "112858",
+      "resetCodeExpires": "2026-10-09T12:22:41.594Z"
     }
   ],
   "profiles": [

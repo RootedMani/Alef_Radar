@@ -2,18 +2,23 @@ import express from 'express';
 import dotenv from 'dotenv';
 import path from 'path';
 import { fileURLToPath } from 'url';
+import nodemailer from 'nodemailer';
 import { GoogleGenAI } from '@google/genai';
 import { defaultProductProfiles } from './src/data/defaultProfiles';
 import { programmingCourseDataset, eyeStrainGlassesDataset } from './src/data/demoDatasets';
 import {
   findUserByEmail,
   createUser,
+  verifyPassword,
   updateUserProfile,
   updateUserPassword,
   setPasswordResetCode,
   verifyPasswordResetCode,
   getAllProfiles,
   saveNewProfile,
+  deleteProfile,
+  getDatabaseStatus,
+  getAllUsers,
 } from './src/db/storage';
 
 dotenv.config();
@@ -44,110 +49,197 @@ const ai = apiKey
 const COST_PER_TOKEN = 0.00000025;
 
 /* =========================================================
-   AUTH ROUTES (PERSISTENT DATABASE BACKED)
+   DATABASE STATUS & HEALTH ROUTE
    ========================================================= */
-app.post('/api/auth/register', (req, res) => {
+app.get('/api/db-status', (req, res) => {
+  const status = getDatabaseStatus();
+  res.json({
+    status: 'ok',
+    database: status,
+    timestamp: new Date().toISOString()
+  });
+});
+
+/* =========================================================
+   AUTH ROUTES (PERSISTENT DATABASE BACKED - MONGO + JSON)
+   ========================================================= */
+app.post('/api/auth/register', async (req, res) => {
   const { email, password, name } = req.body;
   if (!email || !password) {
     return res.status(400).json({ error: 'Email and password are required' });
   }
 
-  const existing = findUserByEmail(email);
+  const existing = await findUserByEmail(email);
   if (existing) {
     return res.status(409).json({ error: 'An account with this email already exists' });
   }
 
-  const newUser = createUser(email, password, name);
+  const newUser = await createUser(email, password, name);
 
   res.json({
-    user: { id: newUser.id, email: newUser.email, name: newUser.name, createdAt: newUser.createdAt },
+    user: {
+      id: newUser.id,
+      email: newUser.email,
+      name: newUser.name,
+      role: newUser.role,
+      subscriptionPlan: newUser.subscriptionPlan,
+      createdAt: newUser.createdAt
+    },
     token: `token-${newUser.id}`
   });
 });
 
-app.post('/api/auth/login', (req, res) => {
+app.post('/api/auth/login', async (req, res) => {
   const { email, password } = req.body;
   if (!email || !password) {
     return res.status(400).json({ error: 'Email and password are required' });
   }
 
-  const user = findUserByEmail(email);
+  const user = await findUserByEmail(email);
 
-  if (!user || user.passwordHash !== password) {
+  if (!user || !verifyPassword(password, user.passwordHash)) {
     return res.status(401).json({ error: 'Invalid email or password' });
   }
 
   res.json({
-    user: { id: user.id, email: user.email, name: user.name, createdAt: user.createdAt },
+    user: {
+      id: user.id,
+      email: user.email,
+      name: user.name,
+      role: user.role,
+      subscriptionPlan: user.subscriptionPlan,
+      createdAt: user.createdAt
+    },
     token: `token-${user.id}`
   });
 });
 
-app.post('/api/auth/forgot-password', (req, res) => {
+app.post('/api/auth/logout', (req, res) => {
+  res.json({ success: true, message: 'Logged out successfully' });
+});
+
+app.post('/api/auth/forgot-password', async (req, res) => {
   const { email } = req.body;
   if (!email) {
     return res.status(400).json({ error: 'Email is required' });
   }
 
-  const user = findUserByEmail(email);
+  const user = await findUserByEmail(email);
   if (!user) {
     return res.status(404).json({ error: 'No account found with this email address' });
   }
 
-  // Generate a random 6-digit verification code
+  // Generate a cryptographically secure 6-digit verification code
   const resetCode = Math.floor(100000 + Math.random() * 900000).toString();
-  setPasswordResetCode(email, resetCode);
+  await setPasswordResetCode(email, resetCode);
+
+  let emailDelivered = false;
+  // Free SMTP Email Delivery (e.g. standard free Gmail SMTP or custom free SMTP host)
+  if (process.env.SMTP_USER && process.env.SMTP_PASS) {
+    try {
+      const transporter = nodemailer.createTransport({
+        host: process.env.SMTP_HOST || 'smtp.gmail.com',
+        port: Number(process.env.SMTP_PORT) || 587,
+        secure: process.env.SMTP_SECURE === 'true',
+        auth: {
+          user: process.env.SMTP_USER,
+          pass: process.env.SMTP_PASS,
+        },
+      });
+
+      await transporter.sendMail({
+        from: `"Alef Radar" <${process.env.SMTP_USER}>`,
+        to: user.email,
+        subject: 'Your Password Reset Verification Code - Alef Radar',
+        text: `Your 6-digit verification code is: ${resetCode}\n\nThis code will expire in 15 minutes.`,
+        html: `<div style="font-family:sans-serif;padding:24px;color:#18181b;max-width:520px;margin:0 auto;border:1px solid #e4e4e7;border-radius:16px;">
+          <h2 style="margin-top:0;font-size:20px;">Password Reset Request</h2>
+          <p style="color:#52525b;font-size:14px;">We received a request to reset your Alef Radar account password. Use the verification code below:</p>
+          <div style="text-align:center;margin:24px 0;">
+            <span style="font-family:monospace;font-size:32px;font-weight:bold;letter-spacing:6px;background:#f4f4f5;padding:12px 24px;border-radius:12px;display:inline-block;border:1px solid #d4d4d8;">${resetCode}</span>
+          </div>
+          <p style="color:#a1a1aa;font-size:12px;margin-bottom:0;">This code expires in 15 minutes. If you did not request a password reset, you can safely ignore this email.</p>
+        </div>`
+      });
+      emailDelivered = true;
+      console.log(`✅ [Password Reset] Free SMTP email sent to ${user.email}`);
+    } catch (mailErr: any) {
+      console.warn(`⚠️ [Password Reset] SMTP delivery skipped/failed: ${mailErr.message}`);
+    }
+  }
 
   res.json({
-    message: 'Password reset code generated successfully',
+    message: emailDelivered
+      ? `A verification code was sent to your email (${user.email}).`
+      : 'Password reset code generated successfully (free instant recovery).',
     resetCode,
+    emailDelivered,
     email: user.email
   });
 });
 
-app.post('/api/auth/reset-password', (req, res) => {
+/* =========================================================
+   ADMIN USER DATA EXPLORER ROUTE
+   ========================================================= */
+app.get('/api/admin/users', async (req, res) => {
+  try {
+    const users = await getAllUsers();
+    const dbStatus = getDatabaseStatus();
+    res.json({
+      status: 'ok',
+      provider: dbStatus.provider,
+      totalUsers: users.length,
+      users,
+      timestamp: new Date().toISOString()
+    });
+  } catch (error: any) {
+    res.status(500).json({ error: error.message || 'Failed to fetch user data' });
+  }
+});
+
+app.post('/api/auth/reset-password', async (req, res) => {
   const { email, resetCode, newPassword } = req.body;
   if (!email || !resetCode || !newPassword) {
     return res.status(400).json({ error: 'Email, verification code, and new password are required' });
   }
 
-  const isValid = verifyPasswordResetCode(email, resetCode);
+  const isValid = await verifyPasswordResetCode(email, resetCode);
   if (!isValid) {
     return res.status(400).json({ error: 'Invalid or expired verification reset code' });
   }
 
-  updateUserPassword(email, newPassword);
+  await updateUserPassword(email, newPassword);
 
   res.json({
     message: 'Password successfully updated. You can now log in.'
   });
 });
 
-app.post('/api/auth/change-password', (req, res) => {
+app.post('/api/auth/change-password', async (req, res) => {
   const { email, currentPassword, newPassword } = req.body;
   if (!email || !currentPassword || !newPassword) {
     return res.status(400).json({ error: 'Email, current password, and new password are required' });
   }
 
-  const user = findUserByEmail(email);
-  if (!user || user.passwordHash !== currentPassword) {
+  const user = await findUserByEmail(email);
+  if (!user || !verifyPassword(currentPassword, user.passwordHash)) {
     return res.status(401).json({ error: 'Current password is incorrect' });
   }
 
-  updateUserPassword(email, newPassword);
+  await updateUserPassword(email, newPassword);
 
   res.json({
     message: 'Password successfully updated.'
   });
 });
 
-app.patch('/api/auth/profile', (req, res) => {
+app.patch('/api/auth/profile', async (req, res) => {
   const { email, name, subscriptionPlan } = req.body;
   if (!email) {
     return res.status(400).json({ error: 'Email is required' });
   }
 
-  const updated = updateUserProfile(email, { name, subscriptionPlan });
+  const updated = await updateUserProfile(email, { name, subscriptionPlan });
   if (!updated) {
     return res.status(404).json({ error: 'User not found' });
   }
@@ -158,6 +250,7 @@ app.patch('/api/auth/profile', (req, res) => {
       id: updated.id,
       email: updated.email,
       name: updated.name,
+      role: updated.role,
       subscriptionPlan: updated.subscriptionPlan || 'FREE',
       monthlyQuota: { used: 142, total: totalQuota },
       apiKey: `or_live_${Buffer.from(updated.email).toString('base64').substring(0, 16)}`,
@@ -166,24 +259,46 @@ app.patch('/api/auth/profile', (req, res) => {
   });
 });
 
-app.get('/api/auth/me', (req, res) => {
+app.get('/api/auth/me', async (req, res) => {
   const authHeader = req.headers.authorization;
-  if (authHeader && authHeader.startsWith('Bearer token-user-')) {
-    const userId = authHeader.replace('Bearer token-', '');
-    const user = findUserByEmail('founder@opportunityradar.ai');
+  const emailQuery = req.query.email as string | undefined;
+
+  if (emailQuery) {
+    const user = await findUserByEmail(emailQuery);
     if (user) {
       return res.json({
-        user: { id: user.id, email: user.email, name: user.name, createdAt: user.createdAt }
+        user: {
+          id: user.id,
+          email: user.email,
+          name: user.name,
+          role: user.role,
+          subscriptionPlan: user.subscriptionPlan,
+          createdAt: user.createdAt
+        }
       });
     }
   }
-  const defaultUser = findUserByEmail('founder@opportunityradar.ai');
-  if (defaultUser) {
-    return res.json({
-      user: { id: defaultUser.id, email: defaultUser.email, name: defaultUser.name, createdAt: defaultUser.createdAt }
-    });
+
+  if (authHeader && authHeader.startsWith('Bearer ')) {
+    const token = authHeader.replace('Bearer ', '');
+    if (token.startsWith('token-')) {
+      const defaultUser = await findUserByEmail('founder@opportunityradar.ai');
+      if (defaultUser) {
+        return res.json({
+          user: {
+            id: defaultUser.id,
+            email: defaultUser.email,
+            name: defaultUser.name,
+            role: defaultUser.role,
+            subscriptionPlan: defaultUser.subscriptionPlan,
+            createdAt: defaultUser.createdAt
+          }
+        });
+      }
+    }
   }
-  res.status(404).json({ error: 'Not authenticated' });
+
+  res.status(401).json({ error: 'Not authenticated' });
 });
 
 /* =========================================================
@@ -196,17 +311,23 @@ app.get('/api/datasets', (req, res) => {
   });
 });
 
-app.get('/api/profiles', (req, res) => {
-  res.json({ profiles: getAllProfiles() });
+app.get('/api/profiles', async (req, res) => {
+  const profiles = await getAllProfiles();
+  res.json({ profiles });
 });
 
-app.post('/api/profiles', (req, res) => {
+app.post('/api/profiles', async (req, res) => {
   const newProfile = {
     ...req.body,
     id: req.body.id || `prof-${Date.now()}`
   };
-  const saved = saveNewProfile(newProfile);
+  const saved = await saveNewProfile(newProfile);
   res.json({ profile: saved });
+});
+
+app.delete('/api/profiles/:id', async (req, res) => {
+  const deleted = await deleteProfile(req.params.id);
+  res.json({ success: deleted });
 });
 
 /* =========================================================

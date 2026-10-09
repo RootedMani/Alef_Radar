@@ -18,7 +18,7 @@ import {
   programmingCourseDatasetFa,
   eyeStrainGlassesDatasetFa
 } from './data/demoDatasets';
-import { runAgentPipeline, saveProfile } from './services/agentApi';
+import { runAgentPipeline, saveProfile, fetchProfiles, logoutUser } from './services/agentApi';
 import { Language, translations } from './utils/i18n';
 import { ArrowLeft, ArrowRight, Radar, Sparkles, CheckCircle2, ShieldCheck } from 'lucide-react';
 
@@ -26,8 +26,16 @@ export default function App() {
   const [currentView, setCurrentView] = useState<'landing' | 'app' | 'docs'>('landing');
   const [isLoadingIntro, setIsLoadingIntro] = useState<boolean>(true);
 
-  // User is not signed in by default
-  const [user, setUser] = useState<User | null>(null);
+  // User state initialized from persistent storage
+  const [user, setUser] = useState<User | null>(() => {
+    try {
+      const saved = localStorage.getItem('opportunityradar_user');
+      if (saved) return JSON.parse(saved);
+      return null;
+    } catch {
+      return null;
+    }
+  });
 
   const [showAuthModal, setShowAuthModal] = useState<boolean>(false);
   const [showProfileModal, setShowProfileModal] = useState<boolean>(false);
@@ -92,6 +100,22 @@ export default function App() {
 
   const [profiles, setProfiles] = useState<ProductProfile[]>(defaultProductProfiles);
   const [activeProfile, setActiveProfile] = useState<ProductProfile>(defaultProductProfiles[0]);
+
+  // Load persistent profiles from database (MongoDB or local storage) on app start
+  useEffect(() => {
+    fetchProfiles()
+      .then((loadedProfiles) => {
+        if (loadedProfiles && loadedProfiles.length > 0) {
+          setProfiles(loadedProfiles);
+          setActiveProfile((prev) => {
+            const found = loadedProfiles.find((p) => p.id === prev.id);
+            return found || loadedProfiles[0];
+          });
+        }
+      })
+      .catch((err) => console.warn('Could not load profiles from server:', err));
+  }, []);
+
   const [messages, setMessages] = useState<CommunityMessage[]>(() =>
     language === 'fa' ? programmingCourseDatasetFa : programmingCourseDataset
   );
@@ -152,7 +176,10 @@ export default function App() {
 
   const handleAddProfile = async (p: ProductProfile) => {
     const saved = await saveProfile(p);
-    setProfiles((prev) => [saved, ...prev]);
+    setProfiles((prev) => {
+      const filtered = prev.filter((item) => item.id !== saved.id);
+      return [saved, ...filtered];
+    });
     setActiveProfile(saved);
   };
 
@@ -247,8 +274,8 @@ export default function App() {
     setIsLoading(false);
   };
 
-  const handleLogout = () => {
-    localStorage.removeItem('opportunityradar_user');
+  const handleLogout = async () => {
+    await logoutUser();
     setUser(null);
   };
 

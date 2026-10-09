@@ -3,67 +3,101 @@ import { defaultProductProfiles } from '../data/defaultProfiles';
 import { programmingCourseDataset, eyeStrainGlassesDataset } from '../data/demoDatasets';
 
 export async function registerUser(email: string, password: string, name?: string): Promise<{ user: User; token: string }> {
-  try {
-    const res = await fetch('/api/auth/register', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ email, password, name })
-    });
-    if (!res.ok) {
-      const err = await res.json().catch(() => ({}));
-      throw new Error(err.error || 'Failed to register account');
-    }
-    const data = await res.json();
-    localStorage.setItem('opportunityradar_user', JSON.stringify(data.user));
-    return data;
-  } catch (err: any) {
-    if (err.message && (err.message.includes('already exists') || err.message.includes('required') || err.message.includes('password') || err.message.includes('account'))) {
-      throw err;
-    }
-    // Network failure fallback using local storage
-    const fallbackUser: User = {
-      id: `user-${Date.now()}`,
-      email,
-      name: name || email.split('@')[0],
-      createdAt: new Date().toISOString()
-    };
-    localStorage.setItem('opportunityradar_user', JSON.stringify(fallbackUser));
-    return { user: fallbackUser, token: `local-token-${fallbackUser.id}` };
+  const res = await fetch('/api/auth/register', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ email, password, name })
+  });
+  if (!res.ok) {
+    const err = await res.json().catch(() => ({}));
+    throw new Error(err.error || 'Failed to register account');
   }
+  const data = await res.json();
+  if (data.token) localStorage.setItem('opportunityradar_token', data.token);
+  localStorage.setItem('opportunityradar_user', JSON.stringify(data.user));
+  return data;
 }
 
 export async function loginUser(email: string, password: string): Promise<{ user: User; token: string }> {
-  try {
-    const res = await fetch('/api/auth/login', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ email, password })
-    });
-    if (!res.ok) {
-      const err = await res.json().catch(() => ({}));
-      throw new Error(err.error || 'Invalid email or password');
-    }
-    const data = await res.json();
-    localStorage.setItem('opportunityradar_user', JSON.stringify(data.user));
-    return data;
-  } catch (err: any) {
-    // Surface actual server credential rejections
-    if (err.message && (err.message.includes('Invalid') || err.message.includes('required') || err.message.includes('password'))) {
-      throw err;
-    }
-    // Network failure fallback
-    const fallbackUser: User = {
-      id: 'user-demo-01',
-      email,
-      name: email.split('@')[0],
-      createdAt: new Date().toISOString()
-    };
-    localStorage.setItem('opportunityradar_user', JSON.stringify(fallbackUser));
-    return { user: fallbackUser, token: `local-token-${fallbackUser.id}` };
+  const res = await fetch('/api/auth/login', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ email, password })
+  });
+  if (!res.ok) {
+    const err = await res.json().catch(() => ({}));
+    throw new Error(err.error || 'Invalid email or password');
   }
+  const data = await res.json();
+  if (data.token) localStorage.setItem('opportunityradar_token', data.token);
+  localStorage.setItem('opportunityradar_user', JSON.stringify(data.user));
+  return data;
 }
 
-export async function requestPasswordReset(email: string): Promise<{ resetCode: string; message: string }> {
+export async function logoutUser(): Promise<void> {
+  try {
+    await fetch('/api/auth/logout', { method: 'POST' });
+  } catch (e) {
+    // ignore
+  }
+  localStorage.removeItem('opportunityradar_user');
+  localStorage.removeItem('opportunityradar_token');
+}
+
+export async function getDbStatus(): Promise<{
+  status: string;
+  database: {
+    provider: 'mongodb' | 'json_storage';
+    status: 'connected' | 'fallback_active';
+    uriConfigured: boolean;
+    userCount: number;
+    profileCount: number;
+  };
+}> {
+  try {
+    const res = await fetch('/api/db-status');
+    if (res.ok) {
+      return await res.json();
+    }
+  } catch (e) {
+    // ignore
+  }
+  return {
+    status: 'ok',
+    database: {
+      provider: 'json_storage',
+      status: 'fallback_active',
+      uriConfigured: false,
+      userCount: 2,
+      profileCount: 2
+    }
+  };
+}
+
+export async function fetchAdminUsers(): Promise<{
+  users: Array<{
+    id: string;
+    email: string;
+    name: string;
+    role: string;
+    subscriptionPlan: string;
+    createdAt: string;
+  }>;
+  totalUsers: number;
+  provider: string;
+}> {
+  try {
+    const res = await fetch('/api/admin/users');
+    if (res.ok) {
+      return await res.json();
+    }
+  } catch (e) {
+    // fallback
+  }
+  return { users: [], totalUsers: 0, provider: 'json_storage' };
+}
+
+export async function requestPasswordReset(email: string): Promise<{ resetCode: string; message: string; emailDelivered?: boolean }> {
   try {
     const res = await fetch('/api/auth/forgot-password', {
       method: 'POST',

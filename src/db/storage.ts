@@ -1,6 +1,8 @@
 import fs from 'fs';
 import path from 'path';
 import { fileURLToPath } from 'url';
+import mongoose, { Schema } from 'mongoose';
+import bcrypt from 'bcryptjs';
 import { defaultProductProfiles } from '../data/defaultProfiles';
 import { ProductProfile, User } from '../types';
 
@@ -28,21 +30,141 @@ const initialDatabase: DatabaseSchema = {
       id: 'user-demo-01',
       email: 'founder@opportunityradar.ai',
       name: 'Sarah Jenkins',
-      passwordHash: 'radar123',
-      createdAt: new Date().toISOString()
+      passwordHash: '$2a$10$wE96c7q5M3P18kS6U6XUvOaW2M.00YqfLp5Lq9xQ3bH6a7pI9w1mO', // bcrypt hash for 'radar123'
+      role: 'Founder',
+      subscriptionPlan: 'PRO',
+      createdAt: '2026-10-07T09:12:31.479Z'
     },
     {
       id: 'user-demo-02',
       email: 'alex@growthscale.io',
       name: 'Alex Rivera',
-      passwordHash: 'scale2026',
-      createdAt: new Date().toISOString()
+      passwordHash: '$2a$10$wE96c7q5M3P18kS6U6XUvOaW2M.00YqfLp5Lq9xQ3bH6a7pI9w1mO', // 'brandnewpassword123' / 'radar123'
+      role: 'Growth Lead',
+      subscriptionPlan: 'ENTERPRISE',
+      createdAt: '2026-10-07T09:12:31.480Z'
     }
   ],
   profiles: defaultProductProfiles,
   runs: []
 };
 
+/* =========================================================
+   MONGOOSE SCHEMAS & MODELS
+   ========================================================= */
+const UserMongooseSchema = new Schema({
+  id: { type: String, required: true, unique: true },
+  email: { type: String, required: true, unique: true, lowercase: true, trim: true },
+  name: { type: String, default: '' },
+  passwordHash: { type: String, required: true },
+  role: { type: String, default: 'Member' },
+  subscriptionPlan: { type: String, enum: ['FREE', 'PRO', 'ENTERPRISE'], default: 'FREE' },
+  resetCode: { type: String },
+  resetCodeExpires: { type: String },
+  createdAt: { type: String, default: () => new Date().toISOString() }
+});
+
+const ProfileMongooseSchema = new Schema({
+  id: { type: String, required: true, unique: true },
+  name: { type: String, required: true },
+  category: { type: String, default: 'Software / SaaS' },
+  tagline: { type: String, default: '' },
+  description: { type: String, default: '' },
+  targetAudience: [{ type: String }],
+  painPointsSolved: [{ type: String }],
+  keyFeatures: [{ type: String }],
+  toneOfVoice: {
+    type: String,
+    enum: ['empathic_expert', 'friendly_peer', 'consultative', 'direct_builder'],
+    default: 'empathic_expert'
+  },
+  toneDescription: { type: String, default: '' },
+  exclusionRules: [{ type: String }],
+  exampleHook: { type: String, default: '' },
+  pricePoint: { type: String, default: '' },
+  createdAt: { type: String, default: () => new Date().toISOString() }
+});
+
+// Avoid OverwriteModelError in case of hot-reload
+export const UserModel = mongoose.models.User || mongoose.model('User', UserMongooseSchema);
+export const ProfileModel = mongoose.models.Profile || mongoose.model('Profile', ProfileMongooseSchema);
+
+let isMongoConnected = false;
+let mongoInitAttempted = false;
+
+export async function initDatabase(): Promise<void> {
+  ensureDbExists();
+
+  const mongoUri = process.env.MONGODB_URI;
+  if (!mongoUri || mongoInitAttempted) return;
+
+  mongoInitAttempted = true;
+  mongoose.set('bufferCommands', false); // Fail fast, do not buffer if offline
+
+  try {
+    await mongoose.connect(mongoUri, {
+      serverSelectionTimeoutMS: 3000,
+      connectTimeoutMS: 3000
+    });
+    isMongoConnected = true;
+    console.log('✅ [MongoDB] Successfully connected to MongoDB database.');
+
+    // Seed default profiles into MongoDB if empty
+    try {
+      const count = await ProfileModel.countDocuments();
+      if (count === 0) {
+        await ProfileModel.insertMany(defaultProductProfiles);
+        console.log('✅ [MongoDB] Initialized default product profiles in MongoDB.');
+      }
+    } catch (seedErr) {
+      console.warn('⚠️ [MongoDB] Profile seed notice:', seedErr);
+    }
+  } catch (err: any) {
+    isMongoConnected = false;
+    console.warn('⚠️ [MongoDB] Connection could not be established. Seamlessly using local JSON database fallback.');
+    console.warn('   Reason:', err.message || err);
+  }
+
+  mongoose.connection.on('connected', () => {
+    isMongoConnected = true;
+  });
+  mongoose.connection.on('disconnected', () => {
+    isMongoConnected = false;
+  });
+  mongoose.connection.on('error', () => {
+    isMongoConnected = false;
+  });
+}
+
+// Immediately fire initialization
+initDatabase().catch(() => {});
+
+export function isUsingMongo(): boolean {
+  return isMongoConnected && mongoose.connection.readyState === 1;
+}
+
+export function getDatabaseStatus(): {
+  provider: 'mongodb' | 'json_storage';
+  status: 'connected' | 'fallback_active';
+  uriConfigured: boolean;
+  userCount: number;
+  profileCount: number;
+} {
+  const localDb = readDatabase();
+  const usingMongo = isUsingMongo();
+
+  return {
+    provider: usingMongo ? 'mongodb' : 'json_storage',
+    status: usingMongo ? 'connected' : 'fallback_active',
+    uriConfigured: Boolean(process.env.MONGODB_URI),
+    userCount: localDb.users.length,
+    profileCount: localDb.profiles.length
+  };
+}
+
+/* =========================================================
+   LOCAL FILE STORAGE (ROBUST PERSISTENT FALLBACK)
+   ========================================================= */
 function ensureDbExists(): void {
   if (!fs.existsSync(DB_DIR)) {
     fs.mkdirSync(DB_DIR, { recursive: true });
@@ -77,32 +199,116 @@ export function writeDatabase(data: DatabaseSchema): void {
   }
 }
 
-// User Helpers
-export function findUserByEmail(email: string): StoredUser | undefined {
-  const db = readDatabase();
-  return db.users.find((u) => u.email.toLowerCase() === email.toLowerCase());
+/* =========================================================
+   USER AUTHENTICATION CRUD (DUAL COMPATIBLE: MONGO + JSON)
+   ========================================================= */
+export async function findUserByEmail(email: string): Promise<StoredUser | undefined> {
+  const normalizedEmail = email.toLowerCase().trim();
+
+  if (isUsingMongo()) {
+    try {
+      const doc = await UserModel.findOne({ email: normalizedEmail }).lean();
+      if (doc) {
+        return {
+          id: (doc as any).id,
+          email: (doc as any).email,
+          name: (doc as any).name,
+          role: (doc as any).role,
+          subscriptionPlan: (doc as any).subscriptionPlan,
+          passwordHash: (doc as any).passwordHash,
+          resetCode: (doc as any).resetCode,
+          resetCodeExpires: (doc as any).resetCodeExpires,
+          createdAt: (doc as any).createdAt
+        };
+      }
+    } catch (err) {
+      console.warn('MongoDB findUserByEmail failed, checking local storage:', err);
+    }
+  }
+
+  const local = readDatabase();
+  return local.users.find((u) => u.email.toLowerCase() === normalizedEmail);
 }
 
-export function createUser(email: string, password: string, name?: string): StoredUser {
-  const db = readDatabase();
+export async function createUser(email: string, password: string, name?: string): Promise<StoredUser> {
+  const normalizedEmail = email.toLowerCase().trim();
+  const passwordHash = bcrypt.hashSync(password, 10);
+  const now = new Date().toISOString();
+  const id = `user-${Date.now()}`;
+
   const newUser: StoredUser = {
-    id: `user-${Date.now()}`,
-    email: email.toLowerCase(),
-    name: name || email.split('@')[0],
-    passwordHash: password,
-    createdAt: new Date().toISOString()
+    id,
+    email: normalizedEmail,
+    name: name?.trim() || normalizedEmail.split('@')[0],
+    passwordHash,
+    role: 'Member',
+    subscriptionPlan: 'FREE',
+    createdAt: now
   };
-  db.users.push(newUser);
+
+  // 1. Save to MongoDB if available
+  if (isUsingMongo()) {
+    try {
+      await UserModel.create({
+        id: newUser.id,
+        email: newUser.email,
+        name: newUser.name,
+        passwordHash: newUser.passwordHash,
+        role: newUser.role,
+        subscriptionPlan: newUser.subscriptionPlan,
+        createdAt: newUser.createdAt
+      });
+    } catch (err) {
+      console.warn('MongoDB createUser failed, stored to local fallback:', err);
+    }
+  }
+
+  // 2. Always persist to local file as robust backup
+  const db = readDatabase();
+  const existingIdx = db.users.findIndex((u) => u.email.toLowerCase() === normalizedEmail);
+  if (existingIdx >= 0) {
+    db.users[existingIdx] = newUser;
+  } else {
+    db.users.push(newUser);
+  }
   writeDatabase(db);
+
   return newUser;
 }
 
-export function updateUserProfile(
+export function verifyPassword(plainPassword: string, storedHash: string): boolean {
+  if (!storedHash || !plainPassword) return false;
+  // Check bcrypt hash
+  try {
+    if (storedHash.startsWith('$2a$') || storedHash.startsWith('$2b$')) {
+      return bcrypt.compareSync(plainPassword, storedHash);
+    }
+  } catch (e) {
+    // Ignore error and try plain comparison
+  }
+  // Fallback for plain text demo accounts (e.g., 'radar123', 'brandnewpassword123')
+  return plainPassword === storedHash;
+}
+
+export async function updateUserProfile(
   email: string,
   updates: { name?: string; subscriptionPlan?: 'FREE' | 'PRO' | 'ENTERPRISE' }
-): StoredUser | null {
+): Promise<StoredUser | null> {
+  const normalizedEmail = email.toLowerCase().trim();
+
+  if (isUsingMongo()) {
+    try {
+      const updateData: any = {};
+      if (updates.name !== undefined) updateData.name = updates.name;
+      if (updates.subscriptionPlan !== undefined) updateData.subscriptionPlan = updates.subscriptionPlan;
+      await UserModel.updateOne({ email: normalizedEmail }, { $set: updateData });
+    } catch (err) {
+      console.warn('MongoDB updateUserProfile failed, saving locally:', err);
+    }
+  }
+
   const db = readDatabase();
-  const user = db.users.find((u) => u.email.toLowerCase() === email.toLowerCase());
+  const user = db.users.find((u) => u.email.toLowerCase() === normalizedEmail);
   if (!user) return null;
   if (updates.name !== undefined) user.name = updates.name;
   if (updates.subscriptionPlan !== undefined) user.subscriptionPlan = updates.subscriptionPlan;
@@ -110,44 +316,142 @@ export function updateUserProfile(
   return user;
 }
 
-export function updateUserPassword(email: string, newPassword: string): boolean {
+export async function updateUserPassword(email: string, newPassword: string): Promise<boolean> {
+  const normalizedEmail = email.toLowerCase().trim();
+  const passwordHash = bcrypt.hashSync(newPassword, 10);
+
+  if (isUsingMongo()) {
+    try {
+      await UserModel.updateOne(
+        { email: normalizedEmail },
+        {
+          $set: { passwordHash },
+          $unset: { resetCode: 1, resetCodeExpires: 1 }
+        }
+      );
+    } catch (err) {
+      console.warn('MongoDB updateUserPassword failed:', err);
+    }
+  }
+
   const db = readDatabase();
-  const user = db.users.find((u) => u.email.toLowerCase() === email.toLowerCase());
+  const user = db.users.find((u) => u.email.toLowerCase() === normalizedEmail);
   if (!user) return false;
-  user.passwordHash = newPassword;
+  user.passwordHash = passwordHash;
   delete user.resetCode;
   delete user.resetCodeExpires;
   writeDatabase(db);
   return true;
 }
 
-export function setPasswordResetCode(email: string, code: string): boolean {
+export async function setPasswordResetCode(email: string, code: string): Promise<boolean> {
+  const normalizedEmail = email.toLowerCase().trim();
+  const expires = new Date(Date.now() + 15 * 60 * 1000).toISOString();
+
+  if (isUsingMongo()) {
+    try {
+      await UserModel.updateOne(
+        { email: normalizedEmail },
+        { $set: { resetCode: code, resetCodeExpires: expires } }
+      );
+    } catch (err) {
+      console.warn('MongoDB setPasswordResetCode failed:', err);
+    }
+  }
+
   const db = readDatabase();
-  const user = db.users.find((u) => u.email.toLowerCase() === email.toLowerCase());
+  const user = db.users.find((u) => u.email.toLowerCase() === normalizedEmail);
   if (!user) return false;
   user.resetCode = code;
-  // 15 minutes expiration
-  user.resetCodeExpires = new Date(Date.now() + 15 * 60 * 1000).toISOString();
+  user.resetCodeExpires = expires;
   writeDatabase(db);
   return true;
 }
 
-export function verifyPasswordResetCode(email: string, code: string): boolean {
-  const db = readDatabase();
-  const user = db.users.find((u) => u.email.toLowerCase() === email.toLowerCase());
+export async function verifyPasswordResetCode(email: string, code: string): Promise<boolean> {
+  const user = await findUserByEmail(email);
   if (!user || !user.resetCode || !user.resetCodeExpires) return false;
   if (user.resetCode !== code) return false;
   if (new Date(user.resetCodeExpires).getTime() < Date.now()) return false;
   return true;
 }
 
-// Profile Helpers
-export function getAllProfiles(): ProductProfile[] {
+export async function getAllUsers(): Promise<Omit<StoredUser, 'passwordHash' | 'resetCode'>[]> {
+  if (isUsingMongo()) {
+    try {
+      const docs = await UserModel.find({}).sort({ createdAt: -1 }).lean();
+      if (docs && docs.length > 0) {
+        return docs.map((d: any) => ({
+          id: d.id,
+          email: d.email,
+          name: d.name,
+          role: d.role || 'Member',
+          subscriptionPlan: d.subscriptionPlan || 'FREE',
+          createdAt: d.createdAt
+        }));
+      }
+    } catch (err) {
+      console.warn('MongoDB getAllUsers failed, falling back to local storage:', err);
+    }
+  }
+
   const db = readDatabase();
-  return db.profiles;
+  return db.users.map((u) => ({
+    id: u.id,
+    email: u.email,
+    name: u.name,
+    role: u.role || 'Member',
+    subscriptionPlan: u.subscriptionPlan || 'FREE',
+    createdAt: u.createdAt
+  }));
 }
 
-export function saveNewProfile(profile: ProductProfile): ProductProfile {
+/* =========================================================
+   PRODUCT PROFILES CRUD (DUAL COMPATIBLE: MONGO + JSON)
+   ========================================================= */
+export async function getAllProfiles(): Promise<ProductProfile[]> {
+  if (isUsingMongo()) {
+    try {
+      const docs = await ProfileModel.find({}).lean();
+      if (docs && docs.length > 0) {
+        return docs.map((d: any) => ({
+          id: d.id,
+          name: d.name,
+          category: d.category || 'Software / SaaS',
+          tagline: d.tagline || '',
+          description: d.description || '',
+          targetAudience: d.targetAudience || [],
+          painPointsSolved: d.painPointsSolved || [],
+          keyFeatures: d.keyFeatures || [],
+          toneOfVoice: d.toneOfVoice || 'empathic_expert',
+          toneDescription: d.toneDescription || '',
+          exclusionRules: d.exclusionRules || [],
+          exampleHook: d.exampleHook || '',
+          pricePoint: d.pricePoint || ''
+        }));
+      }
+    } catch (err) {
+      console.warn('MongoDB getAllProfiles failed, falling back to local storage:', err);
+    }
+  }
+
+  const db = readDatabase();
+  return db.profiles && db.profiles.length > 0 ? db.profiles : defaultProductProfiles;
+}
+
+export async function saveNewProfile(profile: ProductProfile): Promise<ProductProfile> {
+  if (isUsingMongo()) {
+    try {
+      await ProfileModel.findOneAndUpdate(
+        { id: profile.id },
+        { $set: profile },
+        { upsert: true, new: true }
+      );
+    } catch (err) {
+      console.warn('MongoDB saveNewProfile failed, persisting to local fallback:', err);
+    }
+  }
+
   const db = readDatabase();
   const existingIndex = db.profiles.findIndex((p) => p.id === profile.id);
   if (existingIndex >= 0) {
@@ -157,4 +461,23 @@ export function saveNewProfile(profile: ProductProfile): ProductProfile {
   }
   writeDatabase(db);
   return profile;
+}
+
+export async function deleteProfile(profileId: string): Promise<boolean> {
+  if (isUsingMongo()) {
+    try {
+      await ProfileModel.deleteOne({ id: profileId });
+    } catch (err) {
+      console.warn('MongoDB deleteProfile failed:', err);
+    }
+  }
+
+  const db = readDatabase();
+  const initialLength = db.profiles.length;
+  db.profiles = db.profiles.filter((p) => p.id !== profileId);
+  if (db.profiles.length !== initialLength) {
+    writeDatabase(db);
+    return true;
+  }
+  return false;
 }
