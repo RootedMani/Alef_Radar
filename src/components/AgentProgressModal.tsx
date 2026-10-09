@@ -83,13 +83,13 @@ export const AgentProgressModal: React.FC<AgentProgressModalProps> = ({
   ];
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/60 backdrop-blur-xs animate-fade-in" dir={isRtl ? 'rtl' : 'ltr'}>
-      <div className="relative w-full max-w-xl bg-white dark:bg-zinc-900 border border-neutral-200 dark:border-zinc-800 rounded-3xl p-6 sm:p-8 shadow-2xl transition-colors">
+    <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/60 backdrop-blur-md animate-fade-in" dir={isRtl ? 'rtl' : 'ltr'}>
+      <div className="relative w-full max-w-xl glass-modal rounded-3xl p-6 sm:p-8 shadow-2xl transition-colors">
         
         {/* Top Header */}
         <div className="flex items-center justify-between mb-5 gap-3">
           <div className="flex items-center space-x-3 rtl:space-x-reverse">
-            <div className="w-8 h-8 rounded-lg bg-black dark:bg-white text-white dark:text-black flex items-center justify-center font-bold shrink-0">
+            <div className="w-8 h-8 rounded-lg bg-black dark:bg-white text-white dark:text-black flex items-center justify-center font-bold shrink-0 animate-spin" style={{ animationDuration: '4s' }}>
               <Radar className="w-4 h-4" />
             </div>
             <div>
@@ -104,13 +104,13 @@ export const AgentProgressModal: React.FC<AgentProgressModalProps> = ({
             </div>
           </div>
 
-          <div className="font-mono text-xs font-bold px-2.5 py-1 rounded-lg border border-neutral-300 dark:border-zinc-700 bg-neutral-100 dark:bg-zinc-800 text-neutral-800 dark:text-zinc-200 shrink-0">
+          <div className="font-mono text-xs font-bold px-2.5 py-1 rounded-lg border border-neutral-200/80 dark:border-white/10 bg-white/70 dark:bg-zinc-800/70 backdrop-blur-md text-neutral-800 dark:text-zinc-200 shrink-0 shadow-2xs">
             {language === 'fa' ? `${progressPercent}٪ تکمیل شد` : `${progressPercent}% Complete`}
           </div>
         </div>
 
         {/* Minimal Progress Bar */}
-        <div className="w-full bg-neutral-100 dark:bg-zinc-800 rounded-full h-1.5 mb-6 overflow-hidden border border-neutral-200 dark:border-zinc-700">
+        <div className="w-full bg-neutral-200/60 dark:bg-zinc-800/60 rounded-full h-1.5 mb-6 overflow-hidden border border-neutral-200/80 dark:border-white/10">
           <div
             className="bg-black dark:bg-white h-1.5 rounded-full transition-all duration-300"
             style={{ width: `${progressPercent}%` }}
@@ -129,10 +129,10 @@ export const AgentProgressModal: React.FC<AgentProgressModalProps> = ({
                 key={st.step}
                 className={`p-3.5 rounded-xl border transition-all text-left rtl:text-right ${
                   isCurrent
-                    ? 'border-neutral-950 dark:border-white bg-neutral-50 dark:bg-zinc-800/80 shadow-xs ring-1 ring-neutral-950 dark:ring-white'
+                    ? 'border-neutral-950 dark:border-white glass-panel shadow-xs ring-1 ring-neutral-950 dark:ring-white'
                     : isCompleted
-                    ? 'border-neutral-200 dark:border-zinc-800 bg-neutral-50/50 dark:bg-zinc-900/50 text-neutral-500 dark:text-zinc-400'
-                    : 'border-neutral-200/60 dark:border-zinc-800/60 bg-transparent opacity-40'
+                    ? 'border-neutral-200/80 dark:border-white/10 glass-card text-neutral-500 dark:text-zinc-400'
+                    : 'border-neutral-200/40 dark:border-white/5 bg-transparent opacity-40'
                 }`}
               >
                 <div className="flex items-center justify-between mb-1">
@@ -154,7 +154,7 @@ export const AgentProgressModal: React.FC<AgentProgressModalProps> = ({
         </div>
 
         {/* Minimalist Telemetry Grid */}
-        <div className="grid grid-cols-3 gap-2 p-3.5 rounded-xl border border-neutral-200 dark:border-zinc-800 bg-neutral-50 dark:bg-zinc-950/60 text-center font-mono">
+        <div className="grid grid-cols-3 gap-2 p-3.5 rounded-xl border border-neutral-200/80 dark:border-white/10 glass-card text-center font-mono">
           <div>
             <div className="text-[10px] uppercase text-neutral-400 dark:text-zinc-500 font-bold">
               {language === 'fa' ? 'توکن مصرفی' : 'Tokens Used'}

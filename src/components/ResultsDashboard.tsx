@@ -147,7 +147,7 @@ export const ResultsDashboard: React.FC<ResultsDashboardProps> = ({
 
           <button
             onClick={exportToCsv}
-            className="inline-flex items-center space-x-1.5 rtl:space-x-reverse px-3.5 py-2 rounded-xl border border-neutral-300 dark:border-zinc-700 bg-white dark:bg-zinc-900 hover:bg-neutral-50 dark:hover:bg-zinc-800 text-neutral-900 dark:text-zinc-100 text-xs font-bold transition-all cursor-pointer shadow-2xs"
+            className="inline-flex items-center space-x-1.5 rtl:space-x-reverse px-3.5 py-2 rounded-xl border border-neutral-200/80 dark:border-white/15 bg-white/70 dark:bg-zinc-900/70 backdrop-blur-md hover:bg-neutral-50 dark:hover:bg-zinc-800/80 text-neutral-900 dark:text-zinc-100 text-xs font-bold transition-all cursor-pointer shadow-xs"
           >
             <Download className="w-3.5 h-3.5" />
             <span>{t.exportCsvBtn}</span>
@@ -155,7 +155,7 @@ export const ResultsDashboard: React.FC<ResultsDashboardProps> = ({
 
           <button
             onClick={exportToJson}
-            className="inline-flex items-center space-x-1.5 rtl:space-x-reverse px-3 py-2 rounded-xl border border-neutral-200 dark:border-zinc-800 bg-white dark:bg-zinc-900 hover:bg-neutral-50 dark:hover:bg-zinc-800 text-neutral-600 dark:text-zinc-300 text-xs font-semibold transition-all cursor-pointer"
+            className="inline-flex items-center space-x-1.5 rtl:space-x-reverse px-3 py-2 rounded-xl border border-neutral-200/80 dark:border-white/15 bg-white/70 dark:bg-zinc-900/70 backdrop-blur-md hover:bg-neutral-50 dark:hover:bg-zinc-800/80 text-neutral-600 dark:text-zinc-300 text-xs font-semibold transition-all cursor-pointer shadow-xs"
             title="Download full JSON with audit logs"
           >
             <span>{t.exportJsonBtn}</span>
@@ -167,7 +167,7 @@ export const ResultsDashboard: React.FC<ResultsDashboardProps> = ({
       <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
         
         {/* Metric 1: Act Now */}
-        <div className="p-5 rounded-2xl bg-white dark:bg-zinc-900 border border-neutral-950 dark:border-white shadow-sm ring-1 ring-neutral-950 dark:ring-white relative overflow-hidden transition-colors">
+        <div className="p-5 rounded-2xl glass-panel border border-neutral-950 dark:border-white shadow-sm ring-1 ring-neutral-950/20 dark:ring-white/20 relative overflow-hidden transition-colors">
           <div className="flex items-center justify-between text-neutral-500 dark:text-zinc-400 text-xs font-mono font-semibold uppercase tracking-wider mb-2">
             <span>{t.highIntentLeads}</span>
             <Flame className="w-4 h-4 text-neutral-950 dark:text-white" />
@@ -185,7 +185,7 @@ export const ResultsDashboard: React.FC<ResultsDashboardProps> = ({
         </div>
 
         {/* Metric 2: Watchlist */}
-        <div className="p-5 rounded-2xl bg-white dark:bg-zinc-900 border border-neutral-200 dark:border-zinc-800 shadow-xs transition-colors">
+        <div className="p-5 rounded-2xl glass-card transition-colors">
           <div className="flex items-center justify-between text-neutral-400 dark:text-zinc-500 text-xs font-mono font-semibold uppercase tracking-wider mb-2">
             <span>{t.watchNurture}</span>
             <Clock className="w-3.5 h-3.5" />
@@ -199,7 +199,7 @@ export const ResultsDashboard: React.FC<ResultsDashboardProps> = ({
         </div>
 
         {/* Metric 3: Filtered Noise */}
-        <div className="p-5 rounded-2xl bg-white dark:bg-zinc-900 border border-neutral-200 dark:border-zinc-800 shadow-xs transition-colors">
+        <div className="p-5 rounded-2xl glass-card transition-colors">
           <div className="flex items-center justify-between text-neutral-400 dark:text-zinc-500 text-xs font-mono font-semibold uppercase tracking-wider mb-2">
             <span>{t.noisePruned}</span>
             <Filter className="w-3.5 h-3.5" />
@@ -213,7 +213,7 @@ export const ResultsDashboard: React.FC<ResultsDashboardProps> = ({
         </div>
 
         {/* Metric 4: Cost Savings */}
-        <div className="p-5 rounded-2xl bg-white dark:bg-zinc-900 border border-neutral-200 dark:border-zinc-800 shadow-xs transition-colors">
+        <div className="p-5 rounded-2xl glass-card transition-colors">
           <div className="flex items-center justify-between text-neutral-400 dark:text-zinc-500 text-xs font-mono font-semibold uppercase tracking-wider mb-2">
             <span>{t.costSavedMetric}</span>
             <TrendingUp className="w-3.5 h-3.5" />
@@ -228,7 +228,7 @@ export const ResultsDashboard: React.FC<ResultsDashboardProps> = ({
       </div>
 
       {/* CASCADE FUNNEL FALLOUT DIAGRAM */}
-      <div className="p-5 rounded-2xl bg-neutral-50 dark:bg-zinc-900/60 border border-neutral-200 dark:border-zinc-800 transition-colors">
+      <div className="p-5 rounded-2xl glass-card transition-colors">
         <div className="flex items-center justify-between mb-3 text-xs font-mono font-bold text-neutral-600 dark:text-zinc-300">
           <span>{language === 'fa' ? 'قیف کارایی آبشار ۴ مرحله‌ای ایجنت رادار' : '4-STAGE AGENT CASCADE EFFICIENCY FUNNEL'}</span>
           <span className="text-[11px] text-neutral-400 dark:text-zinc-500">
@@ -236,17 +236,17 @@ export const ResultsDashboard: React.FC<ResultsDashboardProps> = ({
           </span>
         </div>
         <div className="grid grid-cols-1 sm:grid-cols-4 gap-2 text-center text-xs">
-          <div className="p-3 bg-white dark:bg-zinc-900 rounded-xl border border-neutral-200 dark:border-zinc-800">
+          <div className="p-3 bg-white/70 dark:bg-zinc-900/70 backdrop-blur-xs rounded-xl border border-neutral-200/80 dark:border-white/10">
             <div className="text-[10px] text-neutral-400 dark:text-zinc-500 font-mono uppercase">{language === 'fa' ? 'مرحله ۱: غربالگری' : 'Stage 1 Filter'}</div>
             <div className="font-extrabold text-neutral-950 dark:text-white text-sm mt-0.5">{results.length} {language === 'fa' ? 'ورودی' : 'Ingested'}</div>
             <div className="text-[10px] text-neutral-500 dark:text-zinc-400 mt-0.5">{summary.stage1FilteredOut} {language === 'fa' ? 'هرزنامه حذف شد' : 'Noise Dropped'}</div>
           </div>
-          <div className="p-3 bg-white dark:bg-zinc-900 rounded-xl border border-neutral-200 dark:border-zinc-800">
+          <div className="p-3 bg-white/70 dark:bg-zinc-900/70 backdrop-blur-xs rounded-xl border border-neutral-200/80 dark:border-white/10">
             <div className="text-[10px] text-neutral-400 dark:text-zinc-500 font-mono uppercase">{language === 'fa' ? 'مرحله ۲: سنجش نیت' : 'Stage 2 Intent'}</div>
             <div className="font-extrabold text-neutral-950 dark:text-white text-sm mt-0.5">{results.length - summary.stage1FilteredOut} {language === 'fa' ? 'عبور کرد' : 'Passed'}</div>
             <div className="text-[10px] text-neutral-500 dark:text-zinc-400 mt-0.5">{summary.stage2FilteredOut} {language === 'fa' ? 'چت معمولی' : 'Trivia/Casual'}</div>
           </div>
-          <div className="p-3 bg-white dark:bg-zinc-900 rounded-xl border border-neutral-200 dark:border-zinc-800">
+          <div className="p-3 bg-white/70 dark:bg-zinc-900/70 backdrop-blur-xs rounded-xl border border-neutral-200/80 dark:border-white/10">
             <div className="text-[10px] text-neutral-400 dark:text-zinc-500 font-mono uppercase">{language === 'fa' ? 'مرحله ۳: امتیاز تطابق' : 'Stage 3 Fit'}</div>
             <div className="font-extrabold text-neutral-950 dark:text-white text-sm mt-0.5">{summary.stage3WeakWatch + summary.stage4ActNow} {language === 'fa' ? 'امتیازدهی شد' : 'Scored'}</div>
             <div className="text-[10px] text-neutral-500 dark:text-zinc-400 mt-0.5">{summary.stage3WeakWatch} {language === 'fa' ? 'پیگیری و رصد' : 'Nurture / Watch'}</div>
@@ -260,7 +260,7 @@ export const ResultsDashboard: React.FC<ResultsDashboardProps> = ({
       </div>
 
       {/* FILTER, SEARCH, AND VIEW MODE TOOLBAR */}
-      <div className="flex flex-col md:flex-row md:items-center justify-between gap-3 bg-white dark:bg-zinc-900 border border-neutral-200 dark:border-zinc-800 rounded-2xl p-4 shadow-xs transition-colors">
+      <div className="flex flex-col md:flex-row md:items-center justify-between gap-3 glass-panel rounded-2xl p-4 shadow-xs transition-colors">
         
         {/* Decision Filters */}
         <div className="flex flex-wrap items-center gap-1.5">
@@ -368,10 +368,10 @@ export const ResultsDashboard: React.FC<ResultsDashboardProps> = ({
                 key={item.messageId}
                 className={`rounded-3xl border transition-all overflow-hidden ${
                   isActNow
-                    ? 'bg-white dark:bg-zinc-900 border-neutral-950 dark:border-white shadow-md ring-1 ring-neutral-950 dark:ring-white'
+                    ? 'glass-panel border-neutral-950 dark:border-white shadow-md ring-1 ring-neutral-950/20 dark:ring-white/20'
                     : isWatch
-                    ? 'bg-white dark:bg-zinc-900 border-neutral-300 dark:border-zinc-700 shadow-xs'
-                    : 'bg-neutral-50/70 dark:bg-zinc-950/40 border-neutral-200 dark:border-zinc-800 opacity-80 hover:opacity-100'
+                    ? 'glass-card border-neutral-300/80 dark:border-zinc-700/80 shadow-xs'
+                    : 'glass-card border-neutral-200/80 dark:border-zinc-800/80 opacity-80 hover:opacity-100'
                 }`}
               >
                 {/* Card Top Row */}
@@ -380,7 +380,7 @@ export const ResultsDashboard: React.FC<ResultsDashboardProps> = ({
                     <div className="flex items-center space-x-2 rtl:space-x-reverse font-mono text-xs">
                       <span className="font-extrabold text-neutral-950 dark:text-white text-sm">@{item.message.author}</span>
                       <span className="text-neutral-300 dark:text-zinc-700">•</span>
-                      <span className="px-2 py-0.5 rounded-md border border-neutral-200 dark:border-zinc-700 bg-neutral-100 dark:bg-zinc-800 text-neutral-800 dark:text-zinc-200 font-sans text-[11px] font-bold">
+                      <span className="px-2 py-0.5 rounded-md border border-neutral-200/80 dark:border-white/10 bg-white/70 dark:bg-zinc-800/70 text-neutral-800 dark:text-zinc-200 font-sans text-[11px] font-bold">
                         {item.message.platform}
                       </span>
                       <span className="text-neutral-300 dark:text-zinc-700">•</span>
@@ -391,7 +391,7 @@ export const ResultsDashboard: React.FC<ResultsDashboardProps> = ({
 
                     <div className="flex items-center space-x-2 rtl:space-x-reverse self-start sm:self-auto">
                       {/* Score Indicator */}
-                      <div className="px-3 py-1 rounded-xl border border-neutral-300 dark:border-zinc-700 font-mono text-xs font-bold text-neutral-900 dark:text-zinc-100 bg-neutral-50 dark:bg-zinc-800 flex items-center space-x-1.5 rtl:space-x-reverse">
+                      <div className="px-3 py-1 rounded-xl border border-neutral-200/80 dark:border-white/10 font-mono text-xs font-bold text-neutral-900 dark:text-zinc-100 bg-white/60 dark:bg-zinc-800/60 backdrop-blur-xs flex items-center space-x-1.5 rtl:space-x-reverse">
                         <span className="text-[10px] text-neutral-400 dark:text-zinc-500 font-sans uppercase">{language === 'fa' ? 'امتیاز' : 'Score'}</span>
                         <span className="text-sm font-extrabold text-neutral-950 dark:text-white">{item.totalOpportunityScore}</span>
                         <span className="text-[10px] text-neutral-400 dark:text-zinc-500">/100</span>
@@ -403,27 +403,27 @@ export const ResultsDashboard: React.FC<ResultsDashboardProps> = ({
                           isActNow
                             ? 'bg-black dark:bg-white text-white dark:text-black shadow-xs'
                             : isWatch
-                            ? 'border border-neutral-400 dark:border-zinc-600 text-neutral-800 dark:text-zinc-200 bg-neutral-100 dark:bg-zinc-800'
-                            : 'border border-neutral-200 dark:border-zinc-700 text-neutral-400 dark:text-zinc-500 bg-neutral-100 dark:bg-zinc-900'
+                            ? 'border border-neutral-400 dark:border-zinc-600 text-neutral-800 dark:text-zinc-200 bg-white/70 dark:bg-zinc-800/70'
+                            : 'border border-neutral-200/80 dark:border-white/10 text-neutral-400 dark:text-zinc-500 bg-white/50 dark:bg-zinc-900/50'
                         }`}
                       >
                         {isActNow ? (language === 'fa' ? '🔥 اقدام فوری' : '🔥 Act Now') : isWatch ? (language === 'fa' ? 'زیر نظر' : 'Watch') : (language === 'fa' ? 'هرزنامه' : 'Noise')}
                       </div>
 
                       {/* Micro-Cent Cost Badge */}
-                      <div className="text-[10px] font-mono text-neutral-400 dark:text-zinc-500 px-2 py-1 rounded-md border border-neutral-200 dark:border-zinc-700 bg-neutral-50 dark:bg-zinc-800">
+                      <div className="text-[10px] font-mono text-neutral-400 dark:text-zinc-500 px-2 py-1 rounded-md border border-neutral-200/80 dark:border-white/10 bg-white/60 dark:bg-zinc-800/60">
                         ${item.totalCostUsd.toFixed(5)}
                       </div>
                     </div>
                   </div>
 
                   {/* Original Prospect Message */}
-                  <div className="p-4 rounded-2xl border border-neutral-200 dark:border-zinc-800 bg-neutral-50/80 dark:bg-zinc-950/60 mb-4 text-left rtl:text-right">
-                    <p className="text-xs sm:text-sm text-neutral-900 dark:text-zinc-100 leading-relaxed font-sans font-medium">
+                  <div className="p-4 rounded-2xl border border-neutral-200/80 dark:border-white/10 bg-white/40 dark:bg-zinc-950/40 backdrop-blur-md mb-4 text-left rtl:text-right">
+                    <p className="text-xs sm:text-sm text-neutral-900 dark:text-zinc-100 leading-relaxed font-sans font-medium break-words">
                       "{item.message.text}"
                     </p>
                     {item.message.threadContext && (
-                      <p className="text-[11px] text-neutral-400 dark:text-zinc-500 mt-2 italic border-t border-neutral-200/80 dark:border-zinc-800 pt-2 font-sans">
+                      <p className="text-[11px] text-neutral-400 dark:text-zinc-500 mt-2 italic border-t border-neutral-200/50 dark:border-white/10 pt-2 font-sans break-words">
                         {language === 'fa' ? 'زمینه گفتگو:' : 'Context:'} {item.message.threadContext}
                       </p>
                     )}
@@ -547,16 +547,16 @@ export const ResultsDashboard: React.FC<ResultsDashboardProps> = ({
 
                 {/* Expanded Audit Details */}
                 {isAuditOpen && (
-                  <div className="border-t border-neutral-200 dark:border-zinc-800 p-6 bg-neutral-50 dark:bg-zinc-950 space-y-4 text-xs font-mono animate-fade-in">
+                  <div className="border-t border-neutral-200/80 dark:border-white/10 p-6 bg-white/40 dark:bg-zinc-950/40 backdrop-blur-md space-y-4 text-xs font-mono animate-fade-in">
                     <div className="grid grid-cols-1 md:grid-cols-3 gap-3">
-                      <div className="p-3 bg-white dark:bg-zinc-900 border border-neutral-200 dark:border-zinc-800 rounded-xl">
+                      <div className="p-3 bg-white/60 dark:bg-zinc-900/60 backdrop-blur-md border border-neutral-200/80 dark:border-white/10 rounded-xl">
                         <span className="font-bold text-neutral-950 dark:text-white block mb-1">{language === 'fa' ? 'مرحله ۱: فیلتر ارزان' : 'Stage 1: Cheap Filter'}</span>
                         <div>{language === 'fa' ? 'وضعیت:' : 'Passed:'} {item.stage1?.passed ? (language === 'fa' ? 'پذیرفته شد' : 'YES') : (language === 'fa' ? 'رد شد' : 'NO')}</div>
                         <div>{language === 'fa' ? 'امتیاز:' : 'Score:'} {item.stage1?.relevanceScore}/100</div>
                         <div>{language === 'fa' ? 'هزینه:' : 'Cost:'} ${item.stage1?.costUsd.toFixed(6)}</div>
                       </div>
 
-                      <div className="p-3 bg-white dark:bg-zinc-900 border border-neutral-200 dark:border-zinc-800 rounded-xl">
+                      <div className="p-3 bg-white/60 dark:bg-zinc-900/60 backdrop-blur-md border border-neutral-200/80 dark:border-white/10 rounded-xl">
                         <span className="font-bold text-neutral-950 dark:text-white block mb-1">{language === 'fa' ? 'مرحله ۲: درک نیت' : 'Stage 2: Intent Understanding'}</span>
                         <div>{language === 'fa' ? 'نیت:' : 'Intent:'} {item.stage2?.intentType || 'N/A'}</div>
                         <div>
@@ -566,7 +566,7 @@ export const ResultsDashboard: React.FC<ResultsDashboardProps> = ({
                         <div>{language === 'fa' ? 'هزینه:' : 'Cost:'} ${item.stage2?.costUsd.toFixed(6) || 0}</div>
                       </div>
 
-                      <div className="p-3 bg-white dark:bg-zinc-900 border border-neutral-200 dark:border-zinc-800 rounded-xl">
+                      <div className="p-3 bg-white/60 dark:bg-zinc-900/60 backdrop-blur-md border border-neutral-200/80 dark:border-white/10 rounded-xl">
                         <span className="font-bold text-neutral-950 dark:text-white block mb-1">{language === 'fa' ? 'مرحله ۳: تناسب محصول' : 'Stage 3: Profile Fit'}</span>
                         <div>
                           {language === 'fa' ? 'سطح تطابق:' : 'Fit Level:'}{' '}
@@ -588,8 +588,8 @@ export const ResultsDashboard: React.FC<ResultsDashboardProps> = ({
       {viewMode === 'kanban' && (
         <div className="grid grid-cols-1 md:grid-cols-3 gap-5">
           {/* Column 1: Act Now */}
-          <div className="bg-neutral-50 dark:bg-zinc-900/60 border border-neutral-200 dark:border-zinc-800 rounded-2xl p-4 space-y-3">
-            <div className="flex items-center justify-between pb-2 border-b border-neutral-200 dark:border-zinc-800">
+          <div className="glass-panel border border-neutral-950 dark:border-white shadow-sm ring-1 ring-neutral-950/20 dark:ring-white/20 rounded-2xl p-4 space-y-3">
+            <div className="flex items-center justify-between pb-2 border-b border-neutral-200/80 dark:border-white/10">
               <span className="text-xs font-extrabold uppercase font-mono text-neutral-950 dark:text-white flex items-center space-x-1.5 rtl:space-x-reverse">
                 <Flame className="w-3.5 h-3.5 text-orange-500" />
                 <span>{language === 'fa' ? 'اقدام فوری' : 'Act Now'} ({results.filter((r) => r.decision === 'ACT_NOW').length})</span>
@@ -600,12 +600,12 @@ export const ResultsDashboard: React.FC<ResultsDashboardProps> = ({
               {results
                 .filter((r) => r.decision === 'ACT_NOW')
                 .map((item) => (
-                  <div key={item.messageId} className="p-4 bg-white dark:bg-zinc-900 border border-neutral-950 dark:border-white rounded-xl shadow-xs space-y-2">
+                  <div key={item.messageId} className="p-4 glass-card border-neutral-950 dark:border-white rounded-xl shadow-xs space-y-2">
                     <div className="flex items-center justify-between text-xs font-mono">
                       <span className="font-bold text-neutral-950 dark:text-white">@{item.message.author}</span>
                       <span className="px-2 py-0.5 rounded bg-neutral-100 dark:bg-zinc-800 font-bold">{item.totalOpportunityScore}/100</span>
                     </div>
-                    <p className="text-xs text-neutral-700 dark:text-zinc-300 line-clamp-3 font-sans">{item.message.text}</p>
+                    <p className="text-xs text-neutral-700 dark:text-zinc-300 line-clamp-3 font-sans break-words">{item.message.text}</p>
                     {item.stage4?.suggestedReply && (
                       <button
                         onClick={() => handleCopyReply(item.messageId, item.stage4?.suggestedReply || '')}
@@ -621,26 +621,26 @@ export const ResultsDashboard: React.FC<ResultsDashboardProps> = ({
           </div>
 
           {/* Column 2: Watchlist */}
-          <div className="bg-neutral-50 dark:bg-zinc-900/60 border border-neutral-200 dark:border-zinc-800 rounded-2xl p-4 space-y-3">
-            <div className="flex items-center justify-between pb-2 border-b border-neutral-200 dark:border-zinc-800">
+          <div className="glass-panel rounded-2xl p-4 space-y-3">
+            <div className="flex items-center justify-between pb-2 border-b border-neutral-200/80 dark:border-white/10">
               <span className="text-xs font-extrabold uppercase font-mono text-neutral-700 dark:text-zinc-300 flex items-center space-x-1.5 rtl:space-x-reverse">
                 <Clock className="w-3.5 h-3.5 text-blue-500" />
                 <span>{language === 'fa' ? 'فهرست پیگیری' : 'Watchlist'} ({results.filter((r) => r.decision === 'WATCH').length})</span>
               </span>
-              <span className="text-[10px] font-bold px-2 py-0.5 rounded-full bg-neutral-200 dark:bg-zinc-800 text-neutral-700 dark:text-zinc-300">{language === 'fa' ? 'رصد' : 'Nurture'}</span>
+              <span className="text-[10px] font-bold px-2 py-0.5 rounded-full bg-neutral-200/80 dark:bg-zinc-800 text-neutral-700 dark:text-zinc-300">{language === 'fa' ? 'رصد' : 'Nurture'}</span>
             </div>
             <div className="space-y-3">
               {results
                 .filter((r) => r.decision === 'WATCH')
                 .map((item) => (
-                  <div key={item.messageId} className="p-4 bg-white dark:bg-zinc-900 border border-neutral-200 dark:border-zinc-800 rounded-xl shadow-xs space-y-2">
+                  <div key={item.messageId} className="p-4 glass-card rounded-xl shadow-xs space-y-2">
                     <div className="flex items-center justify-between text-xs font-mono">
                       <span className="font-bold text-neutral-950 dark:text-white">@{item.message.author}</span>
                       <span className="px-2 py-0.5 rounded bg-neutral-100 dark:bg-zinc-800 font-bold">{item.totalOpportunityScore}/100</span>
                     </div>
-                    <p className="text-xs text-neutral-700 dark:text-zinc-300 line-clamp-3 font-sans">{item.message.text}</p>
+                    <p className="text-xs text-neutral-700 dark:text-zinc-300 line-clamp-3 font-sans break-words">{item.message.text}</p>
                     {item.stage2?.detectedProblem && (
-                      <p className="text-[11px] text-neutral-500 dark:text-zinc-400 font-mono">{language === 'fa' ? 'نقطه درد:' : 'Problem:'} {item.stage2.detectedProblem}</p>
+                      <p className="text-[11px] text-neutral-500 dark:text-zinc-400 font-mono break-words">{language === 'fa' ? 'نقطه درد:' : 'Problem:'} {item.stage2.detectedProblem}</p>
                     )}
                   </div>
                 ))}
@@ -648,25 +648,25 @@ export const ResultsDashboard: React.FC<ResultsDashboardProps> = ({
           </div>
 
           {/* Column 3: Discarded Noise */}
-          <div className="bg-neutral-50 dark:bg-zinc-900/60 border border-neutral-200 dark:border-zinc-800 rounded-2xl p-4 space-y-3">
-            <div className="flex items-center justify-between pb-2 border-b border-neutral-200 dark:border-zinc-800">
+          <div className="glass-panel rounded-2xl p-4 space-y-3">
+            <div className="flex items-center justify-between pb-2 border-b border-neutral-200/80 dark:border-white/10">
               <span className="text-xs font-extrabold uppercase font-mono text-neutral-500 dark:text-zinc-400 flex items-center space-x-1.5 rtl:space-x-reverse">
                 <Filter className="w-3.5 h-3.5 text-neutral-400" />
                 <span>{language === 'fa' ? 'هرزنامه‌های حذف‌شده' : 'Pruned Noise'} ({results.filter((r) => r.decision === 'IGNORE').length})</span>
               </span>
-              <span className="text-[10px] font-bold px-2 py-0.5 rounded-full bg-neutral-200 dark:bg-zinc-800 text-neutral-500 dark:text-zinc-400">{language === 'fa' ? 'حذف‌شده' : 'Pruned'}</span>
+              <span className="text-[10px] font-bold px-2 py-0.5 rounded-full bg-neutral-200/80 dark:bg-zinc-800 text-neutral-500 dark:text-zinc-400">{language === 'fa' ? 'حذف‌شده' : 'Pruned'}</span>
             </div>
             <div className="space-y-3">
               {results
                 .filter((r) => r.decision === 'IGNORE')
                 .map((item) => (
-                  <div key={item.messageId} className="p-3.5 bg-white/70 dark:bg-zinc-900/50 border border-neutral-200 dark:border-zinc-800 rounded-xl space-y-1.5 opacity-70">
+                  <div key={item.messageId} className="p-3.5 glass-card rounded-xl space-y-1.5 opacity-80">
                     <div className="flex items-center justify-between text-xs font-mono">
                       <span className="font-semibold text-neutral-600 dark:text-zinc-300">@{item.message.author}</span>
                       <span className="text-[10px] text-neutral-400 dark:text-zinc-500">{item.message.platform}</span>
                     </div>
-                    <p className="text-[11px] text-neutral-600 dark:text-zinc-400 line-clamp-2 font-sans">{item.message.text}</p>
-                    <div className="text-[10px] text-neutral-400 dark:text-zinc-500 font-mono">
+                    <p className="text-[11px] text-neutral-600 dark:text-zinc-400 line-clamp-2 font-sans break-words">{item.message.text}</p>
+                    <div className="text-[10px] text-neutral-400 dark:text-zinc-500 font-mono break-words">
                       {item.stage1?.discardReason || (language === 'fa' ? 'عدم ارتباط با محصول' : 'Low relevance')}
                     </div>
                   </div>
@@ -678,11 +678,11 @@ export const ResultsDashboard: React.FC<ResultsDashboardProps> = ({
 
       {/* VIEW MODE 3: DENSE TABLE VIEW */}
       {viewMode === 'table' && (
-        <div className="border border-neutral-200 dark:border-zinc-800 rounded-2xl overflow-hidden bg-white dark:bg-zinc-900 shadow-xs transition-colors">
+        <div className="border border-neutral-200/80 dark:border-white/10 rounded-2xl overflow-hidden glass-panel shadow-xs transition-colors">
           <div className="overflow-x-auto">
             <table className="w-full text-left rtl:text-right border-collapse text-xs">
               <thead>
-                <tr className="bg-neutral-50 dark:bg-zinc-950 border-b border-neutral-200 dark:border-zinc-800 text-[11px] font-mono text-neutral-500 dark:text-zinc-400 uppercase">
+                <tr className="bg-white/50 dark:bg-zinc-950/50 backdrop-blur-md border-b border-neutral-200/60 dark:border-white/10 text-[11px] font-mono text-neutral-500 dark:text-zinc-400 uppercase">
                   <th className="p-3.5 pl-4 rtl:pr-4 font-bold">{language === 'fa' ? 'فرستنده' : 'Author'}</th>
                   <th className="p-3.5 font-bold">{language === 'fa' ? 'پلتفرم' : 'Platform'}</th>
                   <th className="p-3.5 font-bold">{language === 'fa' ? 'متن پیام' : 'Message Content'}</th>

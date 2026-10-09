@@ -111,8 +111,8 @@ export const AuthModal: React.FC<AuthModalProps> = ({
   };
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/60 backdrop-blur-xs animate-fade-in" dir={isRtl ? 'rtl' : 'ltr'}>
-      <div className="relative w-full max-w-md bg-white dark:bg-zinc-900 border border-neutral-200 dark:border-zinc-800 rounded-3xl p-6 sm:p-8 shadow-2xl transition-colors">
+    <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/60 backdrop-blur-md animate-fade-in" dir={isRtl ? 'rtl' : 'ltr'}>
+      <div className="relative w-full max-w-md glass-modal rounded-3xl p-6 sm:p-8 shadow-2xl transition-colors">
         
         {/* Close Button */}
         <button
@@ -147,7 +147,7 @@ export const AuthModal: React.FC<AuthModalProps> = ({
 
         {/* Sub-Tabs for Login / Register */}
         {(authView === 'login' || authView === 'register') && (
-          <div className="grid grid-cols-2 gap-1 p-1 bg-neutral-100 dark:bg-zinc-800 rounded-xl mb-5">
+          <div className="grid grid-cols-2 gap-1 p-1 bg-neutral-100/70 dark:bg-zinc-800/60 backdrop-blur-md rounded-xl mb-5">
             <button
               type="button"
               onClick={() => {
@@ -183,7 +183,7 @@ export const AuthModal: React.FC<AuthModalProps> = ({
 
         {/* 1-Click Quick Demo Accounts for Testing */}
         {(authView === 'login' || authView === 'register') && (
-          <div className="mb-5 p-3 bg-neutral-50 dark:bg-zinc-800/60 border border-neutral-200 dark:border-zinc-700/80 rounded-2xl">
+          <div className="mb-5 p-3 glass-card rounded-2xl">
             <p className="text-[11px] font-bold text-neutral-600 dark:text-zinc-300 mb-2 flex items-center space-x-1.5 rtl:space-x-reverse">
               <CheckCircle2 className="w-3.5 h-3.5 text-neutral-900 dark:text-white" />
               <span>{language === 'fa' ? 'حساب‌های آزمایشی آماده با ۱ کلیک:' : 'One-Click Test Accounts:'}</span>
@@ -192,19 +192,19 @@ export const AuthModal: React.FC<AuthModalProps> = ({
               <button
                 type="button"
                 onClick={() => handleQuickDemoLogin('founder@opportunityradar.ai', 'radar123', 'سارا (بنیان‌گذار)')}
-                className="py-1.5 px-2 bg-white dark:bg-zinc-900 hover:bg-neutral-100 dark:hover:bg-zinc-800 border border-neutral-200 dark:border-zinc-700 text-neutral-900 dark:text-zinc-100 text-xs font-bold rounded-lg text-center transition-colors cursor-pointer shadow-2xs"
+                className="py-1.5 px-2 bg-white/80 dark:bg-zinc-900/80 hover:bg-white dark:hover:bg-zinc-800 border border-neutral-200/80 dark:border-white/10 text-neutral-900 dark:text-zinc-100 text-xs font-bold rounded-lg text-center transition-colors cursor-pointer shadow-2xs backdrop-blur-xs"
               >
                 {language === 'fa' ? 'سارا (بنیان‌گذار)' : 'Sarah (Founder)'}
               </button>
               <button
                 type="button"
                 onClick={() => handleQuickDemoLogin('alex@growthscale.io', 'brandnewpassword123', 'الکس (مدیر رشد)')}
-                className="py-1.5 px-2 bg-white dark:bg-zinc-900 hover:bg-neutral-100 dark:hover:bg-zinc-800 border border-neutral-200 dark:border-zinc-700 text-neutral-900 dark:text-zinc-100 text-xs font-bold rounded-lg text-center transition-colors cursor-pointer shadow-2xs"
+                className="py-1.5 px-2 bg-white/80 dark:bg-zinc-900/80 hover:bg-white dark:hover:bg-zinc-800 border border-neutral-200/80 dark:border-white/10 text-neutral-900 dark:text-zinc-100 text-xs font-bold rounded-lg text-center transition-colors cursor-pointer shadow-2xs backdrop-blur-xs"
               >
                 {language === 'fa' ? 'الکس (مدیر رشد)' : 'Alex (Growth)'}
               </button>
             </div>
-            <div className="mt-2 pt-2 border-t border-neutral-200/70 dark:border-zinc-700/70 text-center">
+            <div className="mt-2 pt-2 border-t border-neutral-200/70 dark:border-white/10 text-center">
               <button
                 type="button"
                 onClick={() => {
@@ -261,7 +261,7 @@ export const AuthModal: React.FC<AuthModalProps> = ({
                   value={name}
                   onChange={(e) => setName(e.target.value)}
                   placeholder={language === 'fa' ? 'مثال: رضا صادقی' : 'e.g. Alex Rivera'}
-                  className={`w-full bg-neutral-50 dark:bg-zinc-950 border border-neutral-200 dark:border-zinc-700 rounded-xl py-2 ${isRtl ? 'pr-9 pl-3' : 'pl-9 pr-3'} text-xs text-neutral-900 dark:text-zinc-100 placeholder-neutral-400 focus:outline-none focus:border-black dark:focus:border-white transition-colors`}
+                  className={`w-full glass-input rounded-xl py-2 ${isRtl ? 'pr-9 pl-3' : 'pl-9 pr-3'} text-xs text-neutral-900 dark:text-zinc-100 placeholder-neutral-400 focus:outline-none focus:border-black dark:focus:border-white transition-colors`}
                 />
               </div>
             </div>
@@ -284,7 +284,7 @@ export const AuthModal: React.FC<AuthModalProps> = ({
                   onChange={(e) => setEmail(e.target.value)}
                   placeholder="name@company.com"
                   dir="ltr"
-                  className={`w-full bg-neutral-50 dark:bg-zinc-950 border border-neutral-200 dark:border-zinc-700 rounded-xl py-2 ${isRtl ? 'pr-9 pl-3 text-right' : 'pl-9 pr-3'} text-xs text-neutral-900 dark:text-zinc-100 placeholder-neutral-400 focus:outline-none focus:border-black dark:focus:border-white transition-colors font-mono`}
+                  className={`w-full glass-input rounded-xl py-2 ${isRtl ? 'pr-9 pl-3 text-right' : 'pl-9 pr-3'} text-xs text-neutral-900 dark:text-zinc-100 placeholder-neutral-400 focus:outline-none focus:border-black dark:focus:border-white transition-colors font-mono`}
                 />
               </div>
             </div>
@@ -323,7 +323,7 @@ export const AuthModal: React.FC<AuthModalProps> = ({
                   onChange={(e) => setPassword(e.target.value)}
                   placeholder="••••••••"
                   dir="ltr"
-                  className={`w-full bg-neutral-50 dark:bg-zinc-950 border border-neutral-200 dark:border-zinc-700 rounded-xl py-2 ${isRtl ? 'pr-9 pl-3 text-right' : 'pl-9 pr-3'} text-xs text-neutral-900 dark:text-zinc-100 placeholder-neutral-400 focus:outline-none focus:border-black dark:focus:border-white transition-colors`}
+                  className={`w-full glass-input rounded-xl py-2 ${isRtl ? 'pr-9 pl-3 text-right' : 'pl-9 pr-3'} text-xs text-neutral-900 dark:text-zinc-100 placeholder-neutral-400 focus:outline-none focus:border-black dark:focus:border-white transition-colors`}
                 />
               </div>
             </div>
@@ -346,7 +346,7 @@ export const AuthModal: React.FC<AuthModalProps> = ({
                   onChange={(e) => setResetEmail(e.target.value)}
                   placeholder="name@company.com"
                   dir="ltr"
-                  className={`w-full bg-neutral-50 dark:bg-zinc-950 border border-neutral-200 dark:border-zinc-700 rounded-xl py-2 ${isRtl ? 'pr-9 pl-3 text-right' : 'pl-9 pr-3'} text-xs text-neutral-900 dark:text-zinc-100 placeholder-neutral-400 focus:outline-none focus:border-black dark:focus:border-white transition-colors font-mono`}
+                  className={`w-full glass-input rounded-xl py-2 ${isRtl ? 'pr-9 pl-3 text-right' : 'pl-9 pr-3'} text-xs text-neutral-900 dark:text-zinc-100 placeholder-neutral-400 focus:outline-none focus:border-black dark:focus:border-white transition-colors font-mono`}
                 />
               </div>
             </div>
@@ -356,7 +356,7 @@ export const AuthModal: React.FC<AuthModalProps> = ({
           {authView === 'reset' && (
             <>
               {generatedCode && (
-                <div className="p-3 bg-neutral-50 dark:bg-zinc-800 border border-neutral-200 dark:border-zinc-700 rounded-xl flex items-center justify-between">
+                <div className="p-3 glass-card rounded-xl flex items-center justify-between">
                   <div>
                     <span className="text-[10px] text-neutral-500 dark:text-zinc-400 uppercase font-mono block">
                       {language === 'fa' ? 'کد تأیید بازیابی' : 'Verification Code'}
@@ -366,7 +366,7 @@ export const AuthModal: React.FC<AuthModalProps> = ({
                   <button
                     type="button"
                     onClick={handleCopyCode}
-                    className="inline-flex items-center space-x-1 rtl:space-x-reverse px-2.5 py-1 rounded bg-white dark:bg-zinc-900 border border-neutral-200 dark:border-zinc-700 hover:bg-neutral-100 dark:hover:bg-zinc-800 text-[11px] font-semibold text-neutral-700 dark:text-zinc-300 cursor-pointer"
+                    className="inline-flex items-center space-x-1 rtl:space-x-reverse px-2.5 py-1 rounded bg-white dark:bg-zinc-900 border border-neutral-200/80 dark:border-white/10 hover:bg-neutral-100 dark:hover:bg-zinc-800 text-[11px] font-semibold text-neutral-700 dark:text-zinc-300 cursor-pointer shadow-xs"
                   >
                     {codeCopied ? <Check className="w-3 h-3 text-emerald-600" /> : <Copy className="w-3 h-3" />}
                     <span>{codeCopied ? (language === 'fa' ? 'کپی شد' : 'Copied') : (language === 'fa' ? 'کپی' : 'Copy')}</span>
@@ -385,7 +385,7 @@ export const AuthModal: React.FC<AuthModalProps> = ({
                   onChange={(e) => setResetCode(e.target.value)}
                   placeholder="e.g. 849201"
                   dir="ltr"
-                  className="w-full bg-neutral-50 dark:bg-zinc-950 border border-neutral-200 dark:border-zinc-700 rounded-xl py-2 px-3 text-xs font-mono text-neutral-900 dark:text-zinc-100 placeholder-neutral-400 focus:outline-none focus:border-black dark:focus:border-white"
+                  className="w-full glass-input rounded-xl py-2 px-3 text-xs font-mono text-neutral-900 dark:text-zinc-100 placeholder-neutral-400 focus:outline-none focus:border-black dark:focus:border-white"
                 />
               </div>
 
@@ -404,7 +404,7 @@ export const AuthModal: React.FC<AuthModalProps> = ({
                     onChange={(e) => setNewPassword(e.target.value)}
                     placeholder={language === 'fa' ? 'رمز عبور امن جدید' : 'New secure password'}
                     dir="ltr"
-                    className={`w-full bg-neutral-50 dark:bg-zinc-950 border border-neutral-200 dark:border-zinc-700 rounded-xl py-2 ${isRtl ? 'pr-9 pl-3 text-right' : 'pl-9 pr-3'} text-xs text-neutral-900 dark:text-zinc-100 placeholder-neutral-400 focus:outline-none focus:border-black dark:focus:border-white transition-colors`}
+                    className={`w-full glass-input rounded-xl py-2 ${isRtl ? 'pr-9 pl-3 text-right' : 'pl-9 pr-3'} text-xs text-neutral-900 dark:text-zinc-100 placeholder-neutral-400 focus:outline-none focus:border-black dark:focus:border-white transition-colors`}
                   />
                 </div>
               </div>

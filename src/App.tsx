@@ -8,6 +8,8 @@ import { MessageInputSection } from './components/MessageInputSection';
 import { AgentProgressModal } from './components/AgentProgressModal';
 import { ResultsDashboard } from './components/ResultsDashboard';
 import { DocsModal } from './components/DocsModal';
+import { InteractiveBackground } from './components/InteractiveBackground';
+import { RadarIntroLoader } from './components/RadarIntroLoader';
 import { CommunityMessage, MessageAnalysis, ProductProfile, RunSummary, User } from './types';
 import { defaultProductProfiles } from './data/defaultProfiles';
 import {
@@ -22,10 +24,11 @@ import { ArrowLeft, ArrowRight, Radar, Sparkles, CheckCircle2, ShieldCheck } fro
 
 export default function App() {
   const [currentView, setCurrentView] = useState<'landing' | 'app' | 'docs'>('landing');
-  
+  const [isLoadingIntro, setIsLoadingIntro] = useState<boolean>(true);
+
   // User is not signed in by default
   const [user, setUser] = useState<User | null>(null);
-  
+
   const [showAuthModal, setShowAuthModal] = useState<boolean>(false);
   const [showProfileModal, setShowProfileModal] = useState<boolean>(false);
 
@@ -262,8 +265,19 @@ export default function App() {
   return (
     <div
       dir={isRtl ? 'rtl' : 'ltr'}
-      className="min-h-screen bg-neutral-100/60 dark:bg-zinc-950 text-neutral-900 dark:text-zinc-100 flex flex-col font-sans antialiased selection:bg-neutral-900 dark:selection:bg-white selection:text-white dark:selection:text-black transition-colors"
+      className="relative min-h-screen bg-neutral-100/30 dark:bg-zinc-950/30 text-neutral-900 dark:text-zinc-100 flex flex-col font-sans antialiased selection:bg-neutral-900 dark:selection:bg-white selection:text-white dark:selection:text-black transition-colors overflow-x-hidden bg-radar-grid"
     >
+      {/* Intro Radar Loading Animation */}
+      {isLoadingIntro && (
+        <RadarIntroLoader
+          onComplete={() => setIsLoadingIntro(false)}
+          darkMode={darkMode}
+        />
+      )}
+
+      {/* Floating Animated Geometric Canvas Background */}
+      <InteractiveBackground darkMode={darkMode} />
+
       {/* Main SaaS Navbar */}
       <Navbar
         user={user}
@@ -280,7 +294,7 @@ export default function App() {
 
       {/* View Router */}
       <main className="flex-1 max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-8">
-        
+
         {/* VIEW 1: LANDING PAGE */}
         {currentView === 'landing' && (
           <LandingPage
@@ -322,7 +336,7 @@ export default function App() {
               <div className="flex items-center space-x-2 rtl:space-x-reverse">
                 <button
                   onClick={() => setCurrentView('docs')}
-                  className="px-3.5 py-1.5 rounded-lg border border-neutral-300 dark:border-zinc-700 bg-white dark:bg-zinc-900 hover:bg-neutral-50 dark:hover:bg-zinc-800 text-xs font-semibold text-neutral-700 dark:text-zinc-200 transition-colors cursor-pointer"
+                  className="px-3.5 py-1.5 rounded-lg border border-neutral-200/80 dark:border-white/15 bg-white/60 dark:bg-zinc-800/60 backdrop-blur-md hover:bg-white/80 dark:hover:bg-zinc-700/80 text-xs font-semibold text-neutral-800 dark:text-zinc-200 transition-colors cursor-pointer shadow-xs"
                 >
                   {t.navDocs}
                 </button>
@@ -379,7 +393,7 @@ export default function App() {
       </main>
 
       {/* Professional SaaS Footer */}
-      <footer className="border-t border-neutral-200 dark:border-zinc-800 bg-white dark:bg-zinc-950 py-6 sm:py-8 px-4 text-xs text-neutral-600 dark:text-zinc-400 transition-colors">
+      <footer className="border-t border-neutral-200/60 dark:border-white/10 bg-white/40 dark:bg-zinc-950/40 backdrop-blur-xl py-6 sm:py-8 px-4 text-xs text-neutral-600 dark:text-zinc-400 transition-colors">
         <div className="max-w-7xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-3 sm:gap-4 font-mono text-[11px]">
           <div className="flex flex-wrap items-center justify-center sm:justify-start gap-2 text-center sm:text-left rtl:sm:text-right">
             <span className="font-extrabold text-neutral-950 dark:text-white">{t.appName}</span>
